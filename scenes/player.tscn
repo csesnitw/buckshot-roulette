@@ -10,3 +10,15 @@ script = ExtResource("1_g2els")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 7.105428e-15, -8.742278e-08, -5.5848723e-08, 0.7693438, 0.638835, 6.725817e-08, 0.638835, -0.7693438, 0, 46.103146, -19.681183)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TargetLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_top = 0.887
+anchor_right = 0.202
+anchor_bottom = 1.0
+offset_top = 0.22399902
+offset_right = 0.29599
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
