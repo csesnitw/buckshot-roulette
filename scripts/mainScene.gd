@@ -27,7 +27,6 @@ func _ready():
 	sv.size = Vector2(1152, 648)
 	sv.world_3d = get_viewport().world_3d
 	sv.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	# Create a HUD container
 	var hud = CanvasLayer.new()
 	hud.name = "HUD"
 	sv.add_child(hud)

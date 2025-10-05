@@ -12,6 +12,7 @@ var targets: Array = []
 var is_my_turn: bool = false
 var game_state: GameState
 @onready var target_label: Label = $CanvasLayer/TargetLabel
+@onready var game_manager: Node = get_node("../GameManager")
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -22,21 +23,33 @@ func _ready():
 	target_label.visible = false
 	
 func _process(delta):
-	if is_my_turn:
-		if Input.is_action_just_pressed("ui_left"):
-			current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
-			update_target()
-		elif Input.is_action_just_pressed("ui_right"):
-			current_target_index = (current_target_index + 1) % targets.size()
-			update_target()
+	if not is_my_turn:
+		return
+		
+	if Input.is_action_just_pressed("ui_left"):
+		current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
+		update_target()
+	elif Input.is_action_just_pressed("ui_right"):
+		current_target_index = (current_target_index + 1) % targets.size()
+		update_target()
+	elif Input.is_action_just_pressed("ui_select"):
+		if targets.size() == 0:
+			return
+		var target = targets[current_target_index]
+		if game_state.isUpgradeRound:
+			if target is Upgrade:
+				game_manager.pickUpUpgrade(self, target)
+		else:
+			if target is Player:
+				game_manager.shootPlayer(self, target)
 
 func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		if target is Player:
-			target_label.text = target.name
+			target_label.set_text(target.name)
 		elif target is Upgrade:
-			target_label.text = Upgrade.UpgradeType.keys()[target.upgrade_type]
+			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state

@@ -181,6 +181,8 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 				gameState.alivePlayers.pop_at(i)
 				break
 	callerPlayerRef.power = 1
+	print("Shoot called by: ", callerPlayerRef.name)
+	print(targetPlayerRef.name, " hp now: ", targetPlayerRef.hp)
 	if checkWin():
 		endGame()
 	endTurn()
