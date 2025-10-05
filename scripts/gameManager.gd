@@ -22,17 +22,15 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 0
+	roundIndex = 1
 	shotgunShellCount = 8
 	players = [get_node("../Player1"), get_node("../Player2")]
-	gameState = GameState.new(players, [], false)
-	for player in players:
-		player.game_state = gameState
-		self.turn_ended.connect(player.onTurnEnd)
+	gameState = GameState.new(players, [])
 	table = get_node("../Table")
 	initRound()
 
 func initRound() -> void:
+	
 	# figure out a way to randomly generate upgrade scenes and spawn them into the world
 	if roundIndex != 0:
 		generateRandomUpgrades() # doesnt work yet
@@ -46,7 +44,6 @@ func initRound() -> void:
 	if roundIndex != 0:
 		isUpgradeRnd = true
 	currPlayerTurnIndex = randi() % gameState.alivePlayers.size()
-	turn_ended.emit(gameState, currPlayerTurnIndex)
 
 func endTurn() -> void:
 	if(shotgunShells.size() == 0):
@@ -179,8 +176,6 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 				gameState.alivePlayers.pop_at(i)
 				break
 	callerPlayerRef.power = 1
-	print("Shoot called by: ", callerPlayerRef.name)
-	print(targetPlayerRef.name, " hp now: ", targetPlayerRef.hp)
 	if checkWin():
 		endGame()
 	endTurn()
