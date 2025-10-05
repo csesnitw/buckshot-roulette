@@ -38,11 +38,19 @@ func _process(delta):
 		var target = targets[current_target_index]
 		if game_state.isUpgradeRound:
 			if target is Upgrade:
-				game_manager.pickUpUpgrade(self, target)
+				is_my_turn = false
+				call_deferred("pickUpgradeDeferred", target)
 		else:
 			if target is Player:
-				game_manager.shootPlayer(self, target)
+				is_my_turn = false
+				call_deferred("shootDeferred", target)
+				
+func pickUpgradeDeferred(target: Upgrade):
+	game_manager.pickUpUpgrade(self, target)
 
+func shootDeferred(target: Player):
+	game_manager.shootPlayer(self, target)
+	
 func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
