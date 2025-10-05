@@ -10,13 +10,17 @@ var isHandcuffed: bool = false
 var current_target_index: int = 0
 var targets: Array = []
 var is_my_turn: bool = false
-var game_state: GameState = null
+var game_state: GameState
+@onready var target_label: Label = $CanvasLayer/TargetLabel
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
 	hp = _hp
 	inventory = []
 
+func _ready():
+	target_label.visible = false
+	
 func _process(delta):
 	if is_my_turn:
 		if Input.is_action_just_pressed("ui_left"):
@@ -30,19 +34,19 @@ func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		if target is Player:
-			look_at(target.global_transform.origin)
+			target_label.text = target.name
 		elif target is Upgrade:
-			look_at(target.pos)
+			target_label.text = Upgrade.UpgradeType.keys()[target.upgrade_type]
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
 	is_my_turn = (game_state.alivePlayers[current_player_index] == self)
+	target_label.visible = is_my_turn
 	if is_my_turn:
 		if game_state.isUpgradeRound:
 			targets = game_state.upgradesOnTable
 		else:
-			targets = game_state.alivePlayers.filter(func(p): return p != self)
-		current_target_index = 0
+			targets = game_state.alivePlayers
 		update_target()
 
 # Inventory management
