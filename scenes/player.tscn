@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=4 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
+
+[sub_resource type="Theme" id="Theme_g2els"]
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_g2els")
@@ -14,6 +16,7 @@ transform = Transform3D(-1, 7.105428e-15, -8.742278e-08, -5.5848723e-08, 0.76934
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TargetLabel" type="Label" parent="CanvasLayer"]
+visible = false
 anchors_preset = -1
 anchor_top = 0.887
 anchor_right = 0.202
@@ -22,3 +25,22 @@ offset_top = 0.22399902
 offset_right = 0.29599
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="CurrRound" type="Label" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_g2els")
+theme_override_colors/font_color = Color(0.811487, 0.00041623475, 0.7890223, 1)
+text = "Round: 0 Turn: 0"
+
+[node name="BulletCounts" type="Label" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+text = "FUCK"

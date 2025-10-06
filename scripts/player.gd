@@ -12,6 +12,8 @@ var targets: Array = []
 var is_my_turn: bool = false
 var game_state: GameState
 @onready var target_label: Label = $CanvasLayer/TargetLabel
+@onready var currRound: Label = $CanvasLayer/HBoxContainer/CurrRound
+@onready var bulletCounts: Label = $CanvasLayer/HBoxContainer/BulletCounts
 @onready var game_manager: Node = get_node("../GameManager")
 
 func _init(_name: String = "Player", _hp: int = 3):
@@ -55,12 +57,14 @@ func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		if target is Player:
-			target_label.set_text(target.name)
+			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
+	currRound.text = "Round: " + str(game_state.currRoundIndex) + " Turn: " + str(game_state.currTurnIndex)
+	bulletCounts.text = "Bullets: " + str(game_state.realCount) + " Blanks: " + str(game_state.blanksCount)
 	is_my_turn = (game_state.alivePlayers[current_player_index] == self)
 	target_label.visible = is_my_turn
 	if !targets.is_empty():
