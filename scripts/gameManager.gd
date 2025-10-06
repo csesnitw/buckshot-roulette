@@ -47,7 +47,13 @@ func initRound() -> void:
 	if roundIndex != 0:
 		gameState.isUpgradeRound = true
 	currPlayerTurnIndex = randi() % gameState.alivePlayers.size()
-	turn_ended.emit(gameState, currPlayerTurnIndex)
+	print( "Current players turn: " + str(currPlayerTurnIndex))
+	print("Game State: ")
+	print(gameState.alivePlayers)
+	print(gameState.upgradesOnTable)
+	# tell all players that the turn has ended not just the current guy
+	for player in players:
+		turn_ended.emit(gameState, currPlayerTurnIndex)
 
 func endTurn() -> void:
 	if(shotgunShells.size() == 0):
@@ -69,15 +75,21 @@ func endTurn() -> void:
 		# if we are adding UI based on this change the above
 		
 		# now here would probably be a good time to flash the number of reals and blanks
-		 
-	# once all turn loggic is done with, send a signal to all players to refetch gameState
-	turn_ended.emit(gameState, currPlayerTurnIndex)
-	
-	
+		
+
 	# maybe we could allow players to use upgrades like handcuffs during the upgrade pickup sesh?
 	while gameState.alivePlayers[currPlayerTurnIndex].isHandcuffed:
 		gameState.alivePlayers[currPlayerTurnIndex].isHandcuffed = false # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
+	
+	# once all turn loggic is done with, send a signal to all players to refetch gameState
+	print( "Current players turn: " + str(currPlayerTurnIndex))
+	print("Game State: ")
+	print(gameState.alivePlayers)
+	print(gameState.upgradesOnTable)
+	# tell all players that the turn has ended not just the current guy
+	for player in players:
+		turn_ended.emit(gameState, currPlayerTurnIndex)
 	
 func checkWin() -> bool:
 	return gameState.alivePlayers.size() == 1
@@ -157,10 +169,10 @@ func spawnUpgradesOnTable():
 		gameState.upgradesOnTable[i].pos = upgradeInstance.position
 		print(gameState.upgradesOnTable[i].pos)
 		table.add_child(upgradeInstance)
-
 # Below are all functions that are player facing, call these when designing players for player devs
 func endGame() -> void:
 	# do something like announce winner or change ui here later
+	print("Game Over. Winner is: ", gameState.alivePlayers[0])
 	return
 
 func getGameState() -> GameState:
@@ -182,6 +194,7 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 				break
 	callerPlayerRef.power = 1
 	print("Shoot called by: ", callerPlayerRef.name)
+	print("Damage: ", dmg)
 	print(targetPlayerRef.name, " hp now: ", targetPlayerRef.hp)
 	if checkWin():
 		endGame()
