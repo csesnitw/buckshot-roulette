@@ -9,6 +9,9 @@
 
 [sub_resource type="FontFile" id="FontFile_dqkch"]
 resource_local_to_scene = true
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -100,3 +103,4 @@ grow_vertical = 0
 [node name="HPList" type="Label" parent="CanvasLayer/BottomHUD"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9019608, 0.21960784, 1)
+theme_override_font_sizes/font_size = 24

@@ -16,6 +16,7 @@ var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 3 # temporary value
 var table: Node3D = null;
+var blankShot: bool = false
 # Game Logic functions
 func initMatch() -> void:
 	# add logic here to set up initial players and scene (can only really do this once the scene is done)
@@ -63,8 +64,11 @@ func endTurn() -> void:
 		roundIndex += 1
 		initRound()
 		return
-	
-	currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
+	if blankShot:
+		print("BLANK SKIPPED")
+		blankShot = false
+	else:
+		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
 		spawnUpgradesOnTable()
@@ -192,7 +196,11 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	if(callerPlayerRef != gameState.alivePlayers[currPlayerTurnIndex]):
 		return # not ur goddamn turn
 	var currBull : int = shotgunShells.pop_front()
+	
 	gameState.lastShot = currBull
+	if currBull == 0 && callerPlayerRef == targetPlayerRef:
+		blankShot = true
+		print("BLANK")
 	var dmg = currBull * callerPlayerRef.power
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):
