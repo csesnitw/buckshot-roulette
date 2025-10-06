@@ -63,6 +63,11 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
 	is_my_turn = (game_state.alivePlayers[current_player_index] == self)
 	target_label.visible = is_my_turn
+	if !targets.is_empty():
+		current_target_index = 0
+	else: 
+		print("Something gones wrong")
+
 	if is_my_turn:
 		if game_state.isUpgradeRound:
 			targets = game_state.upgradesOnTable
