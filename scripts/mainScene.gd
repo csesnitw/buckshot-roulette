@@ -22,14 +22,13 @@ func _ready():
 	var container = SubViewportContainer.new()
 	window2.add_child(container)
 
-	#temporary for prototype
+	#temporary for prototype (this applies to all players???????????)
 	var sv = SubViewport.new()
 	sv.size = Vector2(1152, 648)
 	sv.world_3d = get_viewport().world_3d
 	sv.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	var hud = CanvasLayer.new()
 	hud.name = "HUD"
-	sv.add_child(hud)
 
 	var label = Label.new()
 	label.add_theme_color_override("font_color", Color(0,0,0))

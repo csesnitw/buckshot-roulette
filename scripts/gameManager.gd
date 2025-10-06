@@ -27,6 +27,7 @@ func initMatch() -> void:
 	shotgunShellCount = 8
 	players = [get_node("../Player1"), get_node("../Player2")]
 	gameState = GameState.new(players, [], false)
+	gameState.currRoundIndex = roundIndex # TODO: get rid of this var entirely (roundIndex)
 	for player in players:
 		player.game_state = gameState
 		self.turn_ended.connect(player.onTurnEnd)
@@ -36,24 +37,26 @@ func initMatch() -> void:
 func initRound() -> void:
 	# figure out a way to randomly generate upgrade scenes and spawn them into the world
 	if roundIndex != 0:
+		gameState.isUpgradeRound = true
 		generateRandomUpgrades() # doesnt work yet
 		spawnUpgradesOnTable()
-	
+		currPlayerTurnIndex = randi() % gameState.alivePlayers.size() # added this here due to a weird bug with UI if any other player other than the main viewport starts the game
+	gameState.currRoundIndex = roundIndex
+	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
 	realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
 	blanks = shotgunShellCount - realShots
+	# disgusting, TODO: refactor later
+	gameState.realCount = realShots
+	gameState.blanksCount = blanks
 	generateRandomBulletsOrder() # aka shuffle
-	if roundIndex != 0:
-		gameState.isUpgradeRound = true
-	currPlayerTurnIndex = randi() % gameState.alivePlayers.size()
+	
 	print( "Current players turn: " + str(currPlayerTurnIndex))
 	print("Game State: ")
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
-	# tell all players that the turn has ended not just the current guy
-	for player in players:
-		turn_ended.emit(gameState, currPlayerTurnIndex)
+	turn_ended.emit(gameState, currPlayerTurnIndex)
 
 func endTurn() -> void:
 	if(shotgunShells.size() == 0):
@@ -62,7 +65,7 @@ func endTurn() -> void:
 		return
 	
 	currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
-	
+	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
 		spawnUpgradesOnTable()
 		
@@ -87,9 +90,7 @@ func endTurn() -> void:
 	print("Game State: ")
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
-	# tell all players that the turn has ended not just the current guy
-	for player in players:
-		turn_ended.emit(gameState, currPlayerTurnIndex)
+	turn_ended.emit(gameState, currPlayerTurnIndex)
 	
 func checkWin() -> bool:
 	return gameState.alivePlayers.size() == 1
@@ -172,6 +173,11 @@ func spawnUpgradesOnTable():
 # Below are all functions that are player facing, call these when designing players for player devs
 func endGame() -> void:
 	# do something like announce winner or change ui here later
+	# could be a signal ig maybe TODO: refactor later
+	var winner: Player = gameState.alivePlayers[0]
+	for player in players:
+		player.winnerLab.text = "Game Over! Winner: " + winner.name
+		player.winnerLab.visible = true
 	print("Game Over. Winner is: ", gameState.alivePlayers[0])
 	return
 
@@ -182,9 +188,11 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	# logic for shooting
 	if(gameState.isUpgradeRound):
 		return
+	
 	if(callerPlayerRef != gameState.alivePlayers[currPlayerTurnIndex]):
 		return # not ur goddamn turn
 	var currBull : int = shotgunShells.pop_front()
+	gameState.lastShot = currBull
 	var dmg = currBull * callerPlayerRef.power
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):

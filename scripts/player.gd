@@ -12,6 +12,11 @@ var targets: Array = []
 var is_my_turn: bool = false
 var game_state: GameState
 @onready var target_label: Label = $CanvasLayer/TargetLabel
+@onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
+@onready var bulletCounts: Label = $CanvasLayer/TopHUD/BulletCounts
+@onready var lastShotLabel: Label = $CanvasLayer/TopHUD/LastShot
+@onready var winnerLab: Label = $CanvasLayer/Winner
+@onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
 
 func _init(_name: String = "Player", _hp: int = 3):
@@ -55,19 +60,32 @@ func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		if target is Player:
-			target_label.set_text(target.name)
+			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
+	currRound.text = "Round: " + str(game_state.currRoundIndex + 1) + " Turn: " + str(game_state.currTurnIndex + 1)
+	bulletCounts.text = "Bullets: " + str(game_state.realCount) + " Blanks: " + str(game_state.blanksCount)
 	is_my_turn = (game_state.alivePlayers[current_player_index] == self)
 	target_label.visible = is_my_turn
 	if !targets.is_empty():
 		current_target_index = 0
 	else: 
 		print("Something gones wrong")
-
+	if(game_state.lastShot == 1):
+		lastShotLabel.text = "Last Shot: Live"
+	elif game_state.lastShot == 0:
+		lastShotLabel.text = "Last Shot: Blank"
+	else:
+		lastShotLabel.text = "Last Shot: N/A"
+	
+	# maybe do this better also magic number max hp maybe add a max hp field in this class, but this OK for prototype
+	var tempHPList : String = ""
+	for players in game_state.alivePlayers:
+		tempHPList = tempHPList + players.name + ": " + str(players.hp) + "HP/3HP      ";
+	HPList.text = tempHPList
 	if is_my_turn:
 		if game_state.isUpgradeRound:
 			targets = game_state.upgradesOnTable
