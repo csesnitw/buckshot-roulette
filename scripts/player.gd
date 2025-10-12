@@ -49,12 +49,20 @@ func _process(delta):
 			if target is Player:
 				is_my_turn = false
 				call_deferred("shootDeferred", target)
+			elif target is Upgrade:
+				call_deferred("useUpgradeDeferred", target)
 				
 func pickUpgradeDeferred(target: Upgrade):
 	game_manager.pickUpUpgrade(self, target)
 
 func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
+
+func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
+	game_manager.useUpgrade(target, self, targetPlayerRef)
+	targets.erase(target)
+	current_target_index = (current_target_index + 1) % targets.size()
+	update_target()
 	
 func update_target():
 	if targets.size() > 0:
@@ -90,7 +98,7 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 		if game_state.isUpgradeRound:
 			targets = game_state.upgradesOnTable
 		else:
-			targets = game_state.alivePlayers
+			targets = game_state.alivePlayers + inventory
 		update_target()
 
 # Inventory management
