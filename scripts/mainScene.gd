@@ -1,9 +1,20 @@
 extends Node
 @export var gameScene: PackedScene
 
-func _ready():
-	get_viewport().set_embedding_subwindows(false) #important
+@onready var home_screen = $HomeScreen
+@onready var two_player_button = $HomeScreen/VBoxContainer/ButtonContainer/TwoPlayer
 
+func _ready():
+	# Connect the 2-player button
+	two_player_button.pressed.connect(_on_two_player_pressed)
+
+func _on_two_player_pressed():
+	# Hide home screen
+	home_screen.visible = false
+	
+	# Set up the game windows
+	get_viewport().set_embedding_subwindows(false)
+	
 	var game = gameScene.instantiate()
 	add_child(game)
 	
@@ -22,7 +33,6 @@ func _ready():
 	var container = SubViewportContainer.new()
 	window2.add_child(container)
 
-	#temporary for prototype (this applies to all players???????????)
 	var sv = SubViewport.new()
 	sv.size = Vector2(1152, 648)
 	sv.world_3d = get_viewport().world_3d
@@ -43,14 +53,12 @@ func _ready():
 	sv.add_child(hud)
 	var player2 = game.get_node("Player2")
 	player2.target_label = sv.get_node("HUD/TargetLabel")
-	#end of temporary
-	
 	
 	container.add_child(sv)
 
 	var cam2 = game.get_node("Player2/Camera3D")
 	var cam_global = cam2.global_transform
-	cam2.get_parent().remove_child(cam2) #removing camera from player node, kinda inefficient but works
+	cam2.get_parent().remove_child(cam2)
 	sv.add_child(cam2)
 	cam2.global_transform = cam_global
 	cam2.current = true
