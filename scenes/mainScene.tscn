@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c87m08lc0b3e4"]
+[gd_scene load_steps=6 format=3 uid="uid://c87m08lc0b3e4"]
 
 [ext_resource type="Script" uid="uid://caiabdo0cbleb" path="res://scripts/mainScene.gd" id="1_ki6c0"]
 [ext_resource type="PackedScene" uid="uid://b8go3roda2avs" path="res://scenes/Room.tscn" id="2_8ifl6"]
-[ext_resource type="Texture2D" uid="uid://dq67mypao8je4" path="res://assets/background.png" id="3_twn0q"]
-[ext_resource type="FontFile" uid="uid://b56j2j32kxalu" path="res://assets/Sharpshooter.ttf" id="4_hhxvm"]
+[ext_resource type="Texture2D" uid="uid://cg3r6ic813nbt" path="res://assets/better_background.png" id="3_w16ng"]
+[ext_resource type="FontFile" uid="uid://dhp27lwgyfh7g" path="res://assets/Hydrogen Whiskey.otf" id="4_w16ng"]
+[ext_resource type="FontFile" uid="uid://bhgx6j6f5b07y" path="res://assets/Astroz Trial.ttf" id="5_1jq6i"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_ki6c0")
@@ -24,7 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_twn0q")
+texture = ExtResource("3_w16ng")
 expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HomeScreen"]
@@ -47,8 +48,8 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
 theme_override_colors/font_outline_color = Color(0.23921569, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_hhxvm")
-theme_override_font_sizes/font_size = 40
+theme_override_fonts/font = ExtResource("4_w16ng")
+theme_override_font_sizes/font_size = 64
 text = "BUCKSHOT ROULETTE BY CSES"
 
 [node name="ButtonContainer" type="VBoxContainer" parent="HomeScreen/VBoxContainer"]
@@ -58,15 +59,24 @@ alignment = 1
 
 [node name="TwoPlayer" type="Button" parent="HomeScreen/VBoxContainer/ButtonContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "2-Player"
+theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("5_1jq6i")
+theme_override_font_sizes/font_size = 24
+text = "2 PLAYER"
 
 [node name="ThreePlayer" type="Button" parent="HomeScreen/VBoxContainer/ButtonContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
+theme_override_fonts/font = ExtResource("5_1jq6i")
+theme_override_font_sizes/font_size = 24
 disabled = true
-text = "3-Player"
+text = "3 PLAYER"
 
 [node name="FourPlayer" type="Button" parent="HomeScreen/VBoxContainer/ButtonContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
+theme_override_fonts/font = ExtResource("5_1jq6i")
+theme_override_font_sizes/font_size = 24
 disabled = true
-text = "4-Player"
+text = "4 PLAYER"
