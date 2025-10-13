@@ -2,8 +2,7 @@ extends Node
 
 signal turn_ended(gameState, currPlayerTurnIndex)
 
-# Initializing the game state
-var gameState: GameState = null
+var gameState: GameState = null # given to every player at the end of a turn
 var upgradeScene: PackedScene = null
 var players: Array[Player] = []
 var currPlayerTurnIndex: int = 0 
@@ -16,7 +15,9 @@ var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 3 # temporary value
 var table: Node3D = null;
-var blankShot: bool = false
+var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
+var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
+
 # Game Logic functions
 func initMatch() -> void:
 	# add logic here to set up initial players and scene (can only really do this once the scene is done)
@@ -26,7 +27,8 @@ func initMatch() -> void:
 	upgradeScene = preload("res://scenes/upgrade.tscn")
 	roundIndex = 0
 	shotgunShellCount = 8
-	players = [get_node("../Player1"), get_node("../Player2")]
+	players = [get_node("../Player1"), get_node("../Player2")] # TODO: support 4 players
+	sfxPlayer = get_node("../SFXPlayer")
 	gameState = GameState.new(players, [], false)
 	gameState.currRoundIndex = roundIndex # TODO: get rid of this var entirely (roundIndex)
 	for player in players:
@@ -53,6 +55,7 @@ func initRound() -> void:
 	gameState.blanksCount = blanks
 	generateRandomBulletsOrder() # aka shuffle
 	
+	#TODO: remove these when UI done but rn useful for debugging
 	print( "Current players turn: " + str(currPlayerTurnIndex))
 	print("Game State: ")
 	print(gameState.alivePlayers)
@@ -64,11 +67,12 @@ func endTurn() -> void:
 		roundIndex += 1
 		initRound()
 		return
+		
 	if blankShot:
-		print("BLANK SKIPPED")
 		blankShot = false
 	else:
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
+	
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
 		spawnUpgradesOnTable()
@@ -183,6 +187,8 @@ func endGame() -> void:
 		player.winnerLab.text = "Game Over! Winner: " + winner.name
 		player.winnerLab.visible = true
 	print("Game Over. Winner is: ", gameState.alivePlayers[0])
+	get_tree().paused = true # temp solution to end game (wait for UI button to make this better)
+	sfxPlayer.stream_paused = false
 	return
 
 func getGameState() -> GameState:
@@ -198,9 +204,13 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	var currBull : int = shotgunShells.pop_front()
 	
 	gameState.lastShot = currBull
-	if currBull == 0 && callerPlayerRef == targetPlayerRef:
-		blankShot = true
-		print("BLANK")
+	if currBull == 1:
+		sfxPlayer.playShoot()
+	else:
+		sfxPlayer.playBlank()
+		if callerPlayerRef == targetPlayerRef:
+			blankShot = true
+			print("BLANK and shot urself")
 	var dmg = currBull * callerPlayerRef.power
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):
