@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://b8go3roda2avs"]
+[gd_scene load_steps=11 format=3 uid="uid://b8go3roda2avs"]
 
 [ext_resource type="PackedScene" uid="uid://cqcldyqajw3yc" path="res://assets/buckshot_roulette_table_-_3d_model.glb" id="1_jn645"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_85yof"]
 [ext_resource type="PackedScene" uid="uid://cn7iq23q16pu7" path="res://scenes/upgrade.tscn" id="4_jn645"]
 [ext_resource type="Script" uid="uid://drtpetyjiq1sf" path="res://scripts/gameManager.gd" id="4_jxe34"]
 [ext_resource type="PackedScene" uid="uid://bj53s6w12n7ya" path="res://scenes/player.tscn" id="6_eom3m"]
+[ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="6_ut7mc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uj218"]
 sky_top_color = Color(0.38879365, 0.7241099, 0.8953566, 1)
@@ -52,3 +53,6 @@ transform = Transform3D(-1.0927847e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.092784
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("4_jxe34")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+script = ExtResource("6_ut7mc")
