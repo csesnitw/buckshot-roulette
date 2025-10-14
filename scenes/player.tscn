@@ -1,7 +1,46 @@
-[gd_scene load_steps=6 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=10 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="2_gun"]
+
+[sub_resource type="Animation" id="Animation_s2gip"]
+resource_name = "aim_forward"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cnq18"]
+resource_name = "aim_self"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.523599, 3.14159, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o7vfb"]
+_data = {
+&"aim_forward": SubResource("Animation_s2gip"),
+&"aim_self": SubResource("Animation_cnq18")
+}
 
 [sub_resource type="Theme" id="Theme_g2els"]
 
@@ -27,6 +66,13 @@ cache/0/64/0/scale = 1.0
 script = ExtResource("1_g2els")
 
 [node name="ArmsMesh" parent="." instance=ExtResource("1_3vyb7")]
+
+[node name="Gun" parent="." instance=ExtResource("2_gun")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
+libraries = {
+&"": SubResource("AnimationLibrary_o7vfb")
+}
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-1, 7.105428e-15, -8.742278e-08, -5.5848723e-08, 0.7693438, 0.638835, 6.725817e-08, 0.638835, -0.7693438, 0, 46.103146, -19.681183)

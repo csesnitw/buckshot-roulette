@@ -15,6 +15,7 @@ var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 3 # temporary value
 var table: Node3D = null;
+var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
 
@@ -29,6 +30,7 @@ func initMatch() -> void:
 	shotgunShellCount = 8
 	players = [get_node("../Player1"), get_node("../Player2")] # TODO: support 4 players
 	sfxPlayer = get_node("../SFXPlayer")
+	gun = get_node("../Gun")
 	gameState = GameState.new(players, [], false)
 	gameState.currRoundIndex = roundIndex # TODO: get rid of this var entirely (roundIndex)
 	for player in players:
@@ -98,6 +100,7 @@ func endTurn() -> void:
 	print("Game State: ")
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
+	gun.set_target_player(gameState.alivePlayers[currPlayerTurnIndex])
 	turn_ended.emit(gameState, currPlayerTurnIndex)
 	
 func checkWin() -> bool:

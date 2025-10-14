@@ -11,6 +11,7 @@ var current_target_index: int = 0
 var targets: Array = []
 var is_my_turn: bool = false
 var game_state: GameState
+
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
 @onready var bulletCounts: Label = $CanvasLayer/TopHUD/BulletCounts
@@ -18,6 +19,8 @@ var game_state: GameState
 @onready var winnerLab: Label = $CanvasLayer/Winner
 @onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
+@onready var gun: Node3D = $Gun
+@onready var animation_player: AnimationPlayer = $Gun/AnimationPlayer
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -68,9 +71,16 @@ func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		if target is Player:
+			if target == self:
+				animation_player.play("aim_self")
+			else:
+				animation_player.play("aim_forward")
 			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
+			animation_player.play("aim_forward")
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
+	else:
+		animation_player.play("aim_forward")
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
