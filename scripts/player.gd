@@ -10,7 +10,8 @@ var isHandcuffed: bool = false
 var current_target_index: int = 0
 var targets: Array = []
 var is_my_turn: bool = false
-var game_state: GameState
+var game_state
+
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
 @onready var bulletCounts: Label = $CanvasLayer/TopHUD/BulletCounts
@@ -18,6 +19,8 @@ var game_state: GameState
 @onready var winnerLab: Label = $CanvasLayer/Winner
 @onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
+@onready var gun: Node3D = $Gun
+@onready var animation_player: AnimationPlayer = $Gun/AnimationPlayer
 @onready var health_jug = $HealthJug
 
 func _init(_name: String = "Player", _hp: int = 3):
@@ -70,9 +73,16 @@ func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		if target is Player:
+			if target == self:
+				animation_player.play("aim_self")
+			else:
+				animation_player.play("aim_forward")
 			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
+			animation_player.play("aim_forward")
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
+	else:
+		animation_player.play("aim_forward")
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
@@ -91,7 +101,6 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	else:
 		lastShotLabel.text = "Last Shot: N/A"
 	
-	# maybe do this better also magic number max hp maybe add a max hp field in this class, but this OK for prototype
 	var tempHPList : String = ""
 	for players in game_state.alivePlayers:
 		tempHPList = tempHPList + players.name + ": " + str(players.hp) + "HP/3HP      ";
