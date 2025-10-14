@@ -127,7 +127,8 @@ func takeDamage(amount: int) -> void:
 
 # Heal the player
 func heal(amount: int, max_hp: int) -> void:
-	health_jug.refill()
+	for i in amount:
+		health_jug.refill()
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
