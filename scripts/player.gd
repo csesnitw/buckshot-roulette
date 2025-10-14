@@ -98,14 +98,22 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	HPList.text = tempHPList
 	if is_my_turn:
 		if game_state.isUpgradeRound:
-			targets = game_state.upgradesOnTable
+			targets = remove_nulls_from_array(game_state.upgradesOnTable)
+			if targets.size() == 0:
+				targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		else:
-			targets = game_state.alivePlayers + inventory
+			targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		update_target()
 
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
 	inventory.append(upgrade)
+	upgrade.reparent(self)
+	upgrade.position = health_jug.position
+	upgrade.position.z += 3
+	var cam = Camera3D.new()
+	upgrade.add_child(cam)
+	cam.make_current()
 
 func removeInventory(upgrade: Upgrade) -> bool:
 	if upgrade in inventory:
@@ -136,3 +144,10 @@ func heal(amount: int, max_hp: int) -> void:
 # Optional: check if player is alive
 func isAlive() -> bool:
 	return hp > 0
+
+func remove_nulls_from_array(original_array: Array) -> Array:
+	var filtered_array = []
+	for item in original_array:
+		if item != null:
+			filtered_array.append(item)
+	return filtered_array

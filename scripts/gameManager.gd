@@ -48,7 +48,8 @@ func initRound() -> void:
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
-	realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
+	#realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
+	realShots = 1
 	blanks = shotgunShellCount - realShots
 	# disgusting, TODO: refactor later
 	gameState.realCount = realShots
@@ -77,7 +78,7 @@ func endTurn() -> void:
 	if(gameState.isUpgradeRound):
 		spawnUpgradesOnTable()
 		
-	if gameState.isUpgradeRound && gameState.upgradesOnTable.size() == 0:
+	if gameState.isUpgradeRound && is_all_nulls(gameState.upgradesOnTable):
 		gameState.isUpgradeRound = false
 		currPlayerTurnIndex -= 1
 		if(currPlayerTurnIndex == -1):
@@ -169,6 +170,8 @@ func spawnUpgradesOnTable():
 	var startZ = 0 # messy magic number offset temporary for now
 	
 	for i in range(gameState.upgradesOnTable.size()):
+		if gameState.upgradesOnTable[i] == null:
+			continue
 		var upgradeInstance: Upgrade = upgradeScene.instantiate() as Upgrade
 		upgradeInstance.upgrade_type = gameState.upgradesOnTable[i].upgrade_type
 		upgradeInstance.get_node("Label3D").set_text(Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type])
@@ -178,6 +181,7 @@ func spawnUpgradesOnTable():
 		gameState.upgradesOnTable[i].pos = upgradeInstance.position
 		print(gameState.upgradesOnTable[i].pos)
 		table.add_child(upgradeInstance)
+		
 # Below are all functions that are player facing, call these when designing players for player devs
 func endGame() -> void:
 	# do something like announce winner or change ui here later
@@ -236,7 +240,7 @@ func pickUpUpgrade(callerPlayerRef: Player, upgradeRef: Upgrade) -> void:
 	for i in range(gameState.upgradesOnTable.size()):
 		if gameState.upgradesOnTable[i] == upgradeRef:
 			callerPlayerRef.addInventory(upgradeRef)
-			gameState.upgradesOnTable.pop_at(i)
+			gameState.upgradesOnTable[i]=null
 			break
 	endTurn()
 	
@@ -326,3 +330,9 @@ func useDisableUpgrade(callerPlayerRef: Player, targetPlayerRef: Player) -> void
 	
 func _ready():
 	initMatch()  
+
+func is_all_nulls(upgradesOnTable : Array[Upgrade]):
+	for upgrade in upgradesOnTable:
+		if upgrade != null:
+			return false
+	return true
