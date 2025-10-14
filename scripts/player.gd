@@ -18,6 +18,7 @@ var game_state: GameState
 @onready var winnerLab: Label = $CanvasLayer/Winner
 @onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
+@onready var health_jug = $HealthJug
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -26,6 +27,7 @@ func _init(_name: String = "Player", _hp: int = 3):
 
 func _ready():
 	target_label.visible = false
+	health_jug.create(game_manager.maxHP)
 	
 func _process(delta):
 	if not is_my_turn:
@@ -117,12 +119,16 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
+	for i in amount:
+		health_jug.drink()
 	hp -= amount
 	if hp < 0:
 		hp = 0
 
 # Heal the player
 func heal(amount: int, max_hp: int) -> void:
+	for i in amount:
+		health_jug.refill()
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
