@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cn7iq23q16pu7" path="res://scenes/upgrade.tscn" id="3_l66n2"]
 [ext_resource type="Script" uid="uid://drtpetyjiq1sf" path="res://scripts/gameManager.gd" id="4_r8osq"]
 [ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="5_jxyrc"]
-[ext_resource type="PackedScene" path="res://scenes/table.tscn" id="6_o7wcf"]
+[ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="6_o7wcf"]
 [ext_resource type="PackedScene" uid="uid://240oe8b0oiss" path="res://assets/white_brick_wall.glb" id="8_r8osq"]
 [ext_resource type="PackedScene" uid="uid://di3gplk1r13tm" path="res://assets/blue_ceiling.glb" id="9_r8osq"]
 
@@ -62,7 +62,7 @@ script = ExtResource("4_r8osq")
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
 script = ExtResource("5_jxyrc")
 
-[node name="table" parent="." instance=ExtResource("6_o7wcf")]
+[node name="Table" parent="." instance=ExtResource("6_o7wcf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1389707, 0)
 
 [node name="Sketchfab_Scene3" parent="." instance=ExtResource("8_r8osq")]

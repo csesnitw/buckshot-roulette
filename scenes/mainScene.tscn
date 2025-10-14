@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://c87m08lc0b3e4"]
 
 [ext_resource type="Script" uid="uid://caiabdo0cbleb" path="res://scripts/mainScene.gd" id="1_ki6c0"]
-[ext_resource type="PackedScene" uid="uid://b8go3roda2avs" path="res://scenes/Room.tscn" id="2_8ifl6"]
+[ext_resource type="PackedScene" uid="uid://bhdnb0cqk1ehw" path="res://scenes/Room_background.tscn" id="2_w16ng"]
 [ext_resource type="Texture2D" uid="uid://cg3r6ic813nbt" path="res://assets/better_background.png" id="3_w16ng"]
 [ext_resource type="FontFile" uid="uid://dhp27lwgyfh7g" path="res://assets/Hydrogen Whiskey.otf" id="4_w16ng"]
 [ext_resource type="FontFile" uid="uid://bhgx6j6f5b07y" path="res://assets/Astroz Trial.ttf" id="5_1jq6i"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_ki6c0")
-gameScene = ExtResource("2_8ifl6")
+gameScene = ExtResource("2_w16ng")
 
 [node name="HomeScreen" type="Control" parent="."]
 layout_mode = 3
