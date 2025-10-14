@@ -163,10 +163,10 @@ func spawnUpgradesOnTable():
 	var tableZ: float = 1.5
 	var columns : int = ceil(sqrt(gameState.upgradesOnTable.size()))
 	var rows : int = ceil(sqrt(gameState.upgradesOnTable.size()))
-	var spacingX = tableX/columns
-	var spacingZ = tableZ/rows
-	var startX = -0.5   # messy magic number offset temporary for now
-	var startZ = 4.5 # messy magic number offset temporary for now
+	var spacingX = tableX/columns/2
+	var spacingZ = tableZ/rows/2
+	var startX = -tableX/2   # messy magic number offset temporary for now
+	var startZ = 0 # messy magic number offset temporary for now
 	
 	for i in range(gameState.upgradesOnTable.size()):
 		var upgradeInstance: Upgrade = upgradeScene.instantiate() as Upgrade
@@ -174,7 +174,7 @@ func spawnUpgradesOnTable():
 		upgradeInstance.get_node("Label3D").set_text(Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type])
 		var row = i/columns # how to disable stupid ass warning for int div
 		var col = i % columns
-		upgradeInstance.position = Vector3(startX + col * spacingX,  0.1, (startZ + row * spacingZ))
+		upgradeInstance.position = Vector3(startX + col * spacingX,  0.6, (startZ + row * spacingZ))
 		gameState.upgradesOnTable[i].pos = upgradeInstance.position
 		print(gameState.upgradesOnTable[i].pos)
 		table.add_child(upgradeInstance)
