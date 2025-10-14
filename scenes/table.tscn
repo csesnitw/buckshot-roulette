@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://b461jclehbokv"]
+
+[ext_resource type="PackedScene" uid="uid://2xoswu4yv1c6" path="res://assets/chairs/green_chair.glb" id="1_vjl2i"]
+[ext_resource type="PackedScene" uid="uid://bunlc7whar6mw" path="res://assets/chairs/blue_chair.glb" id="2_67vji"]
+[ext_resource type="PackedScene" uid="uid://cp8e1enktalqb" path="res://assets/chairs/red_chair.glb" id="3_jry6c"]
+[ext_resource type="PackedScene" uid="uid://bfphq4r8mkyg6" path="res://assets/chairs/yellow_chair.glb" id="4_bhh2s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64sdq"]
+metallic = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ormek"]
+material = SubResource("StandardMaterial3D_64sdq")
+top_radius = 0.1
+bottom_radius = 0.05
+height = 0.99
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibia0"]
+albedo_color = Color(0.7459001, 0.35625237, 0.7406431, 1)
+metallic_specular = 0.11
+roughness = 0.32
+
+[sub_resource type="BoxMesh" id="BoxMesh_xnpc2"]
+material = SubResource("StandardMaterial3D_ibia0")
+size = Vector3(3, 0.1, 3)
+
+[node name="table" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+mesh = SubResource("CylinderMesh_ormek")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+mesh = SubResource("CylinderMesh_ormek")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+mesh = SubResource("CylinderMesh_ormek")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+mesh = SubResource("CylinderMesh_ormek")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4492398, 0)
+mesh = SubResource("BoxMesh_xnpc2")
+
+[node name="green_chair" parent="." instance=ExtResource("1_vjl2i")]
+transform = Transform3D(0.22490115, 0, 0.44656408, 0, 0.5, 0, -0.44656408, 0, 0.22490115, -0.11885023, -0.272, -0.899)
+
+[node name="blue_chair" parent="." instance=ExtResource("2_67vji")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.5264854, -0.2716732, 1.908777)
+
+[node name="red_chair" parent="." instance=ExtResource("3_jry6c")]
+transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-08, 1.887, -0.272, 0)
+
+[node name="yellow_chair" parent="." instance=ExtResource("4_bhh2s")]
+transform = Transform3D(0.108867206, 0, 0.488004, 0, 0.5, 0, -0.488004, 0, 0.108867206, 1.073, -0.272, -1.2647481)

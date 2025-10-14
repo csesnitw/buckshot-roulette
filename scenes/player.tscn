@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=7 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
+[ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="3_qhqgy"]
 
 [sub_resource type="Theme" id="Theme_g2els"]
 
@@ -104,3 +105,6 @@ grow_vertical = 0
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9019608, 0.21960784, 1)
 theme_override_font_sizes/font_size = 24
+
+[node name="HealthJug" parent="." instance=ExtResource("3_qhqgy")]
+transform = Transform3D(-2.6226832e-07, 0, 6, 0, 6, 0, -6, 0, -2.6226832e-07, -16.181383, 13.413353, 4.2951813)
