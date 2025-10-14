@@ -8,18 +8,10 @@ var top_layer: int
 func create(n):
 	layers = n
 	var juice_invis = $juice_invis
-	var colors
-	if layers == 2:
-		colors = [
-			Color(1,0,0),
-			Color(0,1,0)
-		]
-	elif layers == 3:
-		colors = [
-			Color(1,0,0),
-			Color(1,1,0),
-			Color(0,1,0)
-		]
+	var colors = []
+	var increment = 1/float(n)
+	for i in n:
+		colors.append(Color(1-increment*i,increment*i,0))
 	top_layer = layers-1
 	var x = float(1)/layers
 	var full_height = juice_invis.get_aabb().size.y
