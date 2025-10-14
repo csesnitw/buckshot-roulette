@@ -55,5 +55,5 @@ script = ExtResource("4_jxe34")
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
 script = ExtResource("6_ut7mc")
 
-[node name="table" parent="." instance=ExtResource("6_8h30a")]
+[node name="Table" parent="." instance=ExtResource("6_8h30a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1389707, 0)
