@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_85yof"]
 [ext_resource type="PackedScene" uid="uid://cn7iq23q16pu7" path="res://scenes/upgrade.tscn" id="4_jn645"]
 [ext_resource type="Script" uid="uid://drtpetyjiq1sf" path="res://scripts/gameManager.gd" id="4_jxe34"]
-[ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="6_8h30a"]
+[ext_resource type="PackedScene" path="res://scenes/table.tscn" id="6_8h30a"]
 [ext_resource type="PackedScene" uid="uid://bj53s6w12n7ya" path="res://scenes/player.tscn" id="6_eom3m"]
 [ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="6_ut7mc"]
 
@@ -24,7 +24,7 @@ glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ffxv4"]
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D2" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0.33359337, 2.8687046)
