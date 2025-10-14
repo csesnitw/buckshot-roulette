@@ -1,8 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://bj53s6w12n7ya"]
 
-[ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
-[ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="2_gun"]
+[ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="2_3vyb7"]
+[ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
+[ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="4_qhqgy"]
 
 [sub_resource type="Animation" id="Animation_s2gip"]
 resource_name = "aim_forward"
@@ -38,8 +39,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o7vfb"]
 _data = {
-&"aim_forward": SubResource("Animation_s2gip"),
-&"aim_self": SubResource("Animation_cnq18")
+"aim_forward": SubResource("Animation_s2gip"),
+"aim_self": SubResource("Animation_cnq18")
 }
 
 [sub_resource type="Theme" id="Theme_g2els"]
@@ -65,13 +66,13 @@ cache/0/64/0/scale = 1.0
 [node name="Player" type="Node3D"]
 script = ExtResource("1_g2els")
 
-[node name="ArmsMesh" parent="." instance=ExtResource("1_3vyb7")]
+[node name="ArmsMesh" parent="." instance=ExtResource("2_3vyb7")]
 
-[node name="Gun" parent="." instance=ExtResource("2_gun")]
+[node name="Gun" parent="." instance=ExtResource("3_gun")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
 libraries = {
-&"": SubResource("AnimationLibrary_o7vfb")
+"": SubResource("AnimationLibrary_o7vfb")
 }
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -150,3 +151,6 @@ grow_vertical = 0
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0.9019608, 0.21960784, 1)
 theme_override_font_sizes/font_size = 24
+
+[node name="HealthJug" parent="." instance=ExtResource("4_qhqgy")]
+transform = Transform3D(-2.6226832e-07, 0, 6, 0, 6, 0, -6, 0, -2.6226832e-07, -16.181383, 13.413353, 4.2951813)

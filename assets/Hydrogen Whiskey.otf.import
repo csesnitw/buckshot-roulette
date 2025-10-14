@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b56j2j32kxalu"
-path="res://.godot/imported/Sharpshooter.ttf-0f793c3a9069c295c6b0595a5fc452ac.fontdata"
+uid="uid://dhp27lwgyfh7g"
+path="res://.godot/imported/Hydrogen Whiskey.otf-9bda80d024a7ceef2cf874af709f47dd.fontdata"
 
 [deps]
 
-source_file="res://assets/Sharpshooter.ttf"
-dest_files=["res://.godot/imported/Sharpshooter.ttf-0f793c3a9069c295c6b0595a5fc452ac.fontdata"]
+source_file="res://assets/Hydrogen Whiskey.otf"
+dest_files=["res://.godot/imported/Hydrogen Whiskey.otf-9bda80d024a7ceef2cf874af709f47dd.fontdata"]
 
 [params]
 

@@ -10,7 +10,7 @@ var isHandcuffed: bool = false
 var current_target_index: int = 0
 var targets: Array = []
 var is_my_turn: bool = false
-var game_state: GameState
+var game_state
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
@@ -21,6 +21,7 @@ var game_state: GameState
 @onready var game_manager: Node = get_node("../GameManager")
 @onready var gun: Node3D = $Gun
 @onready var animation_player: AnimationPlayer = $Gun/AnimationPlayer
+@onready var health_jug = $HealthJug
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -29,6 +30,7 @@ func _init(_name: String = "Player", _hp: int = 3):
 
 func _ready():
 	target_label.visible = false
+	health_jug.create(game_manager.maxHP)
 	
 func _process(delta):
 	if not is_my_turn:
@@ -99,21 +101,28 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	else:
 		lastShotLabel.text = "Last Shot: N/A"
 	
-	# maybe do this better also magic number max hp maybe add a max hp field in this class, but this OK for prototype
 	var tempHPList : String = ""
 	for players in game_state.alivePlayers:
 		tempHPList = tempHPList + players.name + ": " + str(players.hp) + "HP/3HP      ";
 	HPList.text = tempHPList
 	if is_my_turn:
 		if game_state.isUpgradeRound:
-			targets = game_state.upgradesOnTable
+			targets = remove_nulls_from_array(game_state.upgradesOnTable)
+			if targets.size() == 0:
+				targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		else:
-			targets = game_state.alivePlayers + inventory
+			targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		update_target()
 
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
 	inventory.append(upgrade)
+	upgrade.reparent(self)
+	upgrade.position = health_jug.position
+	upgrade.position.z += 3
+	var cam = Camera3D.new()
+	upgrade.add_child(cam)
+	cam.make_current()
 
 func removeInventory(upgrade: Upgrade) -> bool:
 	if upgrade in inventory:
@@ -127,12 +136,16 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
+	for i in amount:
+		health_jug.drink()
 	hp -= amount
 	if hp < 0:
 		hp = 0
 
 # Heal the player
 func heal(amount: int, max_hp: int) -> void:
+	for i in amount:
+		health_jug.refill()
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
@@ -140,3 +153,10 @@ func heal(amount: int, max_hp: int) -> void:
 # Optional: check if player is alive
 func isAlive() -> bool:
 	return hp > 0
+
+func remove_nulls_from_array(original_array: Array) -> Array:
+	var filtered_array = []
+	for item in original_array:
+		if item != null:
+			filtered_array.append(item)
+	return filtered_array

@@ -1,4 +1,4 @@
-class_name Upgrade extends Node
+class_name Upgrade extends Node3D
 
 enum UpgradeType {cigarette, beer, magGlass, handcuff, expiredMed, inverter, 
 				  burnerPhone, handSaw, adrenaline, disableUpgrade, unoRev, wildCard}
