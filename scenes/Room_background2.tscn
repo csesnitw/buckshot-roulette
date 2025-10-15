@@ -1,48 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhdnb0cqk1ehw"]
+[gd_scene load_steps=8 format=3 uid="uid://bhdnb0cqk1ehw"]
 
 [ext_resource type="PackedScene" uid="uid://bj53s6w12n7ya" path="res://scenes/player.tscn" id="1_50hkl"]
-[ext_resource type="Texture2D" uid="uid://cqcsc2paxoby" path="res://assets/floor_material_0.png" id="1_l66n2"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="2_tg4cb"]
 [ext_resource type="PackedScene" uid="uid://cn7iq23q16pu7" path="res://scenes/upgrade.tscn" id="3_l66n2"]
 [ext_resource type="Script" uid="uid://drtpetyjiq1sf" path="res://scripts/gameManager.gd" id="4_r8osq"]
 [ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="5_jxyrc"]
 [ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="6_o7wcf"]
-[ext_resource type="PackedScene" uid="uid://240oe8b0oiss" path="res://assets/white_brick_wall.glb" id="8_r8osq"]
-[ext_resource type="PackedScene" uid="uid://di3gplk1r13tm" path="res://assets/blue_ceiling.glb" id="9_r8osq"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uj218"]
-sky_top_color = Color(0.38879365, 0.7241099, 0.8953566, 1)
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_bottom_color = Color(0, 0, 0, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-
-[sub_resource type="Sky" id="Sky_a2si3"]
-sky_material = SubResource("ProceduralSkyMaterial_uj218")
-
-[sub_resource type="Environment" id="Environment_aaq88"]
-background_mode = 2
-sky = SubResource("Sky_a2si3")
-tonemap_mode = 2
-glow_enabled = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8osq"]
-albedo_texture = ExtResource("1_l66n2")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_ffxv4"]
+[ext_resource type="PackedScene" uid="uid://bgwx6aa0wm8sw" path="res://scenes/room_background.tscn" id="7_js3uu"]
 
 [node name="Node3D" type="Node3D"]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0.33359337, 2.8687046)
-shadow_enabled = true
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_aaq88")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(9.65, 0, 0, 0, 9.65, 0, 0, 0, 9.65, 0, -1.5421774, 4.178692)
-material_override = SubResource("StandardMaterial3D_r8osq")
-mesh = SubResource("PlaneMesh_ffxv4")
 
 [node name="Player1" parent="." instance=ExtResource("1_50hkl")]
 transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
@@ -65,17 +31,4 @@ script = ExtResource("5_jxyrc")
 [node name="Table" parent="." instance=ExtResource("6_o7wcf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1389707, 0)
 
-[node name="Sketchfab_Scene3" parent="." instance=ExtResource("8_r8osq")]
-transform = Transform3D(-2.1440437e-07, 0, -1, 0, 2.845, 0, 4.905, 0, -4.371139e-08, -9.515287, -1.6799417, 4.252258)
-
-[node name="Sketchfab_Scene4" parent="." instance=ExtResource("8_r8osq")]
-transform = Transform3D(-2.1440437e-07, 0, 1, 0, 2.845, 0, -4.905, 0, -4.371139e-08, 9.6403, -1.6317242, 4.0998697)
-
-[node name="Sketchfab_Scene5" parent="." instance=ExtResource("8_r8osq")]
-transform = Transform3D(4.845, 0, 0, 0, 2.845, 0, 0, 0, 1, -0.12531471, -1.681869, 13.645713)
-
-[node name="Sketchfab_Scene6" parent="." instance=ExtResource("8_r8osq")]
-transform = Transform3D(-4.875, 0, -1.509958e-07, 0, 2.845, 0, 7.3610454e-07, 0, -1, 0.024018168, -1.614129, -5.5932207)
-
-[node name="Sketchfab_Scene" parent="." instance=ExtResource("9_r8osq")]
-transform = Transform3D(2.315, 0, 0, 0, 0.061781436, -0.9998477, 0, 3.539461, 0.017452383, -1.0590448, -1.0004282, 18.659332)
+[node name="room_background" parent="." instance=ExtResource("7_js3uu")]

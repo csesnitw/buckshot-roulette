@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgwx6aa0wm8sw"]
+
+[ext_resource type="Texture2D" uid="uid://dc5m5368oj2op" path="res://assets/floor.jpg" id="1_tw6mc"]
+[ext_resource type="Texture2D" uid="uid://cjl1xbifg6a85" path="res://assets/wall2.png" id="2_tw6mc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udtd3"]
+albedo_texture = ExtResource("2_tw6mc")
+uv1_scale = Vector3(3, 3, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fmyl8"]
+material = SubResource("StandardMaterial3D_udtd3")
+size = Vector3(20, 15, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i47i1"]
+albedo_texture = ExtResource("1_tw6mc")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ffxv4"]
+material = SubResource("StandardMaterial3D_i47i1")
+size = Vector2(2.1, 2.1)
+
+[node name="room_background" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9521086, -10)
+mesh = SubResource("BoxMesh_fmyl8")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9521086, 10)
+mesh = SubResource("BoxMesh_fmyl8")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10, -1.9521086, 0)
+mesh = SubResource("BoxMesh_fmyl8")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10, -1.9521086, 0)
+mesh = SubResource("BoxMesh_fmyl8")
+
+[node name="floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(9.65, 0, 0, 0, 9.65, 0, 0, 0, 9.65, 0, -1.5821086, 0)
+mesh = SubResource("PlaneMesh_ffxv4")
+skeleton = NodePath("")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.6251048, -0.46402657, -0.6276332, 0.779501, 0.3296334, 0.5326536, -0.040276513, -0.82220495, 0.5677646, 0, 4.793682, 0)
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.2871318, -0.56906605, 0.77053183, -0.5567774, 0.7537122, 0.34916574, -0.7794578, -0.32875797, -0.53325784, -1.8134305, 4.793682, 0)
+
+[node name="ceiling" type="MeshInstance3D" parent="."]
+transform = Transform3D(9.65, 0, 0, 0, 9.65, 0, 0, 0, 9.65, 0, 5.5428066, 0)
+mesh = SubResource("PlaneMesh_ffxv4")
+skeleton = NodePath("")
