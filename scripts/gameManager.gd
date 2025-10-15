@@ -22,10 +22,10 @@ var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
 
 var current_target_node: Node3D = null
 
-#func _process(delta): 
-#	if current_target_node:
-#		gun.look_at(current_target_node.global_transform.origin)
-#		gun.rotate_object_local(Vector3.RIGHT, 0.4) # Tilt down slightly
+func _process(delta): 
+	if current_target_node:
+		gun.look_at(current_target_node.global_transform.origin)
+		gun.rotate_object_local(Vector3.RIGHT, 0.4) # Tilt down slightly
 
 # Game Logic functions
 func initMatch() -> void:
@@ -78,15 +78,6 @@ func initRound() -> void:
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
 	turn_ended.emit(gameState, currPlayerTurnIndex)
-
-	if roundIndex == 0:
-		var player1_node = null
-		for p in players:
-			if p.name == "Player":
-				player1_node = p
-				break
-		if player1_node:
-			gun.set_target_player(player1_node)
 
 func endTurn() -> void:
 	if(shotgunShells.size() == 0):
@@ -360,8 +351,6 @@ func _ready():
 
 func on_player_target_changed(target_node):
 	current_target_node = target_node
-	if target_node is Player:
-		gun.set_target_player(target_node)
 
 func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 	for upgrade in upgradesOnTable:

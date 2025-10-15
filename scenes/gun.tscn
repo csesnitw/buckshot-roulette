@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dsd2085aa7y5v" path="res://assets/remington_870_shotgun.glb" id="2_gun_mesh"]
 
 [node name="Gun" type="Node3D"]
-transform = Transform3D(0.82873094, -0.55915505, -0.023469467, 0.5577494, 0.8286449, -0.047576725, 0.0460506, 0.02633822, 0.9985918, 0, 0, 0)
+transform = Transform3D(0.747581, -0.663954, -0.01696308, 0.6625722, 0.74730945, -0.05026544, 0.0460506, 0.026338218, 0.9985918, 0, 0, 0)
 script = ExtResource("1_gun_script")
 
 [node name="GunPivot" type="Node3D" parent="."]
