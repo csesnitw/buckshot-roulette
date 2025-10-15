@@ -104,10 +104,9 @@ func endTurn() -> void:
 		
 		# now here would probably be a good time to flash the number of reals and blanks
 		
-
 	# maybe we could allow players to use upgrades like handcuffs during the upgrade pickup sesh?
-	while gameState.alivePlayers[currPlayerTurnIndex].isHandcuffed:
-		gameState.alivePlayers[currPlayerTurnIndex].isHandcuffed = false # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
+	while gameState.alivePlayers[currPlayerTurnIndex] in gameState.handCuffedPlayers:
+		gameState.handCuffedPlayers.erase(gameState.alivePlayers[currPlayerTurnIndex]) # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
 	
 	# once all turn loggic is done with, send a signal to all players to refetch gameState
@@ -278,20 +277,14 @@ func useUpgrade(upgradeRef: Upgrade, callerPlayerRef: Player, targetPlayerRef: P
 			useMagGlass(callerPlayerRef)
 		Upgrade.UpgradeType.handcuff:
 			useHandcuff(callerPlayerRef, targetPlayerRef)
-		Upgrade.UpgradeType.unoRev:
-			useUnoRev(callerPlayerRef, targetPlayerRef)
 		Upgrade.UpgradeType.expiredMed:
 			useExpiredMed(callerPlayerRef)
 		Upgrade.UpgradeType.inverter:
 			useInverter(callerPlayerRef)
 		Upgrade.UpgradeType.burnerPhone:
 			useBurnerPhone(callerPlayerRef)
-		Upgrade.UpgradeType.adrenaline:
-			useAdrenaline(callerPlayerRef, targetPlayerRef)
 		Upgrade.UpgradeType.handSaw:
 			useHandSaw(callerPlayerRef)
-		Upgrade.UpgradeType.disableUpgrade:
-			useDisableUpgrade(callerPlayerRef, targetPlayerRef)
 		Upgrade.UpgradeType.wildCard:
 			# Generating random upgrade from 0-7
 			var newUpgrade = Upgrade.new()
@@ -313,7 +306,7 @@ func useMagGlass(callerPlayerRef: Player) -> void:
 	print(shotgunShells[0]) # replace with animation for callerPlayerRef
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	targetPlayerRef.isHandcuffed = true
+	gameState.handCuffedPlayers.append(targetPlayerRef)
 
 func useExpiredMed(callerPlayerRef: Player) -> void:
 	if randi()%2:
@@ -336,16 +329,6 @@ func useHandSaw(callerPlayerRef: Player) -> void:
 	callerPlayerRef.power += 1
 	# also need to show gun being sawed off
 
-# will implement these upgrades after Prototype 1
-func useAdrenaline(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	pass
-	
-func useUnoRev(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	pass
-
-func useDisableUpgrade(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	pass
-	
 func _ready():
 	initMatch()  
 

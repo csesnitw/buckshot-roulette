@@ -8,7 +8,6 @@ signal target_changed(target_node)
 var hp: int
 var inventory: Array = []
 var power: int = 1
-var isHandcuffed: bool = false
 var current_target_index: int = 0
 var targets: Array = []
 var duplicateTargets: Array = []
@@ -55,9 +54,9 @@ func _process(delta):
 		
 		if selectingTarget:
 			selectingTarget = false
+			game_manager.useUpgrade(pendingUpgrade, self, target)
 			pendingUpgrade = null
 			targets = duplicateTargets.duplicate()
-			game_manager.useUpgrade(pendingUpgrade, self, target)
 			return
 			
 		if game_state.isUpgradeRound:
@@ -82,6 +81,7 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 		selectingTarget = true;
 		pendingUpgrade = target
 		duplicateTargets = targets.duplicate()
+		duplicateTargets.erase(target)
 		targets = game_state.alivePlayers.duplicate()
 		targets.erase(self)
 		current_target_index = 0
