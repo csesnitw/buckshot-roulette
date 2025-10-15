@@ -13,11 +13,11 @@
 [node name="Player1" parent="." instance=ExtResource("2_im2bc")]
 transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
 
-[node name="Player3" parent="." instance=ExtResource("2_im2bc")]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.09145284, -0.8382463, -1.5236416)
-
 [node name="Player2" parent="." instance=ExtResource("2_im2bc")]
 transform = Transform3D(-1.3113416e-09, 0, 0.03, 0, 0.03, 0, -0.03, 0, -1.3113416e-09, -1.481, -0.838, -0.023)
+
+[node name="Player3" parent="." instance=ExtResource("2_im2bc")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.09145284, -0.8382463, -1.5236416)
 
 [node name="Gun" parent="." instance=ExtResource("3_iseux")]
 transform = Transform3D(0.28694412, -0.05383363, 0.9559535, 0.42519993, 0.9013199, -0.07687335, -0.85787517, 0.4287265, 0.28164786, -0.10501099, -0.12751728, -0.0064697266)

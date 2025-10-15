@@ -13,7 +13,7 @@ var initShotgunShellCount: int = 8
 var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
-var maxHP: int = 3 # temporary value
+var maxHP: int = 6 # temporary value
 var table: Node3D = null;
 var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
@@ -27,7 +27,6 @@ func _process(delta):
 		gun.look_at(current_target_node.global_transform.origin)
 		gun.rotate_object_local(Vector3.RIGHT, 0.4) # Tilt down slightly
 
-
 # Game Logic functions
 func initMatch() -> void:
 	# add logic here to set up initial players and scene (can only really do this once the scene is done)
@@ -38,6 +37,7 @@ func initMatch() -> void:
 	roundIndex = 0
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
+		print(get_parent().get_children())
 		if sibs is Player:
 			players.append(sibs)
 			
