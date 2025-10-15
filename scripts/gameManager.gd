@@ -28,7 +28,10 @@ func initMatch() -> void:
 	upgradeScene = preload("res://scenes/upgrade.tscn")
 	roundIndex = 0
 	shotgunShellCount = 8
-	players = [get_node("../Player1"), get_node("../Player2")] # TODO: support 4 players
+	for sibs in get_parent().get_children():
+		if sibs is Player:
+			players.append(sibs)
+			
 	sfxPlayer = get_node("../SFXPlayer")
 	gun = get_node("../Gun")
 	gameState = GameState.new(players, [], false)
