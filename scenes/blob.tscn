@@ -1,0 +1,129 @@
+[gd_scene load_steps=6 format=3 uid="uid://dwtj8vgnbcjky"]
+
+[ext_resource type="PackedScene" uid="uid://bl5pneo77egaa" path="res://assets/Blobs/blob.glb" id="1_eo8br"]
+[ext_resource type="Script" uid="uid://xr33exhr8583" path="res://scripts/blob.gd" id="2_ngma2"]
+
+[sub_resource type="Animation" id="Animation_eo8br"]
+resource_name = "getting_shot"
+length = 2.0
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Armature/Skeleton3D:Bone")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.015222491, 1.03536795e-05, 0.012261952, 0.99980897, 1, 1, -0.1455935, 0.0016107704, 0.0121557, 0.9892685, 2, 1, -0.015222467, 1.035245e-05, 0.012261956, 0.99980897)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Armature/Skeleton3D:Bone.001")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.28924537, -0.031429645, -0.061683204, 0.9547484, 1, 1, -0.41154903, -0.036167298, -0.05608469, 0.90894103, 2, 1, -0.28924543, -0.031429633, -0.06168321, 0.9547484)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Armature/Skeleton3D:Bone.002")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.14744659, 0.022961013, 0.9242102, 0.35152215, 1, 1, 0.14744659, 0.022961013, 0.9242102, 0.35152215, 2, 1, 0.14744659, 0.022961013, 0.9242102, 0.35152215)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Armature/Skeleton3D:Bone.003")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.33198193, -0.20072827, -0.36198974, 0.84761995, 1, 1, 0.33198193, -0.20072827, -0.36198974, 0.84761995, 2, 1, 0.33198193, -0.20072827, -0.36198974, 0.84761995)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Armature/Skeleton3D:Bone.004")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -0.23011157, -0.033876803, 0.89046323, -0.3911218, 1, 1, -0.23011157, -0.033876803, 0.89046323, -0.3911218, 2, 1, -0.23011157, -0.033876803, 0.89046323, -0.3911218)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Armature/Skeleton3D:Bone.005")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.06377047, 0.13662413, 0.5077842, 0.84818774, 1, 1, 0.06377047, 0.13662413, 0.5077842, 0.84818774, 2, 1, 0.06377047, 0.13662413, 0.5077842, 0.84818774)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Armature/Skeleton3D:Bone.006")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 1, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 2, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263)
+
+[sub_resource type="Animation" id="Animation_ngma2"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Armature/Skeleton3D:Bone")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.015222491, 1.03536795e-05, 0.012261952, 0.99980897)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Armature/Skeleton3D:Bone.001")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.28924537, -0.031429645, -0.061683204, 0.9547484)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Armature/Skeleton3D:Bone.002")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.14744659, 0.022961013, 0.9242102, 0.35152215)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Armature/Skeleton3D:Bone.003")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.33198193, -0.20072827, -0.36198974, 0.84761995)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Armature/Skeleton3D:Bone.004")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -0.23011157, -0.033876803, 0.89046323, -0.3911218)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Armature/Skeleton3D:Bone.005")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.06377047, 0.13662413, 0.5077842, 0.84818774)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Armature/Skeleton3D:Bone.006")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_17po2"]
+_data = {
+&"RESET": SubResource("Animation_ngma2"),
+&"getting_shot": SubResource("Animation_eo8br")
+}
+
+[node name="blob" instance=ExtResource("1_eo8br")]
+script = ExtResource("2_ngma2")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/scale = Vector3(0.9999994, 0.9999998, 0.9999996)
+bones/1/scale = Vector3(1.0000002, 1.0000006, 1.0000002)
+bones/3/scale = Vector3(1.0000004, 1.0000007, 0.9999999)
+bones/5/scale = Vector3(1.0000001, 1.0000002, 0.9999998)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_17po2")
+}
