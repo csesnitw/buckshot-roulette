@@ -201,14 +201,14 @@ func spawnUpgradesOnTable():
 		
 # Below are all functions that are player facing, call these when designing players for player devs
 func endGame() -> void:
-	# do something like announce winner or change ui here later
-	# could be a signal ig maybe TODO: refactor later
 	var winner: Player = gameState.alivePlayers[0]
-	for player in players:
-		player.winnerLab.text = "Game Over! Winner: " + winner.name
-		player.winnerLab.visible = true
-	print("Game Over. Winner is: ", gameState.alivePlayers[0])
-	get_tree().paused = true # temp solution to end game (wait for UI button to make this better)
+
+	# TODO: Should revamp/remove player label
+
+	# Handle the game end screen in the main scene
+	var main_scene = get_tree().root.get_child(0)
+	main_scene.handleEndGame(winner.name)
+
 	sfxPlayer.stream_paused = false
 	return
 
@@ -245,7 +245,8 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	print(targetPlayerRef.name, " hp now: ", targetPlayerRef.hp)
 	if checkWin():
 		endGame()
-	endTurn()
+	else:
+		endTurn()
 
 # call this when you want to pick an upgrade off of the upgrade table
 func pickUpUpgrade(callerPlayerRef: Player, upgradeRef: Upgrade) -> void:
