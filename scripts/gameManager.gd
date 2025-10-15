@@ -13,12 +13,11 @@ var initShotgunShellCount: int = 8
 var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
-var maxHP: int = 6 # temporary value
+var maxHP: int = 60 # temporary value
 var table: Node3D = null;
 var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
-
 
 var current_target_node: Node3D = null
 
@@ -175,28 +174,55 @@ func spawnUpgradesOnTable():
 		if child is Upgrade:
 			child.queue_free()
 	
-	# hopefully a square grid forms of side 1.5 1.5, temp for now 
-	var tableX : float = 1.5
+	var tableX: float = 1.5
 	var tableZ: float = 1.5
-	var columns : int = ceil(sqrt(gameState.upgradesOnTable.size()))
-	var rows : int = ceil(sqrt(gameState.upgradesOnTable.size()))
-	var spacingX = tableX/columns/2
-	var spacingZ = tableZ/rows/2
-	var startX = -tableX/2   # messy magic number offset temporary for now
-	var startZ = 0 # messy magic number offset temporary for now
+	var total_upgrades = gameState.upgradesOnTable.size()
+	if total_upgrades == 0:
+		return
 	
-	for i in range(gameState.upgradesOnTable.size()):
-		if gameState.upgradesOnTable[i] == null:
+	var columns: int = ceil(sqrt(total_upgrades))
+	var rows: int = ceil(float(total_upgrades) / columns)
+	
+	var spacingX: float = tableX / columns
+	var spacingZ: float = tableZ / rows
+
+	# Offsets so grid is centered
+	var startX: float = -((columns - 1) * spacingX) / 2.0
+	var startZ: float = -((rows - 1) * spacingZ) / 2.0
+	
+	var x = 0
+	for i in range(total_upgrades):
+		if rows%2 == 1 && i == int(total_upgrades/2): #empty center for gun
+			x+=1
+		if gameState.upgradesOnTable[i] == null: #for empty slots
+			x+=1
 			continue
+		
+
 		var upgradeInstance: Upgrade = upgradeScene.instantiate() as Upgrade
 		upgradeInstance.upgrade_type = gameState.upgradesOnTable[i].upgrade_type
 		upgradeInstance.get_node("Label3D").set_text(Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type])
-		var row = i/columns # how to disable stupid ass warning for int div
-		var col = i % columns
-		upgradeInstance.position = Vector3(startX + col * spacingX,  0.6, (startZ + row * spacingZ))
-		gameState.upgradesOnTable[i].pos = upgradeInstance.position
-		print(gameState.upgradesOnTable[i].pos)
+
+		if Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type] in Upgrade.UPGRADEMESHMAP.keys():
+			upgradeInstance.get_node(
+				Upgrade.UPGRADEMESHMAP[Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type]]
+			).visible = true
+
+		var row: int = x / columns   
+		var col: int = x % columns
+
+		var pos = Vector3(
+			startX + col * spacingX,
+			0.6,
+			startZ + row * spacingZ
+		)
+
+		upgradeInstance.position = pos
+		gameState.upgradesOnTable[i].pos = pos
 		table.add_child(upgradeInstance)
+		
+		x+=1
+
 		
 # Below are all functions that are player facing, call these when designing players for player devs
 func endGame() -> void:
