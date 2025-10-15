@@ -2,6 +2,8 @@ extends Node3D
 
 class_name Player
 
+signal target_changed(target_node)
+
 # Player properties
 var hp: int
 var inventory: Array = []
@@ -9,8 +11,11 @@ var power: int = 1
 var isHandcuffed: bool = false
 var current_target_index: int = 0
 var targets: Array = []
+var duplicateTargets: Array = []
 var is_my_turn: bool = false
 var game_state
+var selectingTarget: bool = false
+var pendingUpgrade: Upgrade = null
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
@@ -46,6 +51,14 @@ func _process(delta):
 		if targets.size() == 0:
 			return
 		var target = targets[current_target_index]
+		
+		if selectingTarget:
+			selectingTarget = false
+			pendingUpgrade = null
+			targets = duplicateTargets.duplicate()
+			game_manager.useUpgrade(pendingUpgrade, self, target)
+			return
+			
 		if game_state.isUpgradeRound:
 			if target is Upgrade:
 				is_my_turn = false
@@ -64,6 +77,16 @@ func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
 
 func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
+	if target.upgrade_type == Upgrade.UpgradeType.handcuff:
+		selectingTarget = true;
+		pendingUpgrade = target
+		duplicateTargets = targets.duplicate()
+		targets = game_state.alivePlayers.duplicate()
+		targets.erase(self)
+		current_target_index = 0
+		update_target()
+		target_label.visible = true
+		return
 	game_manager.useUpgrade(target, self, targetPlayerRef)
 	targets.erase(target)
 	current_target_index = (current_target_index + 1) % targets.size()
@@ -72,6 +95,7 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
+		target_changed.emit(target)
 		if target is Player:
 			if target == self:
 				animation_player.play("aim_self")

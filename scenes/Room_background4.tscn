@@ -1,14 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhdnb0cqk1ehw"]
+[gd_scene load_steps=15 format=3 uid="uid://cn4xwlq37es0p"]
 
-[ext_resource type="PackedScene" uid="uid://bj53s6w12n7ya" path="res://scenes/player.tscn" id="1_50hkl"]
-[ext_resource type="Texture2D" uid="uid://cqcsc2paxoby" path="res://assets/floor_material_0.png" id="1_l66n2"]
-[ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="2_tg4cb"]
-[ext_resource type="PackedScene" uid="uid://cn7iq23q16pu7" path="res://scenes/upgrade.tscn" id="3_l66n2"]
-[ext_resource type="Script" uid="uid://drtpetyjiq1sf" path="res://scripts/gameManager.gd" id="4_r8osq"]
-[ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="5_jxyrc"]
-[ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="6_o7wcf"]
-[ext_resource type="PackedScene" uid="uid://240oe8b0oiss" path="res://assets/white_brick_wall.glb" id="8_r8osq"]
-[ext_resource type="PackedScene" uid="uid://di3gplk1r13tm" path="res://assets/blue_ceiling.glb" id="9_r8osq"]
+[ext_resource type="Texture2D" uid="uid://cqcsc2paxoby" path="res://assets/floor_material_0.png" id="1_ig2vg"]
+[ext_resource type="PackedScene" uid="uid://bj53s6w12n7ya" path="res://scenes/player.tscn" id="2_nfuwm"]
+[ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_u5oex"]
+[ext_resource type="PackedScene" uid="uid://cn7iq23q16pu7" path="res://scenes/upgrade.tscn" id="4_4nfw0"]
+[ext_resource type="Script" uid="uid://drtpetyjiq1sf" path="res://scripts/gameManager.gd" id="5_15jgd"]
+[ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="6_vepsy"]
+[ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="7_vsmku"]
+[ext_resource type="PackedScene" uid="uid://240oe8b0oiss" path="res://assets/white_brick_wall.glb" id="8_pkks4"]
+[ext_resource type="PackedScene" uid="uid://di3gplk1r13tm" path="res://assets/blue_ceiling.glb" id="9_2qwo3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uj218"]
 sky_top_color = Color(0.38879365, 0.7241099, 0.8953566, 1)
@@ -26,7 +26,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8osq"]
-albedo_texture = ExtResource("1_l66n2")
+albedo_texture = ExtResource("1_ig2vg")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ffxv4"]
 
@@ -44,38 +44,44 @@ transform = Transform3D(9.65, 0, 0, 0, 9.65, 0, 0, 0, 9.65, 0, -1.5421774, 4.178
 material_override = SubResource("StandardMaterial3D_r8osq")
 mesh = SubResource("PlaneMesh_ffxv4")
 
-[node name="Player1" parent="." instance=ExtResource("1_50hkl")]
+[node name="Player1" parent="." instance=ExtResource("2_nfuwm")]
 transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
 
-[node name="Player2" parent="." instance=ExtResource("1_50hkl")]
+[node name="Player2" parent="." instance=ExtResource("2_nfuwm")]
 transform = Transform3D(-1.3113416e-09, 0, 0.03, 0, 0.03, 0, -0.03, 0, -1.3113416e-09, -1.481, -0.838, -0.023)
 
-[node name="Gun" parent="." instance=ExtResource("2_tg4cb")]
+[node name="Player3" parent="." instance=ExtResource("2_nfuwm")]
+transform = Transform3D(-0.029996429, 0, 0.00046284412, 0, 0.03, 0, -0.00046284412, 0, -0.029996429, -0.022660218, -0.8382463, 1.457594)
+
+[node name="Player4" parent="." instance=ExtResource("2_nfuwm")]
+transform = Transform3D(0.029996429, 0, -0.0004628415, 0, 0.03, 0, 0.0004628415, 0, 0.029996429, 0.02261587, -0.838, -1.5040153)
+
+[node name="Gun" parent="." instance=ExtResource("3_u5oex")]
 transform = Transform3D(0.28694412, -0.05383363, 0.9559535, 0.42519993, 0.9013199, -0.07687335, -0.85787517, 0.4287265, 0.28164786, -0.10501099, -0.12751728, -0.0064697266)
 
-[node name="Upgrade" parent="." instance=ExtResource("3_l66n2")]
+[node name="Upgrade" parent="." instance=ExtResource("4_4nfw0")]
 transform = Transform3D(-1.0927847e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.0927847e-08, 1.9140401, -4.867008, 5.3526034)
 
 [node name="GameManager" type="Node" parent="."]
-script = ExtResource("4_r8osq")
+script = ExtResource("5_15jgd")
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
-script = ExtResource("5_jxyrc")
+script = ExtResource("6_vepsy")
 
-[node name="Table" parent="." instance=ExtResource("6_o7wcf")]
+[node name="Table" parent="." instance=ExtResource("7_vsmku")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1389707, 0)
 
-[node name="Sketchfab_Scene3" parent="." instance=ExtResource("8_r8osq")]
+[node name="Sketchfab_Scene3" parent="." instance=ExtResource("8_pkks4")]
 transform = Transform3D(-2.1440437e-07, 0, -1, 0, 2.845, 0, 4.905, 0, -4.371139e-08, -9.515287, -1.6799417, 4.252258)
 
-[node name="Sketchfab_Scene4" parent="." instance=ExtResource("8_r8osq")]
+[node name="Sketchfab_Scene4" parent="." instance=ExtResource("8_pkks4")]
 transform = Transform3D(-2.1440437e-07, 0, 1, 0, 2.845, 0, -4.905, 0, -4.371139e-08, 9.6403, -1.6317242, 4.0998697)
 
-[node name="Sketchfab_Scene5" parent="." instance=ExtResource("8_r8osq")]
+[node name="Sketchfab_Scene5" parent="." instance=ExtResource("8_pkks4")]
 transform = Transform3D(4.845, 0, 0, 0, 2.845, 0, 0, 0, 1, -0.12531471, -1.681869, 13.645713)
 
-[node name="Sketchfab_Scene6" parent="." instance=ExtResource("8_r8osq")]
+[node name="Sketchfab_Scene6" parent="." instance=ExtResource("8_pkks4")]
 transform = Transform3D(-4.875, 0, -1.509958e-07, 0, 2.845, 0, 7.3610454e-07, 0, -1, 0.024018168, -1.614129, -5.5932207)
 
-[node name="Sketchfab_Scene" parent="." instance=ExtResource("9_r8osq")]
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("9_2qwo3")]
 transform = Transform3D(2.315, 0, 0, 0, 0.061781436, -0.9998477, 0, 3.539461, 0.017452383, -1.0590448, -1.0004282, 18.659332)

@@ -16,7 +16,7 @@ func _process(delta):
 		var target_position = target_player.global_transform.origin
 		var gun_position = global_transform.origin
 		var direction = (target_position - gun_position).normalized()
-		var look_at_position = global_transform.origin + direction
+		var look_at_position = global_transform.origin - direction
 		look_at_position.y = global_transform.origin.y
 		look_at(look_at_position, Vector3.UP)
 

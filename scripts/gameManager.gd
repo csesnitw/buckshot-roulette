@@ -10,7 +10,7 @@ var shotgunShells: Array[int] = [] # 0 for blank, 1 for live
 var roundIndex: int = 0
 var shotgunShellCount: int = 8 # some logic based on round index
 var initShotgunShellCount: int = 8
-var minRealShots: int = 2
+var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 3 # temporary value
@@ -18,6 +18,15 @@ var table: Node3D = null;
 var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
+
+
+var current_target_node: Node3D = null
+
+#func _process(delta): 
+#	if current_target_node:
+#		gun.look_at(current_target_node.global_transform.origin)
+#		gun.rotate_object_local(Vector3.RIGHT, 0.4) # Tilt down slightly
+
 
 # Game Logic functions
 func initMatch() -> void:
@@ -28,14 +37,19 @@ func initMatch() -> void:
 	upgradeScene = preload("res://scenes/upgrade.tscn")
 	roundIndex = 0
 	shotgunShellCount = 8
-	players = [get_node("../Player1"), get_node("../Player2")] # TODO: support 4 players
+	for sibs in get_parent().get_children():
+		if sibs is Player:
+			players.append(sibs)
+			
 	sfxPlayer = get_node("../SFXPlayer")
 	gun = get_node("../Gun")
+	gun.position = Vector3(0, -0.2, 0)
 	gameState = GameState.new(players, [], false)
 	gameState.currRoundIndex = roundIndex # TODO: get rid of this var entirely (roundIndex)
 	for player in players:
 		player.game_state = gameState
 		self.turn_ended.connect(player.onTurnEnd)
+		player.target_changed.connect(on_player_target_changed)
 	table = get_node("../Table")
 	initRound()
 
@@ -50,8 +64,8 @@ func initRound() -> void:
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
-	#realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
-	realShots = 1
+	minRealShots = floor(shotgunShellCount * 1/4)
+	realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
 	blanks = shotgunShellCount - realShots
 	# disgusting, TODO: refactor later
 	gameState.realCount = realShots
@@ -64,6 +78,15 @@ func initRound() -> void:
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
 	turn_ended.emit(gameState, currPlayerTurnIndex)
+
+	if roundIndex == 0:
+		var player1_node = null
+		for p in players:
+			if p.name == "Player":
+				player1_node = p
+				break
+		if player1_node:
+			gun.set_target_player(player1_node)
 
 func endTurn() -> void:
 	if(shotgunShells.size() == 0):
@@ -333,6 +356,11 @@ func useDisableUpgrade(callerPlayerRef: Player, targetPlayerRef: Player) -> void
 	
 func _ready():
 	initMatch()  
+
+func on_player_target_changed(target_node):
+	current_target_node = target_node
+	if target_node is Player:
+		gun.set_target_player(target_node)
 
 func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 	for upgrade in upgradesOnTable:
