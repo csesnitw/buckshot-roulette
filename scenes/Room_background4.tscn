@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn4xwlq37es0p"]
+[gd_scene load_steps=9 format=3 uid="uid://cn4xwlq37es0p"]
 
 [ext_resource type="PackedScene" uid="uid://bj53s6w12n7ya" path="res://scenes/player.tscn" id="2_nfuwm"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_u5oex"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://csv3t6y6713hy" path="res://scenes/sfxManager.gd" id="6_vepsy"]
 [ext_resource type="PackedScene" uid="uid://bgwx6aa0wm8sw" path="res://scenes/room_background.tscn" id="7_3wohg"]
 [ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="7_vsmku"]
+[ext_resource type="PackedScene" uid="uid://bq8ppj374ja3o" path="res://scenes/candle.tscn" id="8_mdd01"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -38,3 +39,15 @@ script = ExtResource("6_vepsy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1389707, 0)
 
 [node name="room_background" parent="." instance=ExtResource("7_3wohg")]
+
+[node name="Node3D" parent="." instance=ExtResource("8_mdd01")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1743076, -0.4933734, 1.2434044)
+
+[node name="Node3D2" parent="." instance=ExtResource("8_mdd01")]
+transform = Transform3D(0.89207375, 0, 0.45188987, 0, 1, 0, -0.45188987, 0, 0.89207375, 1.1744792, -0.4933734, -1.1602578)
+
+[node name="Node3D3" parent="." instance=ExtResource("8_mdd01")]
+transform = Transform3D(-0.36713442, 0, -0.9301679, 0, 1, 0, 0.9301679, 0, -0.36713442, -1.2097626, -0.4933734, -1.1602578)
+
+[node name="Node3D4" parent="." instance=ExtResource("8_mdd01")]
+transform = Transform3D(0.85303205, 0, 0.5218585, 0, 1, 0, -0.5218585, 0, 0.85303205, -1.2099342, -0.4933734, 1.1863415)

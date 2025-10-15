@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://c44u3o7a8agm4"]
+
+[ext_resource type="PackedScene" uid="uid://dsvj26uk6akmk" path="res://assets/candelabra.glb" id="1_f765l"]
+
+[node name="Candlebra" type="Node3D"]
+
+[node name="candelabra" parent="." instance=ExtResource("1_f765l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32195672, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="candelabra"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10734688, 0.09025133, 0)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.01
+light_indirect_energy = 0.01
+light_volumetric_fog_energy = 0.0
+light_cull_mask = 4293918721
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 0.1
+shadow_transmittance_bias = 0.0
+shadow_opacity = 0.8
+shadow_blur = 3.0
+shadow_caster_mask = 4294966273
+omni_range = 4.0
+omni_attenuation = 3.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="candelabra"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0014250875, 0.12830961, 0)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.01
+light_indirect_energy = 0.01
+light_volumetric_fog_energy = 0.0
+light_cull_mask = 4293918721
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 0.1
+shadow_transmittance_bias = 0.0
+shadow_opacity = 0.8
+shadow_blur = 3.0
+shadow_caster_mask = 4294966273
+omni_range = 4.0
+omni_attenuation = 3.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="candelabra"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10701081, 0.113962054, 0)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.01
+light_indirect_energy = 0.01
+light_volumetric_fog_energy = 0.0
+light_cull_mask = 4293918721
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 0.1
+shadow_transmittance_bias = 0.0
+shadow_opacity = 0.8
+shadow_blur = 3.0
+shadow_caster_mask = 4294966273
+omni_range = 4.0
+omni_attenuation = 3.0
