@@ -185,17 +185,24 @@ func spawnUpgradesOnTable():
 		print(gameState.upgradesOnTable[i].pos)
 		table.add_child(upgradeInstance)
 		
-# Below are all functions that are player facing, call these when designing players for player devs
+## Below are all functions that are player facing, call these when designing players for player devs
+#func endGame() -> void:
+	## do something like announce winner or change ui here later
+	## could be a signal ig maybe TODO: refactor later
+	#var winner: Player = gameState.alivePlayers[0]
+	#for player in players:
+		#player.winnerLab.text = "Game Over! Winner: " + winner.name
+		#player.winnerLab.visible = true
+	#print("Game Over. Winner is: ", gameState.alivePlayers[0])
+	#get_tree().paused = true # temp solution to end game (wait for UI button to make this better)
+	#sfxPlayer.stream_paused = false
+	#return
+
 func endGame() -> void:
-	# do something like announce winner or change ui here later
-	# could be a signal ig maybe TODO: refactor later
 	var winner: Player = gameState.alivePlayers[0]
-	for player in players:
-		player.winnerLab.text = "Game Over! Winner: " + winner.name
-		player.winnerLab.visible = true
-	print("Game Over. Winner is: ", gameState.alivePlayers[0])
-	get_tree().paused = true # temp solution to end game (wait for UI button to make this better)
-	sfxPlayer.stream_paused = false
+	var main_scene = get_tree().root.get_child(0)  # Get mainScene
+	main_scene.handleEndGame(winner.name)
+	sfxPlayer.stream_paused = false # Not sure why i put it here, don pls help
 	return
 
 func getGameState() -> GameState:
