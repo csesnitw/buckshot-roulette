@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn7iq23q16pu7"]
+[gd_scene load_steps=9 format=3 uid="uid://cn7iq23q16pu7"]
 
 [ext_resource type="Script" uid="uid://dqu0gsp3o5sfv" path="res://scripts/upgrade.gd" id="1_xsw34"]
 [ext_resource type="PackedScene" uid="uid://by123b1em4ndv" path="res://assets/upgrades/Cup Tea.glb" id="2_346kr"]
 [ext_resource type="PackedScene" uid="uid://d0tyacsudhgqy" path="res://assets/upgrades/juice_carton.glb" id="3_00gwf"]
 [ext_resource type="PackedScene" uid="uid://bhsdiutjs374s" path="res://assets/upgrades/Magnifying Glass.glb" id="4_jnjjj"]
+[ext_resource type="PackedScene" uid="uid://some_new_uid" path="res://assets/handcuffs.glb" id="5_abcde"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xsw34"]
 albedo_color = Color(1, 0, 1, 1)
@@ -41,4 +42,8 @@ visible = false
 
 [node name="Magnifying Glass" parent="." instance=ExtResource("4_jnjjj")]
 transform = Transform3D(10, 0, 0, 0, 6.11158, -9.5216675, 0, 19.043335, 3.05579, 0, 0.072044134, 0)
+visible = false
+
+[node name="handcuffs" parent="." instance=ExtResource("5_abcde")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
