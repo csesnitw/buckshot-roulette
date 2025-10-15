@@ -2,6 +2,8 @@ extends Node3D
 
 class_name Player
 
+signal target_changed(target_node)
+
 # Player properties
 var hp: int
 var inventory: Array = []
@@ -72,6 +74,7 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
+		target_changed.emit(target)
 		if target is Player:
 			if target == self:
 				animation_player.play("aim_self")
