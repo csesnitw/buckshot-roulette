@@ -106,6 +106,11 @@ func update_target():
 		elif target is Upgrade:
 			animation_player.play("aim_forward")
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
+			if game_state.isUpgradeRound:
+				for targettemp in targets:
+					targettemp.is_selected = false
+				target.is_selected = true
+				game_manager.spawnUpgradesOnTable()
 	else:
 		animation_player.play("aim_forward")
 
