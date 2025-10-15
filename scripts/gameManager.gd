@@ -19,6 +19,15 @@ var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
 
+
+var current_target_node: Node3D = null
+
+func _process(delta): 
+	if current_target_node:
+		gun.look_at(current_target_node.global_transform.origin)
+		gun.rotate_object_local(Vector3.RIGHT, 0.4) # Tilt down slightly
+
+
 # Game Logic functions
 func initMatch() -> void:
 	# add logic here to set up initial players and scene (can only really do this once the scene is done)
@@ -31,11 +40,13 @@ func initMatch() -> void:
 	players = [get_node("../Player1"), get_node("../Player2")] # TODO: support 4 players
 	sfxPlayer = get_node("../SFXPlayer")
 	gun = get_node("../Gun")
+	gun.position = Vector3(0, -0.2, 0)
 	gameState = GameState.new(players, [], false)
 	gameState.currRoundIndex = roundIndex # TODO: get rid of this var entirely (roundIndex)
 	for player in players:
 		player.game_state = gameState
 		self.turn_ended.connect(player.onTurnEnd)
+		player.target_changed.connect(on_player_target_changed)
 	table = get_node("../Table")
 	initRound()
 
@@ -333,6 +344,9 @@ func useDisableUpgrade(callerPlayerRef: Player, targetPlayerRef: Player) -> void
 	
 func _ready():
 	initMatch()  
+
+func on_player_target_changed(target_node):
+	current_target_node = target_node
 
 func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 	for upgrade in upgradesOnTable:
