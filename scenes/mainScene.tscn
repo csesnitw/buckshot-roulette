@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c87m08lc0b3e4"]
+[gd_scene load_steps=9 format=3 uid="uid://c87m08lc0b3e4"]
 
 [ext_resource type="Script" uid="uid://caiabdo0cbleb" path="res://scripts/mainScene.gd" id="1_ki6c0"]
 [ext_resource type="PackedScene" uid="uid://bhdnb0cqk1ehw" path="res://scenes/Room_background2.tscn" id="2_w16ng"]
@@ -7,12 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://cn4xwlq37es0p" path="res://scenes/Room_background4.tscn" id="4_dmtm4"]
 [ext_resource type="FontFile" uid="uid://dhp27lwgyfh7g" path="res://assets/Hydrogen Whiskey.otf" id="4_w16ng"]
 [ext_resource type="FontFile" uid="uid://bhgx6j6f5b07y" path="res://assets/Astroz Trial.ttf" id="5_1jq6i"]
+[ext_resource type="PackedScene" uid="uid://d0qgnuqc8be0v" path="res://scenes/endScene.tscn" id="5_dmtm4"]
 
 [node name="Root" type="Node"]
 script = ExtResource("1_ki6c0")
 gameScene2 = ExtResource("2_w16ng")
 gameScene3 = ExtResource("3_al2iq")
 gameScene4 = ExtResource("4_dmtm4")
+endScene = ExtResource("5_dmtm4")
 
 [node name="HomeScreen" type="Control" parent="."]
 layout_mode = 3
@@ -72,6 +74,7 @@ text = "2 PLAYER"
 [node name="ThreePlayer" type="Button" parent="HomeScreen/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_fonts/font = ExtResource("5_1jq6i")
 theme_override_font_sizes/font_size = 24
 text = "3 PLAYER"
@@ -79,6 +82,7 @@ text = "3 PLAYER"
 [node name="FourPlayer" type="Button" parent="HomeScreen/VBoxContainer/ButtonContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_fonts/font = ExtResource("5_1jq6i")
 theme_override_font_sizes/font_size = 24
 text = "4 PLAYER"
