@@ -13,11 +13,11 @@ var initShotgunShellCount: int = 8
 var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
-var maxHP: int = 60 # temporary value
+var maxHP: int = 5 # temporary value
 var table: Node3D = null;
 var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
-var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
+var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
 
 var current_target_node: Node3D = null
 
@@ -202,7 +202,7 @@ func spawnUpgradesOnTable():
 		var upgradeInstance: Upgrade = upgradeScene.instantiate() as Upgrade
 		upgradeInstance.upgrade_type = gameState.upgradesOnTable[i].upgrade_type
 		upgradeInstance.get_node("Label3D").set_text(Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type])
-
+		upgradeInstance.is_selected = gameState.upgradesOnTable[i].is_selected
 		if Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type] in Upgrade.UPGRADEMESHMAP.keys():
 			upgradeInstance.get_node(
 				Upgrade.UPGRADEMESHMAP[Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type]]
@@ -210,10 +210,13 @@ func spawnUpgradesOnTable():
 
 		var row: int = x / columns   
 		var col: int = x % columns
-
+		var y = 0.6
+		if upgradeInstance.is_selected:
+			upgradeInstance.scale = upgradeInstance.scale*1.5
+			y += 0.2
 		var pos = Vector3(
 			startX + col * spacingX,
-			0.6,
+			y,
 			startZ + row * spacingZ
 		)
 

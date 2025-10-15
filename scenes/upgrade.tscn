@@ -28,6 +28,7 @@ shape = SubResource("BoxShape3D_xsw34")
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, -8.742278e-08, 2, 0, -2, -8.742278e-08, 0, 0.505, 0)
+visible = false
 text = "type"
 
 [node name="Cup Tea" parent="." instance=ExtResource("2_346kr")]

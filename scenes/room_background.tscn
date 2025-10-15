@@ -42,7 +42,7 @@ mesh = SubResource("PlaneMesh_ffxv4")
 skeleton = NodePath("")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.6251048, -0.46402657, -0.6276332, 0.779501, 0.3296334, 0.5326536, -0.040276513, -0.82220495, 0.5677646, 0, 4.793682, 0)
+transform = Transform3D(0.45821774, -0.5201515, -0.72074896, 0.88792706, 0.23113064, 0.39769888, -0.040276527, -0.8222051, 0.56776464, 0, 4.793682, 0)
 
 [node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.2871318, -0.56906605, 0.77053183, -0.5567774, 0.7537122, 0.34916574, -0.7794578, -0.32875797, -0.53325784, -1.8134305, 4.793682, 0)
