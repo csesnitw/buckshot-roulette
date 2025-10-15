@@ -26,7 +26,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 0
+	roundIndex = 2
 	shotgunShellCount = 8
 	players = [get_node("../Player1"), get_node("../Player2")] # TODO: support 4 players
 	sfxPlayer = get_node("../SFXPlayer")
