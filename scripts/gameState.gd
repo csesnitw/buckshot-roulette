@@ -4,6 +4,7 @@ class_name GameState
 
 # Game Manager Entities
 var alivePlayers: Array[Player]
+var handCuffedPlayers: Array[Player]
 var upgradesOnTable: Array[Upgrade]
 var isUpgradeRound: bool
 var currRoundIndex: int = 0
