@@ -30,10 +30,11 @@ var pendingUpgrade: Upgrade = null
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
-	hp = _hp
+	
 	inventory = []
 
 func _ready():
+	hp = game_manager.maxHP
 	target_label.visible = false
 	health_jug.create(game_manager.maxHP)
 	
