@@ -1,10 +1,167 @@
-[gd_scene load_steps=9 format=3 uid="uid://cn7iq23q16pu7"]
+[gd_scene load_steps=12 format=3 uid="uid://cn7iq23q16pu7"]
 
 [ext_resource type="Script" uid="uid://dqu0gsp3o5sfv" path="res://scripts/upgrade.gd" id="1_xsw34"]
-[ext_resource type="PackedScene" uid="uid://by123b1em4ndv" path="res://assets/upgrades/Cup Tea.glb" id="2_346kr"]
+[ext_resource type="PackedScene" uid="uid://dcgxduf0gtfi2" path="res://assets/coffee cup/scene.gltf" id="2_00gwf"]
 [ext_resource type="PackedScene" uid="uid://d0tyacsudhgqy" path="res://assets/upgrades/juice_carton.glb" id="3_00gwf"]
 [ext_resource type="PackedScene" uid="uid://bhsdiutjs374s" path="res://assets/upgrades/Magnifying Glass.glb" id="4_jnjjj"]
-[ext_resource type="PackedScene" uid="uid://some_new_uid" path="res://assets/handcuffs.glb" id="5_abcde"]
+[ext_resource type="PackedScene" uid="uid://dd2ux62urrkb5" path="res://assets/handcuffs.glb" id="5_abcde"]
+
+[sub_resource type="Animation" id="Animation_jnjjj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("juice_carton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.7107878, 5.417548, -2.0713658)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("juice_carton:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(10, 20, 10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Magnifying Glass:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.072044134, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Magnifying Glass:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(10, 20, 10)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cup Tea:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cup Tea:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(15, 30, 15)]
+}
+
+[sub_resource type="Animation" id="Animation_00gwf"]
+resource_name = "pop up"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("juice_carton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.7107878, 5.417548, -2.0713658), Vector3(0.7107878, 10.850023, -2.0713658)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("juice_carton:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(10, 20, 10), Vector3(15, 30, 15)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Magnifying Glass:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0.072044134, 0), Vector3(0, 7.549056, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Magnifying Glass:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(10, 20, 10), Vector3(15, 30, 15)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Cup Tea:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 5.5461845, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Cup Tea:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(15, 30, 15), Vector3(22.5, 45, 22.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i5kin"]
+_data = {
+&"RESET": SubResource("Animation_jnjjj"),
+&"pop up": SubResource("Animation_00gwf")
+}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xsw34"]
 albedo_color = Color(1, 0, 1, 1)
@@ -17,6 +174,13 @@ material = SubResource("StandardMaterial3D_xsw34")
 [node name="Upgrade" type="Node3D"]
 transform = Transform3D(0.1, 0, 0, 0, 0.05, 0, 0, 0, 0.1, 0, 0, 0)
 script = ExtResource("1_xsw34")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_i5kin")
+}
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("2_00gwf")]
 
 [node name="default" type="MeshInstance3D" parent="."]
 visible = false
@@ -32,10 +196,6 @@ transform = Transform3D(2, 0, 0, 0, -8.742278e-08, 2, 0, -2, -8.742278e-08, 0, 0
 visible = false
 text = "type"
 
-[node name="Cup Tea" parent="." instance=ExtResource("2_346kr")]
-transform = Transform3D(15, 0, 0, 0, 30, 0, 0, 0, 15, 0, -0.6421459, 0)
-visible = false
-
 [node name="juice_carton" parent="." instance=ExtResource("3_00gwf")]
 transform = Transform3D(10, 0, 0, 0, 20, 0, 0, 0, 10, 0.7107878, 5.417548, -2.0713658)
 visible = false
@@ -46,4 +206,8 @@ visible = false
 
 [node name="handcuffs" parent="." instance=ExtResource("5_abcde")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+visible = false
+
+[node name="Cup Tea" parent="." instance=ExtResource("2_00gwf")]
+transform = Transform3D(15, 0, 0, 0, 30, 0, 0, 0, 15, 0, 0, 0)
 visible = false
