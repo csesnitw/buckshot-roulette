@@ -44,9 +44,11 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_left"):
 		current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
 		update_target()
+		rotate_gun_left()
 	elif Input.is_action_just_pressed("ui_right"):
 		current_target_index = (current_target_index + 1) % targets.size()
 		update_target()
+		rotate_gun_right()
 	elif Input.is_action_just_pressed("ui_select"):
 		if targets.size() == 0:
 			return
@@ -98,13 +100,15 @@ func update_target():
 		var target = targets[current_target_index]
 		target_changed.emit(target)
 		if target is Player:
-			if target == self:
-				animation_player.play("aim_self")
-			else:
-				animation_player.play("aim_forward")
+			#if target == self:
+				#pass
+				#animation_player.play("aim_self")
+			#else:
+				#pass
+				#animation_player.play("aim_forward")
 			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
-			animation_player.play("aim_forward")
+			#animation_player.play("aim_forward")
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 			if game_state.isUpgradeRound:
 				for targettemp in targets:
@@ -190,3 +194,17 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 		if item != null:
 			filtered_array.append(item)
 	return filtered_array
+	
+@onready var anim_tree = $AnimationTree
+@onready var state_machine = anim_tree.get("parameters/playback")
+
+func rotate_gun_left():
+	var target = targets[current_target_index]
+	#if target is Player:
+		#state_machine.travel("gun front")
+		
+
+func rotate_gun_right():
+	var target = targets[current_target_index]
+	#if target is Player:
+		#gun.rotate_to = 90
