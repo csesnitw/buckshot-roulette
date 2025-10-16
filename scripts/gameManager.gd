@@ -212,8 +212,9 @@ func spawnUpgradesOnTable():
 		var col: int = x % columns
 		var y = 0.6
 		if upgradeInstance.is_selected:
-			upgradeInstance.scale = upgradeInstance.scale*1.5
-			y += 0.2
+			upgradeInstance.get_node("AnimationPlayer").play("pop up")
+			#upgradeInstance.scale = upgradeInstance.scale*1.5
+			#y += 0.2
 		var pos = Vector3(
 			startX + col * spacingX,
 			y,
