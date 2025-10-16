@@ -108,14 +108,11 @@ func update_target():
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
+					if target_temp.is_selected:
+						game_manager.rendered_animation_object[target_temp].get_node_or_null("AnimationPlayer").play_backwards("pop up")
 					target_temp.is_selected = false
-					#if target_temp.is_selected:
-						#target_temp.get_node("AnimationPlayer").play_backwards("pop up")
 				target.is_selected = true
-				#print("target_updated")
-				#print(target, target.get_node_or_null("AnimationPlayer"))
-				#print(target.get_children())
-				#target.get_node("AnimationPlayer").play("pop up")
+				game_manager.rendered_animation_object[target].get_node_or_null("AnimationPlayer").play("pop up")
 	else:
 		animation_player.play("aim_forward")
 

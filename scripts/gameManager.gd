@@ -1,7 +1,7 @@
 extends Node
 
 signal turn_ended(gameState, currPlayerTurnIndex)
-
+var rendered_animation_object = {}
 var gameState: GameState = null # given to every player at the end of a turn
 var upgradeScene: PackedScene = null
 var players: Array[Player] = []
@@ -191,6 +191,7 @@ func spawnUpgradesOnTable():
 	var startZ: float = -((rows - 1) * spacingZ) / 2.0
 	
 	var x = 0
+	rendered_animation_object = {}
 	for i in range(total_upgrades):
 		if rows%2 == 1 && i == int(total_upgrades/2): #empty center for gun
 			x+=1
@@ -207,7 +208,7 @@ func spawnUpgradesOnTable():
 			upgradeInstance.get_node(
 				Upgrade.UPGRADEMESHMAP[Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type]]
 			).visible = true
-
+		rendered_animation_object[gameState.upgradesOnTable[i]] = upgradeInstance
 		var row: int = x / columns   
 		var col: int = x % columns
 		var y = 0.6
