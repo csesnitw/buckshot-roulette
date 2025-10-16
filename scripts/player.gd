@@ -40,15 +40,20 @@ func _ready():
 func _process(delta):
 	if not is_my_turn:
 		return
-		
+	
+	for player in game_state.alivePlayers:
+		player.get_node("Gun").visible = false
+	gun.visible = true
 	if Input.is_action_just_pressed("ui_left"):
+		var init_target_index = current_target_index
 		current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
 		update_target()
-		rotate_gun_left()
+		rotate_gun(init_target_index)
 	elif Input.is_action_just_pressed("ui_right"):
+		var init_target_index = current_target_index
 		current_target_index = (current_target_index + 1) % targets.size()
 		update_target()
-		rotate_gun_right()
+		rotate_gun(init_target_index)
 	elif Input.is_action_just_pressed("ui_select"):
 		if targets.size() == 0:
 			return
@@ -194,17 +199,31 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 		if item != null:
 			filtered_array.append(item)
 	return filtered_array
-	
-@onready var anim_tree = $AnimationTree
-@onready var state_machine = anim_tree.get("parameters/playback")
+@onready var animationPlayer = $AnimationPlayer
 
-func rotate_gun_left():
+func rotate_gun(init_target_index):
 	var target = targets[current_target_index]
-	#if target is Player:
-		#state_machine.travel("gun front")
+	if target is Player:
+		animationPlayer.play(relative_position(targets[init_target_index]) + " to " + relative_position(target))
 		
+		
+const LOCATIONS_4_PLAYERS = ["self","right","front","left"]
 
-func rotate_gun_right():
-	var target = targets[current_target_index]
-	#if target is Player:
-		#gun.rotate_to = 90
+func relative_position(target):
+	if game_state.alivePlayers.size()==4:
+		var target_index = 0
+		for player in game_state.alivePlayers:
+			if player == target:
+				break
+			target_index+=1
+		var self_index = 0
+		for player in game_state.alivePlayers:
+			if player == self:
+				break
+			self_index+=1
+		return LOCATIONS_4_PLAYERS[(target_index - self_index + game_state.alivePlayers.size())%game_state.alivePlayers.size()]
+	elif game_state.alivePlayers.size()==2:
+		if target == self:
+			return "self"
+		else:
+			return "front"
