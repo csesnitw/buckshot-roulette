@@ -8,5 +8,6 @@ var is_selected : bool = false
 var upgrade_type: UpgradeType
 var pos: Vector3 # ts is for players to get pos of
 var was_picked : bool = false
+var disappear_animation_playing = false
 # ts wasn't working when isntantiating so i removed _init
 	
