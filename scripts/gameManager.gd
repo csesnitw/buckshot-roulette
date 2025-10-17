@@ -18,8 +18,11 @@ var table: Node3D = null;
 var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
-
+var fuckedUpPlayerToViewportMap: Dictionary = {}
 var current_target_node: Node3D = null
+
+#for gun animation
+const GUN_ROTATION_DURATION : float = 0.5
 
 func _process(delta): 
 	pass
@@ -34,7 +37,7 @@ func initMatch() -> void:
 	roundIndex = 0
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
-		print(get_parent().get_children())
+		#print(get_parent().get_children())
 		if sibs is Player:
 			players.append(sibs)
 			
@@ -378,3 +381,24 @@ func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 		if upgrade != null:
 			return false
 	return true
+
+func update_target_animation(target_pos):
+	var player = gameState.alivePlayers[currPlayerTurnIndex]
+	var start_rot
+	var end_rot
+	var tween
+	if player.name != "Player1":
+		var me = fuckedUpPlayerToViewportMap[player]
+		start_rot = me.rotation
+		me.look_at(target_pos, Vector3.UP)
+		end_rot = me.rotation
+		me.rotation = start_rot  # reset
+		tween = get_tree().create_tween()
+		tween.tween_property(me, "rotation", end_rot, GUN_ROTATION_DURATION)
+	var pivot = player.get_node("RotPivot")
+	start_rot = pivot.rotation
+	pivot.look_at(target_pos, Vector3.UP)
+	end_rot = pivot.rotation
+	pivot.rotation = start_rot
+	tween = get_tree().create_tween()
+	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)

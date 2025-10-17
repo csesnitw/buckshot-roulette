@@ -1,9 +1,29 @@
-[gd_scene load_steps=15 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=11 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="2_3vyb7"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
 [ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="4_qhqgy"]
+
+[sub_resource type="Theme" id="Theme_g2els"]
+
+[sub_resource type="Theme" id="Theme_qhqgy"]
+
+[sub_resource type="FontFile" id="FontFile_dqkch"]
+resource_local_to_scene = true
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/64/0/ascent = 0.0
+cache/0/64/0/descent = 0.0
+cache/0/64/0/underline_position = 0.0
+cache/0/64/0/underline_thickness = 0.0
+cache/0/64/0/scale = 1.0
 
 [sub_resource type="Animation" id="Animation_s2gip"]
 resource_name = "aim_forward"
@@ -43,96 +63,8 @@ _data = {
 &"aim_self": SubResource("Animation_cnq18")
 }
 
-[sub_resource type="Theme" id="Theme_g2els"]
-
-[sub_resource type="Theme" id="Theme_qhqgy"]
-
-[sub_resource type="FontFile" id="FontFile_dqkch"]
-resource_local_to_scene = true
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/64/0/ascent = 0.0
-cache/0/64/0/descent = 0.0
-cache/0/64/0/underline_position = 0.0
-cache/0/64/0/underline_thickness = 0.0
-cache/0/64/0/scale = 1.0
-
-[sub_resource type="Animation" id="Animation_dqkch"]
-resource_name = "self to front"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Gun:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.46666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.28740403, -1.0219995, 0.41385767), Vector3(-0.064577185, 3.1573007, 0.010471975)]
-}
-
-[sub_resource type="Animation" id="Animation_qlg0r"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Gun:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.4308199, -1.1073259, 0.5535742)]
-}
-
-[sub_resource type="Animation" id="Animation_tuyoq"]
-resource_name = "front to self"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Gun:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.064577185, 3.1573007, 0.010471975), Vector3(0.28740403, -1.0219995, 0.41385767)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_tuyoq"]
-_data = {
-&"RESET": SubResource("Animation_qlg0r"),
-&"front to self": SubResource("Animation_tuyoq"),
-&"self to front": SubResource("Animation_dqkch")
-}
-
 [node name="Player" type="Node3D"]
 script = ExtResource("1_g2els")
-
-[node name="ArmsMesh" parent="." instance=ExtResource("2_3vyb7")]
-
-[node name="Gun" parent="." instance=ExtResource("3_gun")]
-transform = Transform3D(3.6779106, -11.056001, -16.25539, 9.5538225, 15.458433, -8.352317, 17.181288, -6.2291102, 8.124095, -21.7879, 29.890797, -5.738985)
-visible = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
-libraries = {
-&"": SubResource("AnimationLibrary_o7vfb")
-}
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 7.105428e-15, -8.742278e-08, -5.5848723e-08, 0.7693438, 0.638835, 6.725817e-08, 0.638835, -0.7693438, 0, 46.103146, -19.681183)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -209,9 +141,24 @@ theme_override_colors/font_color = Color(0, 0.9019608, 0.21960784, 1)
 theme_override_font_sizes/font_size = 24
 
 [node name="HealthJug" parent="." instance=ExtResource("4_qhqgy")]
-transform = Transform3D(-2.6226832e-07, 0, 6, 0, 6, 0, -6, 0, -2.6226832e-07, -16.181383, 13.413353, 4.2951813)
+transform = Transform3D(-2.6226832e-07, 0, -6, 0, 6, 0, 6, 0, -2.6226832e-07, 13.110107, 13.413, -8.896938)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="target_for_gun" type="Node3D" parent="."]
+transform = Transform3D(-1, 8.881784e-15, -8.7422784e-08, -5.5848723e-08, 0.7693439, 0.6388351, 6.725817e-08, 0.6388351, -0.7693439, 0, 20.87941, -19.681183)
+
+[node name="RotPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7693996, 0.63876784, 0, -0.63876784, 0.7693996, 0, 46.103, 0)
+
+[node name="Gun" parent="RotPivot" instance=ExtResource("3_gun")]
+transform = Transform3D(19.955708, -1.3239423, -0.12676068, 1.2505177, 19.326885, -4.990695, 0.45286316, 4.971722, 19.366898, 6.266596, -11.157049, -21.127773)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RotPivot/Gun"]
 libraries = {
-&"": SubResource("AnimationLibrary_tuyoq")
+&"": SubResource("AnimationLibrary_o7vfb")
 }
+
+[node name="Camera3D" type="Camera3D" parent="RotPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, -2.9802322e-08, 0, 2.9802322e-08, 0.99999994, 0, 0, 0)
+
+[node name="ArmsMesh" parent="RotPivot" instance=ExtResource("2_3vyb7")]
+transform = Transform3D(-1, 0, -8.742278e-08, -5.584286e-08, 0.76939905, 0.6387677, 6.7263e-08, 0.6387677, -0.76939905, 0, -33.854843, -31.396736)
