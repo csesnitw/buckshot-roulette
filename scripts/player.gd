@@ -197,25 +197,28 @@ func takeDamage(amount: int) -> void:
 	hp -= amount
 	if hp < 0:
 		hp = 0
-	if amount > 0:
-		blob_animation_player.play("RESET")
-		is_playing_animation = true
-		blob_animation_player.play("getting_shot")
 	for i in amount:
-		health_jug.drink()
+		is_playing_animation = true
+		blob_animation_player.play("RESET")
+		blob_animation_player.play("getting_shot")
 		juice_animation_player.play("drink")
 		await get_tree().create_timer(1).timeout
 		juice_animation_player.play_backwards("drink")
 		await get_tree().create_timer(1).timeout
+		health_jug.drink()
 	
 
 # Heal the player
 func heal(amount: int, max_hp: int) -> void:
-	for i in amount:
-		health_jug.refill()
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
+	for i in amount:
+		health_jug.get_node("juice_carton").visible = true
+		health_jug.get_node("AnimationPlayer").play("pour_juice")
+		await get_tree().create_timer(health_jug.get_node("AnimationPlayer").get_animation("pour_juice").length).timeout
+		health_jug.get_node("juice_carton").visible = false
+		health_jug.refill()
 
 # Optional: check if player is alive
 func isAlive() -> bool:
