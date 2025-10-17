@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dqu0gsp3o5sfv" path="res://scripts/upgrade.gd" id="1_xsw34"]
 [ext_resource type="PackedScene" uid="uid://cijy0881bujyh" path="res://assets/coffee cup/scene.gltf" id="2_00gwf"]
 [ext_resource type="PackedScene" uid="uid://d0tyacsudhgqy" path="res://assets/upgrades/juice_carton.glb" id="3_00gwf"]
-[ext_resource type="PackedScene" uid="uid://bhsdiutjs374s" path="res://assets/upgrades/Magnifying Glass.glb" id="4_jnjjj"]
 [ext_resource type="PackedScene" uid="uid://dd2ux62urrkb5" path="res://assets/handcuffs.glb" id="5_abcde"]
+[ext_resource type="PackedScene" uid="uid://ba2qnbhesl661" path="res://assets/magnifying_glass/scene.gltf" id="6_i5kin"]
 [ext_resource type="PackedScene" uid="uid://ctrvcynf2qca5" path="res://assets/pool_floatie.glb" id="6_jnjjj"]
 
 [sub_resource type="Animation" id="Animation_jnjjj"]
@@ -12,31 +12,31 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Magnifying Glass:position")
+tracks/0/path = NodePath("Cup Tea:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.072044134, 0)]
+"values": [Vector3(0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Magnifying Glass:scale")
+tracks/1/path = NodePath("Cup Tea:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(10, 20, 10)]
+"values": [Vector3(15, 30, 15)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Cup Tea:position")
+tracks/2/path = NodePath("Cup Tea:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -48,31 +48,31 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Cup Tea:scale")
+tracks/3/path = NodePath("pool_floatie_pivot:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(15, 30, 15)]
+"values": [Vector3(0, -0.22782564, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Magnifying Glass:rotation")
+tracks/4/path = NodePath("pool_floatie_pivot:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(1.2602499, 0, 0)]
+"values": [Vector3(1, 2, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Cup Tea:rotation")
+tracks/5/path = NodePath("pool_floatie_pivot:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -84,31 +84,31 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("pool_floatie_pivot:position")
+tracks/6/path = NodePath("juice_carton_pivot:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, -0.22782564, 0)]
+"values": [Vector3(0, 0, 0)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("pool_floatie_pivot:scale")
+tracks/7/path = NodePath("juice_carton_pivot:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(1, 2, 1)]
+"values": [Vector3(1, 1, 1)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("pool_floatie_pivot:rotation")
+tracks/8/path = NodePath("juice_carton_pivot:rotation")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -120,7 +120,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("juice_carton_pivot:position")
+tracks/9/path = NodePath("magnifying_glass_pivot:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -132,7 +132,7 @@ tracks/9/keys = {
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("juice_carton_pivot:scale")
+tracks/10/path = NodePath("magnifying_glass_pivot:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -144,7 +144,7 @@ tracks/10/keys = {
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("juice_carton_pivot:rotation")
+tracks/11/path = NodePath("magnifying_glass_pivot:rotation")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -160,31 +160,31 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Magnifying Glass:rotation")
+tracks/0/path = NodePath("Cup Tea:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(1.2602499, 0, 0), Vector3(1.2601277, 3.1415927, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 3.1415927, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Magnifying Glass:scale")
+tracks/1/path = NodePath("Cup Tea:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(15, 30, 15), Vector3(0, 0, 0)]
+"values": [Vector3(22.5, 45, 22.5), Vector3(0, 0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Cup Tea:rotation")
+tracks/2/path = NodePath("pool_floatie_pivot:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -196,19 +196,19 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Cup Tea:scale")
+tracks/3/path = NodePath("pool_floatie_pivot:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(22.5, 45, 22.5), Vector3(0, 0, 0)]
+"values": [Vector3(1.5, 3, 1.5), Vector3(0, 0, 0)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("pool_floatie_pivot:rotation")
+tracks/4/path = NodePath("juice_carton_pivot:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -220,19 +220,19 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("pool_floatie_pivot:scale")
+tracks/5/path = NodePath("juice_carton_pivot:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(1.5, 3, 1.5), Vector3(0, 0, 0)]
+"values": [Vector3(1.5, 1.5, 1.5), Vector3(0, 0, 0)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("juice_carton_pivot:rotation")
+tracks/6/path = NodePath("magnifying_glass_pivot:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -244,7 +244,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("juice_carton_pivot:scale")
+tracks/7/path = NodePath("magnifying_glass_pivot:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -260,91 +260,91 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Magnifying Glass:position")
+tracks/0/path = NodePath("Cup Tea:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0.072044134, 0), Vector3(0, 7.549056, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 5.5461845, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Magnifying Glass:scale")
+tracks/1/path = NodePath("Cup Tea:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(10, 20, 10), Vector3(15, 30, 15)]
+"values": [Vector3(15, 30, 15), Vector3(22.5, 45, 22.5)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Cup Tea:position")
+tracks/2/path = NodePath("pool_floatie_pivot:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 5.5461845, 0)]
+"values": [Vector3(0, -0.22782564, 0), Vector3(0, 6.243298, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Cup Tea:scale")
+tracks/3/path = NodePath("pool_floatie_pivot:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(15, 30, 15), Vector3(22.5, 45, 22.5)]
+"values": [Vector3(1, 2, 1), Vector3(1.5, 3, 1.5)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("pool_floatie_pivot:position")
+tracks/4/path = NodePath("juice_carton_pivot:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, -0.22782564, 0), Vector3(0, 6.243298, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 3.023473, 0)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("pool_floatie_pivot:scale")
+tracks/5/path = NodePath("juice_carton_pivot:scale")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(1, 2, 1), Vector3(1.5, 3, 1.5)]
+"values": [Vector3(1, 1, 1), Vector3(1.5, 1.5, 1.5)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("juice_carton_pivot:position")
+tracks/6/path = NodePath("magnifying_glass_pivot:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 3.023473, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 7.094222, 0)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("juice_carton_pivot:scale")
+tracks/7/path = NodePath("magnifying_glass_pivot:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -392,10 +392,6 @@ transform = Transform3D(2, 0, 0, 0, -8.742278e-08, 2, 0, -2, -8.742278e-08, 0, 0
 visible = false
 text = "type"
 
-[node name="Magnifying Glass" parent="." instance=ExtResource("4_jnjjj")]
-transform = Transform3D(10, 0, 0, 0, 6.11158, -9.5216675, 0, 19.043335, 3.05579, 0, 0.072044134, 0)
-visible = false
-
 [node name="handcuffs" parent="." instance=ExtResource("5_abcde")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 visible = false
@@ -409,10 +405,16 @@ transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, -0.22782564, 0)
 visible = false
 
 [node name="pool_floatie" parent="pool_floatie_pivot" instance=ExtResource("6_jnjjj")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.38945195, 0, -3.7383323)
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.5432906, 0, -3.8830047)
 
 [node name="juice_carton_pivot" type="Node3D" parent="."]
 visible = false
 
 [node name="juice_carton" parent="juice_carton_pivot" instance=ExtResource("3_00gwf")]
 transform = Transform3D(10, 0, 0, 0, 20, 0, 0, 0, 10, 0.7107878, 5.417548, -2.0713658)
+
+[node name="magnifying_glass_pivot" type="Node3D" parent="."]
+visible = false
+
+[node name="mag_glass" parent="magnifying_glass_pivot" instance=ExtResource("6_i5kin")]
+transform = Transform3D(1.4125981, 0.4168971, 0.62511086, -0.72949314, 0.44202846, 1.3536806, 0.18001787, -1.4801377, 0.5803326, -1.0037329, 0, -1.1462265)

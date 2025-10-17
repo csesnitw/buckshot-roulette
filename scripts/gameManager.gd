@@ -190,8 +190,8 @@ func spawnUpgradesOnTable():
 			elif not child.disappear_animation_playing:
 				child.queue_free()
 	
-	var tableX: float = 1.5
-	var tableZ: float = 1.5
+	var tableX: float = 2
+	var tableZ: float = 2
 	var total_upgrades = gameState.upgradesOnTable.size()
 	if total_upgrades == 0:
 		return
@@ -228,14 +228,11 @@ func spawnUpgradesOnTable():
 		rendered_animation_object[gameState.upgradesOnTable[i]] = upgradeInstance
 		var row: int = x / columns   
 		var col: int = x % columns
-		var y = 0.6
 		if upgradeInstance.is_selected:
 			upgradeInstance.get_node("AnimationPlayer").play("pop up")
-			#upgradeInstance.scale = upgradeInstance.scale*1.5
-			#y += 0.2
 		var pos = Vector3(
 			startX + col * spacingX,
-			y,
+			0.53,
 			startZ + row * spacingZ
 		)
 
