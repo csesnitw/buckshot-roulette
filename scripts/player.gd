@@ -48,12 +48,12 @@ func _process(delta):
 		var init_target_index = current_target_index
 		current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
 		update_target()
-		rotate_gun(init_target_index)
+		#rotate_gun(init_target_index)
 	elif Input.is_action_just_pressed("ui_right"):
 		var init_target_index = current_target_index
 		current_target_index = (current_target_index + 1) % targets.size()
 		update_target()
-		rotate_gun(init_target_index)
+		#rotate_gun(init_target_index)
 	elif Input.is_action_just_pressed("ui_select"):
 		if targets.size() == 0:
 			return
@@ -100,11 +100,16 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	current_target_index = (current_target_index + 1) % targets.size()
 	update_target()
 	
+	
 func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		target_changed.emit(target)
+		if target:
+				gun.look_at(target.global_transform.origin)
+				gun.rotate_object_local(Vector3.RIGHT, 0.4) # 			Tilt down slightly
 		if target is Player:
+
 			#if target == self:
 				#pass
 				#animation_player.play("aim_self")
@@ -201,10 +206,10 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 	return filtered_array
 @onready var animationPlayer = $AnimationPlayer
 
-func rotate_gun(init_target_index):
-	var target = targets[current_target_index]
-	if target is Player:
-		animationPlayer.play(relative_position(targets[init_target_index]) + " to " + relative_position(target))
+#func rotate_gun(init_target_index):
+	#var target = targets[current_target_index]
+	#if target is Player:
+		#animationPlayer.play(relative_position(targets[init_target_index]) + " to " + relative_position(target))
 		
 		
 const LOCATIONS_4_PLAYERS = ["self","right","front","left"]

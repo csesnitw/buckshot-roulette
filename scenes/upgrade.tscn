@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://by123b1em4ndv" path="res://assets/upgrades/Cup Tea.glb" id="2_346kr"]
 [ext_resource type="PackedScene" uid="uid://d0tyacsudhgqy" path="res://assets/upgrades/juice_carton.glb" id="3_00gwf"]
 [ext_resource type="PackedScene" uid="uid://bhsdiutjs374s" path="res://assets/upgrades/Magnifying Glass.glb" id="4_jnjjj"]
-[ext_resource type="PackedScene" uid="uid://some_new_uid" path="res://assets/handcuffs.glb" id="5_abcde"]
+[ext_resource type="PackedScene" uid="uid://dd2ux62urrkb5" path="res://assets/handcuffs.glb" id="5_abcde"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xsw34"]
 albedo_color = Color(1, 0, 1, 1)

@@ -21,6 +21,7 @@ transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.09145284, -0.83824
 
 [node name="Gun" parent="." instance=ExtResource("3_iseux")]
 transform = Transform3D(0.28694412, -0.05383363, 0.9559535, 0.42519993, 0.9013199, -0.07687335, -0.85787517, 0.4287265, 0.28164786, -0.10501099, -0.12751728, -0.0064697266)
+visible = false
 
 [node name="Upgrade" parent="." instance=ExtResource("4_ln7be")]
 transform = Transform3D(-1.0927847e-08, 0, 0.25, 0, 0.25, 0, -0.25, 0, -1.0927847e-08, 1.9140401, -4.867008, 5.3526034)

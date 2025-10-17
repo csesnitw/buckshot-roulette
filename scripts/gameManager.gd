@@ -22,9 +22,7 @@ var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
 var current_target_node: Node3D = null
 
 func _process(delta): 
-	if current_target_node:
-		gun.look_at(current_target_node.global_transform.origin)
-		gun.rotate_object_local(Vector3.RIGHT, 0.4) # Tilt down slightly
+	pass
 
 # Game Logic functions
 func initMatch() -> void:
