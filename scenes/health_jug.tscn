@@ -1,12 +1,78 @@
-[gd_scene load_steps=4 format=3 uid="uid://by5ihoam0sbtf"]
+[gd_scene load_steps=8 format=3 uid="uid://by5ihoam0sbtf"]
 
 [ext_resource type="PackedScene" uid="uid://6agnsgalptqm" path="res://assets/Beer Mug.glb" id="1_2f4cc"]
 [ext_resource type="Script" uid="uid://knsx36lkudvb" path="res://scripts/jug.gd" id="1_lol5i"]
+[ext_resource type="PackedScene" uid="uid://d0tyacsudhgqy" path="res://assets/upgrades/juice_carton.glb" id="2_gysk3"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_2f4cc"]
 
+[sub_resource type="Animation" id="Animation_xw4cu"]
+resource_name = "pour_juice"
+length = 1.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("juice_carton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667, 0.76666665, 1.1666666, 1.3333334, 1.5333333, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.8013966, 2.1113598, 1.9998744), Vector3(0.2, 2.618, 1.53), Vector3(-0.4, 2.826, 0.846), Vector3(-1, 2.64, -0.018), Vector3(-1, 2.907, 0.298), Vector3(-1, 2.64, -0.018), Vector3(-1, 2.907, 0.298)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("juice_carton:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.36666667, 0.76666665, 1.1666666),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.5977442, 0), Vector3(0.017567892, 1.5912316, -0.70999515), Vector3(0.026815806, 1.5734612, -1.4717308), Vector3(0.018250527, 1.5509683, -2.3976877)]
+}
+
+[sub_resource type="Animation" id="Animation_kmodk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("juice_carton:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.8013966, 2.1113598, 1.9998744)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("juice_carton:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5977442, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vy8y3"]
+_data = {
+&"RESET": SubResource("Animation_kmodk"),
+&"pour_juice": SubResource("Animation_xw4cu")
+}
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_lol5i")
+
+[node name="juice_carton" parent="." instance=ExtResource("2_gysk3")]
+transform = Transform3D(-0.080833934, 0, 2.9989114, 0, 3.000002, 0, -2.9989116, 0, -0.08083393, 0.8013966, 2.1113598, 1.9998744)
+visible = false
 
 [node name="Beer Mug" parent="." instance=ExtResource("1_2f4cc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45144427, -1.1920929e-07, -0.9783907)
@@ -15,3 +81,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45144427, -1.1920929e-07, 
 transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -0.55385345, 0.3047974, -0.97372437)
 visible = false
 mesh = SubResource("CylinderMesh_2f4cc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_vy8y3")
+}
