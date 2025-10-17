@@ -1,0 +1,111 @@
+[gd_scene load_steps=2 format=3 uid="uid://c238es3lsaoxr"]
+
+[ext_resource type="PackedScene" uid="uid://bnaexcfec4ct3" path="res://assets/wallChandelier.glb" id="1_6iikm"]
+
+[node name="Chandelier" type="Node3D"]
+
+[node name="chandelier" parent="." instance=ExtResource("1_6iikm")]
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.006853506, 0.36504883, 0.3101373)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_volumetric_fog_energy = 0.0
+light_cull_mask = 4294966273
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26218545, 0.36504883, 0.22406524)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3384431, 0.36504883, -0.034658134)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2491399, 0.36504883, -0.26865545)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015031815, 0.36504883, -0.4002203)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22702639, 0.36504883, -0.3059028)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.33406818, 0.36504883, -0.04800901)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0
+
+[node name="OmniLight3D10" type="OmniLight3D" parent="chandelier"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21612854, 0.36504883, 0.17143807)
+layers = 1047553
+light_color = Color(1, 0.54901963, 0.08627451, 1)
+light_energy = 0.1
+light_volumetric_fog_energy = 0.0
+shadow_bias = 0.05
+shadow_normal_bias = 0.05
+shadow_transmittance_bias = 0.1
+shadow_opacity = 0.8
+shadow_blur = 0.5
+omni_range = 4.0

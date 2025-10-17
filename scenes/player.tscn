@@ -77,7 +77,7 @@ anchor_bottom = 1.0
 offset_top = 0.22399902
 offset_right = 0.29599
 grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 
 [node name="TopHUD" type="HBoxContainer" parent="CanvasLayer"]
 anchors_preset = 5

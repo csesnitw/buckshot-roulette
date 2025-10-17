@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://b461jclehbokv"]
+[gd_scene load_steps=10 format=3 uid="uid://b461jclehbokv"]
 
 [ext_resource type="PackedScene" uid="uid://2xoswu4yv1c6" path="res://assets/chairs/green_chair.glb" id="1_vjl2i"]
 [ext_resource type="PackedScene" uid="uid://bunlc7whar6mw" path="res://assets/chairs/blue_chair.glb" id="2_67vji"]
 [ext_resource type="PackedScene" uid="uid://cp8e1enktalqb" path="res://assets/chairs/red_chair.glb" id="3_jry6c"]
 [ext_resource type="PackedScene" uid="uid://bfphq4r8mkyg6" path="res://assets/chairs/yellow_chair.glb" id="4_bhh2s"]
+[ext_resource type="PackedScene" uid="uid://c44u3o7a8agm4" path="res://scenes/candlebra.tscn" id="5_u03e6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64sdq"]
 metallic = 1.0
@@ -17,7 +18,7 @@ height = 0.99
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibia0"]
 albedo_color = Color(0.5882353, 0.29411766, 0, 1)
 metallic_specular = 0.11
-roughness = 0.32
+roughness = 0.65
 
 [sub_resource type="BoxMesh" id="BoxMesh_xnpc2"]
 material = SubResource("StandardMaterial3D_ibia0")
@@ -26,23 +27,33 @@ size = Vector3(3, 0.1, 3)
 [node name="table" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0318356, 0, 1)
+cast_shadow = 2
+gi_mode = 2
 mesh = SubResource("CylinderMesh_ormek")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+cast_shadow = 2
+gi_mode = 2
 mesh = SubResource("CylinderMesh_ormek")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+cast_shadow = 2
+gi_mode = 2
 mesh = SubResource("CylinderMesh_ormek")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+cast_shadow = 2
+gi_mode = 2
 mesh = SubResource("CylinderMesh_ormek")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4492398, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004903376, 0.44923967, 0.002568841)
+cast_shadow = 2
+gi_mode = 2
 mesh = SubResource("BoxMesh_xnpc2")
 
 [node name="green_chair" parent="." instance=ExtResource("1_vjl2i")]
@@ -56,3 +67,6 @@ transform = Transform3D(-2.1855694e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.1855694e-
 
 [node name="yellow_chair" parent="." instance=ExtResource("4_bhh2s")]
 transform = Transform3D(0.108867206, 0, 0.488004, 0, 0.5, 0, -0.488004, 0, 0.108867206, 1.073, -0.272, -1.2647481)
+
+[node name="Candlebra" parent="." instance=ExtResource("5_u03e6")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.0062350035, 0.512142, 0.042577118)

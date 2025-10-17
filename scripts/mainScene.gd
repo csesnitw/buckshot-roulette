@@ -45,7 +45,7 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	hud.name = "HUD"
 
 	var label = Label.new()
-	label.add_theme_color_override("font_color", Color(0, 0, 0))
+	label.add_theme_color_override("font_color", Color(255, 255, 255))
 	label.name = "TargetLabel"
 	label.anchor_left = 0
 	label.anchor_top = 1
