@@ -173,17 +173,21 @@ func generateRandomUpgrades():
 		gameState.upgradesOnTable.append(newUpgrade)
 
 func animate_removal(child):
-	child.get_node("AnimationPlayer").play("disappear")
-	await get_tree().create_timer(0.5).timeout
-	child.queue_free()
+	if(is_instance_valid(child)):
+		child.disappear_animation_playing = true
+		child.get_node("AnimationPlayer").play("disappear")
+		await get_tree().create_timer(0.5).timeout
+		child.queue_free()
+	else:
+		print("deselect upgrade animation error")
 
 # curr plan is to recall this every upgrade turn
 func spawnUpgradesOnTable():
 	for child in table.get_children():
 		if child is Upgrade:
-			if child.was_picked == true:
+			if child.was_picked == true and not child.disappear_animation_playing:
 				animate_removal(child)
-			else:
+			elif not child.disappear_animation_playing:
 				child.queue_free()
 	
 	var tableX: float = 1.5
