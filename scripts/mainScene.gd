@@ -17,10 +17,13 @@ var player_windows: Array[Window] = []
 var num_players: int = 0
 var gameManRef
 
+func get_player_windows():
+	return [get_window()] + player_windows
+
 func _ready():
-	two_player_button.pressed.connect(func(): setupPlayers(gameScene2, 2))
-	threePlayerButton.pressed.connect(func(): setupPlayers(gameScene3, 3))
-	fourPlayerButton.pressed.connect(func(): setupPlayers(gameScene4, 4))
+	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
+	threePlayerButton.pressed.connect(func(): await setupPlayers(gameScene3, 3))
+	fourPlayerButton.pressed.connect(func(): await setupPlayers(gameScene4, 4))
 
 
 func createWindow(game, playerName: String, title: String) -> Window:
@@ -99,7 +102,6 @@ func setupPlayers(scene: PackedScene, playerCount: int):
 	game.get_node("Player1/RotPivot/GunAndCameraPivot/Camera3D").current = true
 	get_window().title = "Player 1"
 	print("hello")
-	
 
 	# Create windows for players 2, 3, 4
 	for i in range(2, playerCount + 1):
