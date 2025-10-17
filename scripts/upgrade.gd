@@ -3,7 +3,12 @@ class_name Upgrade extends Node3D
 enum UpgradeType {cigarette, beer, magGlass, handcuff, expiredMed, inverter, 
 				  burnerPhone, handSaw, adrenaline, disableUpgrade, unoRev, wildCard}
 
-const UPGRADEMESHMAP = {"cigarette": "juice_carton", "beer": "Cup Tea", "magGlass": "Magnifying Glass", "handcuff": "handcuffs"}
+const UPGRADEMESHMAP = {
+ "cigarette": "juice_carton_pivot",
+ "beer": "Cup Tea",
+ "magGlass": "Magnifying Glass",
+ "handcuff": "pool_floatie_pivot",
+}
 var is_selected : bool = false
 var upgrade_type: UpgradeType
 var pos: Vector3 # ts is for players to get pos of
