@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
-[ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="2_3vyb7"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
+[ext_resource type="PackedScene" uid="uid://dwtj8vgnbcjky" path="res://scenes/blob.tscn" id="4_dqkch"]
 [ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="4_qhqgy"]
 
 [sub_resource type="Theme" id="Theme_g2els"]
@@ -149,16 +149,20 @@ transform = Transform3D(-1, 8.881784e-15, -8.7422784e-08, -5.5848723e-08, 0.7693
 [node name="RotPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.7693996, 0.63876784, 0, -0.63876784, 0.7693996, 0, 46.103, 0)
 
-[node name="Gun" parent="RotPivot" instance=ExtResource("3_gun")]
-transform = Transform3D(19.955708, -1.3239423, -0.12676068, 1.2505177, 19.326885, -4.990695, 0.45286316, 4.971722, 19.366898, 6.266596, -11.157049, -21.127773)
+[node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="RotPivot/Gun"]
+[node name="Gun" parent="RotPivot/GunAndCameraPivot" instance=ExtResource("3_gun")]
+transform = Transform3D(14.664694, 0, 0, 0, 15.255916, -12.170016, 0, 12.306899, 15.086235, 6.266596, -7.4487743, -25.594395)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RotPivot/GunAndCameraPivot/Gun"]
 libraries = {
 &"": SubResource("AnimationLibrary_o7vfb")
 }
 
-[node name="Camera3D" type="Camera3D" parent="RotPivot"]
+[node name="Camera3D" type="Camera3D" parent="RotPivot/GunAndCameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, -2.9802322e-08, 0, 2.9802322e-08, 0.99999994, 0, 0, 0)
 
-[node name="ArmsMesh" parent="RotPivot" instance=ExtResource("2_3vyb7")]
-transform = Transform3D(-1, 0, -8.742278e-08, -5.584286e-08, 0.76939905, 0.6387677, 6.7263e-08, 0.6387677, -0.76939905, 0, -33.854843, -31.396736)
+[node name="blob" parent="RotPivot" instance=ExtResource("4_dqkch")]
+transform = Transform3D(-19.385511, 0, 0.043984674, 0.028095992, 14.91524, 12.38284, -0.033841785, 12.382872, -14.915202, -0.95022964, -49.41335, -13.268433)
+
+[editable path="RotPivot/blob"]

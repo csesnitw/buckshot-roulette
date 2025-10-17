@@ -64,7 +64,7 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	player.target_label = sv.get_node("HUD/TargetLabel")
 	###
 
-	var cam = game.get_node(playerName + "/RotPivot/Camera3D")
+	var cam = game.get_node(playerName + "/RotPivot/GunAndCameraPivot/Camera3D")
 	var cam_global = cam.global_transform
 	cam.get_parent().remove_child(cam)
 	gameManRef.fuckedUpPlayerToViewportMap[player] = cam
@@ -96,7 +96,7 @@ func setupPlayers(scene: PackedScene, playerCount: int):
 	add_child(game)
 
 	# Set player 1 view
-	game.get_node("Player1/RotPivot/Camera3D").current = true
+	game.get_node("Player1/RotPivot/GunAndCameraPivot/Camera3D").current = true
 	get_window().title = "Player 1"
 	print("hello")
 	

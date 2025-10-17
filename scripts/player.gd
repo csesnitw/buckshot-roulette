@@ -23,9 +23,10 @@ var pendingUpgrade: Upgrade = null
 @onready var winnerLab: Label = $CanvasLayer/Winner
 @onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
-@onready var gun: Node3D = $RotPivot/Gun
-@onready var animation_player: AnimationPlayer = $Gun/AnimationPlayer
+@onready var gun: Node3D = $RotPivot/GunAndCameraPivot/Gun
+@onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer
 @onready var health_jug = $HealthJug
+@onready var blob_animation_player = $RotPivot/blob/AnimationPlayer
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -36,13 +37,19 @@ func _ready():
 	hp = game_manager.maxHP
 	target_label.visible = false
 	health_jug.create(game_manager.maxHP)
+	blob_animation_player.play("idle")
+	blob_animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
+	
+func _on_animation_finished(anim_name):
+	if anim_name == "getting_shot":
+		blob_animation_player.play("idle")
 	
 func _process(delta):
 	if not is_my_turn:
 		return
 	
 	for player in game_state.alivePlayers:
-		player.get_node("RotPivot/Gun").visible = false
+		player.get_node("RotPivot/GunAndCameraPivot/Gun").visible = false
 	gun.visible = true
 	if Input.is_action_just_pressed("ui_left"):
 		var init_target_index = current_target_index
@@ -109,15 +116,13 @@ func update_target():
 			game_manager.update_target_animation(target.get_node("target_for_gun").global_transform.origin)
 		if target is Player:
 
-			#if target == self:
-				#pass
-				#animation_player.play("aim_self")
-			#else:
-				#pass
-				#animation_player.play("aim_forward")
+			if target == self:
+				animation_player.play("aim_self")
+			else:
+				animation_player.play("aim_forward")
 			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
-			#animation_player.play("aim_forward")
+			animation_player.play("aim_forward")
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
@@ -158,6 +163,11 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 		else:
 			targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		update_target()
+	else:
+		if self in game_state.handCuffedPlayers:
+			blob_animation_player.play("handcuffed")
+		else:
+			blob_animation_player.play("idle")
 
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
@@ -167,7 +177,7 @@ func addInventory(upgrade: Upgrade) -> void:
 	upgrade.position.z += 3
 	var cam = Camera3D.new()
 	upgrade.add_child(cam)
-	cam.make_current()
+	cam.make_current()	
 
 func removeInventory(upgrade: Upgrade) -> bool:
 	if upgrade in inventory:
@@ -181,6 +191,8 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
+	if amount > 0:
+		blob_animation_player.play("getting_shot")
 	for i in amount:
 		health_jug.drink()
 	hp -= amount

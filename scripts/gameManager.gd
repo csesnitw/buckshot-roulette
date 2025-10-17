@@ -106,7 +106,10 @@ func endTurn() -> void:
 		
 	# maybe we could allow players to use upgrades like handcuffs during the upgrade pickup sesh?
 	while gameState.alivePlayers[currPlayerTurnIndex] in gameState.handCuffedPlayers:
-		gameState.handCuffedPlayers.erase(gameState.alivePlayers[currPlayerTurnIndex]) # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
+		var handcuffed_player = gameState.alivePlayers[currPlayerTurnIndex]
+		gameState.handCuffedPlayers.erase(handcuffed_player) # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
+		var anim_player = handcuffed_player.get_node("RotPivot/blob/AnimationPlayer")
+		anim_player.play("idle")
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
 	
 	# once all turn loggic is done with, send a signal to all players to refetch gameState
@@ -347,6 +350,8 @@ func useMagGlass(callerPlayerRef: Player) -> void:
 	print(shotgunShells[0]) # replace with animation for callerPlayerRef
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
+	var anim_player = targetPlayerRef.get_node("RotPivot/blob/AnimationPlayer")
+	anim_player.play("handcuffed")
 	gameState.handCuffedPlayers.append(targetPlayerRef)
 
 func useExpiredMed(callerPlayerRef: Player) -> void:
@@ -395,7 +400,7 @@ func update_target_animation(target_pos):
 		me.rotation = start_rot  # reset
 		tween = get_tree().create_tween()
 		tween.tween_property(me, "rotation", end_rot, GUN_ROTATION_DURATION)
-	var pivot = player.get_node("RotPivot")
+	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
 	start_rot = pivot.rotation
 	pivot.look_at(target_pos, Vector3.UP)
 	end_rot = pivot.rotation
