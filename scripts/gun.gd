@@ -1,5 +1,7 @@
 extends Node3D
 
+const ROTATION_SPEED: int = 5
+
 var float_speed = 1.0
 var float_amplitude = 0.1
 var time_passed = 0.0

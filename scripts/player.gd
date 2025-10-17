@@ -40,13 +40,20 @@ func _ready():
 func _process(delta):
 	if not is_my_turn:
 		return
-		
+	
+	for player in game_state.alivePlayers:
+		player.get_node("Gun").visible = false
+	gun.visible = true
 	if Input.is_action_just_pressed("ui_left"):
+		var init_target_index = current_target_index
 		current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
 		update_target()
+		#rotate_gun(init_target_index)
 	elif Input.is_action_just_pressed("ui_right"):
+		var init_target_index = current_target_index
 		current_target_index = (current_target_index + 1) % targets.size()
 		update_target()
+		#rotate_gun(init_target_index)
 	elif Input.is_action_just_pressed("ui_select"):
 		if targets.size() == 0:
 			return
@@ -93,18 +100,25 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	current_target_index = (current_target_index + 1) % targets.size()
 	update_target()
 	
+	
 func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		target_changed.emit(target)
+		if target:
+				gun.look_at(target.global_transform.origin)
+				gun.rotate_object_local(Vector3.RIGHT, 0.4) # 			Tilt down slightly
 		if target is Player:
-			if target == self:
-				animation_player.play("aim_self")
-			else:
-				animation_player.play("aim_forward")
+
+			#if target == self:
+				#pass
+				#animation_player.play("aim_self")
+			#else:
+				#pass
+				#animation_player.play("aim_forward")
 			target_label.set_text("Target: " + target.name)
 		elif target is Upgrade:
-			animation_player.play("aim_forward")
+			#animation_player.play("aim_forward")
 			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
@@ -192,3 +206,31 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 		if item != null:
 			filtered_array.append(item)
 	return filtered_array
+@onready var animationPlayer = $AnimationPlayer
+
+#func rotate_gun(init_target_index):
+	#var target = targets[current_target_index]
+	#if target is Player:
+		#animationPlayer.play(relative_position(targets[init_target_index]) + " to " + relative_position(target))
+		
+		
+const LOCATIONS_4_PLAYERS = ["self","right","front","left"]
+
+func relative_position(target):
+	if game_state.alivePlayers.size()==4:
+		var target_index = 0
+		for player in game_state.alivePlayers:
+			if player == target:
+				break
+			target_index+=1
+		var self_index = 0
+		for player in game_state.alivePlayers:
+			if player == self:
+				break
+			self_index+=1
+		return LOCATIONS_4_PLAYERS[(target_index - self_index + game_state.alivePlayers.size())%game_state.alivePlayers.size()]
+	elif game_state.alivePlayers.size()==2:
+		if target == self:
+			return "self"
+		else:
+			return "front"

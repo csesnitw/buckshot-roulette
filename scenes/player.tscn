@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=15 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://3oofuonw05r8" path="res://assets/first_person_arms.glb" id="2_3vyb7"]
@@ -63,12 +63,68 @@ cache/0/64/0/underline_position = 0.0
 cache/0/64/0/underline_thickness = 0.0
 cache/0/64/0/scale = 1.0
 
+[sub_resource type="Animation" id="Animation_dqkch"]
+resource_name = "self to front"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Gun:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.46666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.28740403, -1.0219995, 0.41385767), Vector3(-0.064577185, 3.1573007, 0.010471975)]
+}
+
+[sub_resource type="Animation" id="Animation_qlg0r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Gun:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.4308199, -1.1073259, 0.5535742)]
+}
+
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "front to self"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Gun:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.064577185, 3.1573007, 0.010471975), Vector3(0.28740403, -1.0219995, 0.41385767)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tuyoq"]
+_data = {
+&"RESET": SubResource("Animation_qlg0r"),
+&"front to self": SubResource("Animation_tuyoq"),
+&"self to front": SubResource("Animation_dqkch")
+}
+
 [node name="Player" type="Node3D"]
 script = ExtResource("1_g2els")
 
 [node name="ArmsMesh" parent="." instance=ExtResource("2_3vyb7")]
 
 [node name="Gun" parent="." instance=ExtResource("3_gun")]
+transform = Transform3D(3.6779106, -11.056001, -16.25539, 9.5538225, 15.458433, -8.352317, 17.181288, -6.2291102, 8.124095, -21.7879, 29.890797, -5.738985)
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Gun"]
 libraries = {
@@ -154,3 +210,8 @@ theme_override_font_sizes/font_size = 24
 
 [node name="HealthJug" parent="." instance=ExtResource("4_qhqgy")]
 transform = Transform3D(-2.6226832e-07, 0, 6, 0, 6, 0, -6, 0, -2.6226832e-07, -16.181383, 13.413353, 4.2951813)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_tuyoq")
+}
