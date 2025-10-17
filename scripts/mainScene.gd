@@ -15,6 +15,7 @@ extends Node
 var current_game_instance: Node = null
 var player_windows: Array[Window] = []
 var num_players: int = 0
+var gameManRef
 
 func _ready():
 	two_player_button.pressed.connect(func(): setupPlayers(gameScene2, 2))
@@ -63,9 +64,10 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	player.target_label = sv.get_node("HUD/TargetLabel")
 	###
 
-	var cam = game.get_node(playerName + "/Camera3D")
+	var cam = game.get_node(playerName + "/RotPivot/Camera3D")
 	var cam_global = cam.global_transform
 	cam.get_parent().remove_child(cam)
+	gameManRef.fuckedUpPlayerToViewportMap[player] = cam
 	sv.add_child(cam)
 	cam.global_transform = cam_global
 	cam.current = true
@@ -81,14 +83,23 @@ func setupPlayers(scene: PackedScene, playerCount: int):
 
 	# Store the number of players
 	num_players = playerCount
-
 	var game = scene.instantiate()
+	gameManRef = game.get_node("GameManager")
+	#print(gameManRef)
+	# DO NOT TOUCH ALSO ENSURE ROTPIVOT AND CAMERA HAVE SAME TRANSFORM
+	for i in range(playerCount):
+		gameManRef.fuckedUpPlayerToViewportMap[game.get_node("Player" + str(i))] = game.get_node("Player" + str(i) + "/RotPivot/Camera3D")
+	
+	
+	# AFTET THIS POINT SHIT STOPS WORKING LITERALLY GHOST CODE
 	current_game_instance = game  # Store reference
 	add_child(game)
 
 	# Set player 1 view
-	game.get_node("Player1/Camera3D").current = true
+	game.get_node("Player1/RotPivot/Camera3D").current = true
 	get_window().title = "Player 1"
+	print("hello")
+	
 
 	# Create windows for players 2, 3, 4
 	for i in range(2, playerCount + 1):

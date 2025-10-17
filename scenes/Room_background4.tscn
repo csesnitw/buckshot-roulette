@@ -11,16 +11,16 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Player1" parent="." instance=ExtResource("2_nfuwm")]
-transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
+transform = Transform3D(-1.3113416e-09, 0, 0.03, 0, 0.03, 0, -0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
 
 [node name="Player2" parent="." instance=ExtResource("2_nfuwm")]
-transform = Transform3D(-1.3113416e-09, 0, 0.03, 0, 0.03, 0, -0.03, 0, -1.3113416e-09, -1.481, -0.838, -0.023)
+transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, -1.481, -0.838, -0.023)
 
 [node name="Player3" parent="." instance=ExtResource("2_nfuwm")]
-transform = Transform3D(-0.029996429, 0, 0.00046284412, 0, 0.03, 0, -0.00046284412, 0, -0.029996429, -0.022660218, -0.8382463, 1.457594)
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.022660218, -0.8382463, 1.457594)
 
 [node name="Player4" parent="." instance=ExtResource("2_nfuwm")]
-transform = Transform3D(0.029996429, 0, -0.0004628415, 0, 0.03, 0, 0.0004628415, 0, 0.029996429, 0.02261587, -0.838, -1.5040153)
+transform = Transform3D(-0.03, 0, -2.6226832e-09, 0, 0.03, 0, 2.6226832e-09, 0, -0.03, 0.02261587, -0.838, -1.5040153)
 
 [node name="Gun" parent="." instance=ExtResource("3_u5oex")]
 transform = Transform3D(0.28694412, -0.05383363, 0.9559535, 0.42519993, 0.9013199, -0.07687335, -0.85787517, 0.4287265, 0.28164786, -0.10501099, -0.12751728, -0.0064697266)

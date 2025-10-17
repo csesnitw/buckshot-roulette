@@ -11,10 +11,10 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Player1" parent="." instance=ExtResource("1_50hkl")]
-transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
+transform = Transform3D(-1.3113416e-09, 0, 0.03, 0, 0.03, 0, -0.03, 0, -1.3113416e-09, 1.4809556, -0.8382463, -0.023421288)
 
 [node name="Player2" parent="." instance=ExtResource("1_50hkl")]
-transform = Transform3D(-1.3113416e-09, 0, 0.03, 0, 0.03, 0, -0.03, 0, -1.3113416e-09, -1.481, -0.838, -0.023)
+transform = Transform3D(-1.3113416e-09, 0, -0.03, 0, 0.03, 0, 0.03, 0, -1.3113416e-09, -1.481, -0.838, -0.023)
 
 [node name="Gun" parent="." instance=ExtResource("2_tg4cb")]
 transform = Transform3D(0.29914537, -0.013100548, 0.95363635, 0.2860651, 0.95466113, -0.07662091, -0.90981346, 0.29585862, 0.28946313, -1.3362408, -0.1457668, -0.087890625)

@@ -23,7 +23,7 @@ var pendingUpgrade: Upgrade = null
 @onready var winnerLab: Label = $CanvasLayer/Winner
 @onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
-@onready var gun: Node3D = $Gun
+@onready var gun: Node3D = $RotPivot/Gun
 @onready var animation_player: AnimationPlayer = $Gun/AnimationPlayer
 @onready var health_jug = $HealthJug
 
@@ -42,7 +42,7 @@ func _process(delta):
 		return
 	
 	for player in game_state.alivePlayers:
-		player.get_node("Gun").visible = false
+		player.get_node("RotPivot/Gun").visible = false
 	gun.visible = true
 	if Input.is_action_just_pressed("ui_left"):
 		var init_target_index = current_target_index
@@ -105,9 +105,8 @@ func update_target():
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		target_changed.emit(target)
-		if target:
-				gun.look_at(target.global_transform.origin)
-				gun.rotate_object_local(Vector3.RIGHT, 0.4) # 			Tilt down slightly
+		if target is Player:
+			game_manager.update_target_animation(target.get_node("target_for_gun").global_transform.origin)
 		if target is Player:
 
 			#if target == self:
