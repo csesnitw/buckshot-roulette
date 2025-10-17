@@ -1,6 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwtj8vgnbcjky"]
+[gd_scene load_steps=9 format=3 uid="uid://dwtj8vgnbcjky"]
 
 [ext_resource type="PackedScene" uid="uid://bl5pneo77egaa" path="res://assets/Blobs/blob.glb" id="1_eo8br"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eo8br"]
+albedo_color = Color(0.21374282, 0.55293393, 0.62703633, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngma2"]
+next_pass = SubResource("StandardMaterial3D_eo8br")
 
 [sub_resource type="Animation" id="Animation_ngma2"]
 length = 0.001
@@ -231,6 +237,9 @@ bones/3/position = Vector3(-0.06354552, 0.6209381, -0.04198622)
 bones/3/scale = Vector3(1.0000017, 1, 1)
 bones/5/position = Vector3(0.07434928, 0.5562889, -0.034147173)
 bones/5/scale = Vector3(1.0000005, 1.0000004, 1)
+
+[node name="model" parent="Armature/Skeleton3D" index="0"]
+material_override = SubResource("StandardMaterial3D_ngma2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
 libraries = {

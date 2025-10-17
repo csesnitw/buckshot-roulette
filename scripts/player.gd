@@ -15,6 +15,7 @@ var is_my_turn: bool = false
 var game_state
 var selectingTarget: bool = false
 var pendingUpgrade: Upgrade = null
+var is_playing_animation: bool = true
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
@@ -27,6 +28,7 @@ var pendingUpgrade: Upgrade = null
 @onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer
 @onready var health_jug = $HealthJug
 @onready var blob_animation_player = $RotPivot/blob/AnimationPlayer
+@onready var juice_animation_player = $JuiceAnimationPlayer
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -167,7 +169,8 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 		if self in game_state.handCuffedPlayers:
 			blob_animation_player.play("handcuffed")
 		else:
-			blob_animation_player.play("idle")
+			if !is_playing_animation:
+				blob_animation_player.play("idle")
 
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
@@ -191,13 +194,20 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
-	if amount > 0:
-		blob_animation_player.play("getting_shot")
-	for i in amount:
-		health_jug.drink()
 	hp -= amount
 	if hp < 0:
 		hp = 0
+	if amount > 0:
+		blob_animation_player.play("RESET")
+		is_playing_animation = true
+		blob_animation_player.play("getting_shot")
+	for i in amount:
+		health_jug.drink()
+		juice_animation_player.play("drink")
+		await get_tree().create_timer(1).timeout
+		juice_animation_player.play_backwards("drink")
+		await get_tree().create_timer(1).timeout
+	
 
 # Heal the player
 func heal(amount: int, max_hp: int) -> void:
