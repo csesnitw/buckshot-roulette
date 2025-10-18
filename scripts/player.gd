@@ -21,7 +21,7 @@ var is_playing_animation: bool = true
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
 @onready var gun: Node3D = $RotPivot/GunAndCameraPivot/Gun
-@onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer
+@onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer2
 @onready var health_jug = $HealthJug
 @onready var blob_animation_player = $RotPivot/blob/AnimationPlayer
 @onready var juice_animation_player = $JuiceAnimationPlayer
@@ -43,6 +43,7 @@ func _on_animation_finished(anim_name):
 		blob_animation_player.play("idle")
 	
 func _process(delta):
+	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
 		return
 	
