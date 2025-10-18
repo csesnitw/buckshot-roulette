@@ -310,9 +310,6 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 			blankShot = true
 			print("BLANK and shot urself")
 	var dmg = currBull * callerPlayerRef.power
-	if callerPlayerRef.hasDoubleDamage:
-		dmg *= 2
-		callerPlayerRef.hasDoubleDamage = false
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):
 		for i in range(gameState.alivePlayers.size()):
@@ -411,11 +408,8 @@ func useBurnerPhone(callerPlayerRef: Player) -> void:
 		print(0) # play animation showing empty shell 
 	
 func useHandSaw(callerPlayerRef: Player) -> void:
-	if !isFirstHandSawUsed:
-		isFirstHandSawUsed = true
-		callerPlayerRef.hasDoubleDamage = true
-		gun.saw_off_barrel()
-	# also need to show gun being sawed off
+	callerPlayerRef.power += 1
+	gun.saw_off_barrel()
 
 func _ready():
 	await get_tree().process_frame # fixed ghost code (seriously should use a signal probably)
