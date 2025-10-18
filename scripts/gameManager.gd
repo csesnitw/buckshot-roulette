@@ -21,6 +21,7 @@ var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx
 var fuckedUpPlayerToViewportMap: Dictionary = {}
 var windowRefs = []
 var current_target_node: Node3D = null
+var isFirstHandSawUsed: bool = false
 
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
@@ -304,6 +305,9 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 			blankShot = true
 			print("BLANK and shot urself")
 	var dmg = currBull * callerPlayerRef.power
+	if callerPlayerRef.hasDoubleDamage:
+		dmg *= 2
+		callerPlayerRef.hasDoubleDamage = false
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):
 		for i in range(gameState.alivePlayers.size()):
@@ -402,7 +406,10 @@ func useBurnerPhone(callerPlayerRef: Player) -> void:
 		print(0) # play animation showing empty shell 
 	
 func useHandSaw(callerPlayerRef: Player) -> void:
-	callerPlayerRef.power += 1
+	if !isFirstHandSawUsed:
+		isFirstHandSawUsed = true
+		callerPlayerRef.hasDoubleDamage = true
+		gun.saw_off_barrel()
 	# also need to show gun being sawed off
 
 func _ready():
