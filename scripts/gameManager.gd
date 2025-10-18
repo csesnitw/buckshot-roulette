@@ -38,7 +38,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 2
+	roundIndex = 0
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -64,6 +64,8 @@ func initRound() -> void:
 		generateRandomUpgrades() # doesnt work yet
 		spawnUpgradesOnTable()
 		currPlayerTurnIndex = randi() % gameState.alivePlayers.size() # added this here due to a weird bug with UI if any other player other than the main viewport starts the game
+		for playerRef in gameState.alivePlayers:
+			update_target_animation(playerRef, Vector3(0,-0.5,0))
 	gameState.currRoundIndex = roundIndex
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
@@ -205,7 +207,7 @@ func generateRandomUpgrades():
 		newUpgrade.upgrade_type = randomType
 		gameState.upgradesOnTable.append(newUpgrade)
 
-func animate_removal(child):
+func animate_removal(child): #for upgrade ddisappear animation
 	if(is_instance_valid(child)):
 		child.disappear_animation_playing = true
 		child.get_node("AnimationPlayer").play("disappear")
@@ -424,8 +426,7 @@ func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 			return false
 	return true
 
-func update_target_animation(target_pos):
-	var player = gameState.alivePlayers[currPlayerTurnIndex]
+func update_target_animation(player: Player, target_pos):
 	var start_rot
 	var end_rot
 	var tween
@@ -451,13 +452,23 @@ func update_target_animation(target_pos):
 	tween = get_tree().create_tween()
 	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
 	await get_tree().create_timer(GUN_ROTATION_DURATION).timeout
-	# Independent gun rotation logic (fixed)
-	_handle_gun_independent_rotation(player, target_pos)
+	# Independent gun rotation
+	# was needed in previous version, not needed anymore but lowkey looks cool, so I'll leave it here
+	start_rot = player.gun.rotation
+	player.gun.look_at(target_pos, Vector3.UP)
+	end_rot = player.gun.rotation
+	player.gun.rotation = start_rot
+	tween = get_tree().create_tween()
+	tween.tween_property(player.gun, "rotation", end_rot, GUN_ROTATION_DURATION)
 
 
-func self_target_animation(target_pos):
+func self_target_animation(player : Player):
 	var pivot = gameState.alivePlayers[currPlayerTurnIndex].gun
 	var start_rot = pivot.rotation
+	var target_pos
+	target_pos = fuckedUpPlayerToViewportMap[player].global_transform.origin
+		
+	print(fuckedUpPlayerToViewportMap)
 	pivot.look_at(target_pos, Vector3.UP)
 	var end_rot = pivot.rotation
 	pivot.rotation = start_rot
@@ -465,21 +476,3 @@ func self_target_animation(target_pos):
 
 	var tween = get_tree().create_tween()
 	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
-
-
-func _handle_gun_independent_rotation(player, target_pos: Vector3) -> void:
-	if not player.gun:
-		return
-
-	var gun_forward = (-player.gun.global_transform.basis.z).normalized()
-	var self_point = player.get_node("target_for_self_pointing").global_transform.origin
-	var self_dir = (self_point - player.gun.global_transform.origin).normalized()
-
-	# if gun is already pointing at self, rotate toward target_pos instead
-	#if gun_forward.dot(self_dir) > 0.6:
-	var start_rot = player.gun.rotation
-	player.gun.look_at(target_pos, Vector3.UP)
-	var end_rot = player.gun.rotation
-	player.gun.rotation = start_rot
-	var tween = get_tree().create_tween()
-	tween.tween_property(player.gun, "rotation", end_rot, GUN_ROTATION_DURATION)
