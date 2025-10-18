@@ -38,7 +38,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 0
+	roundIndex = 2
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -139,7 +139,7 @@ func endTurn() -> void:
 	while gameState.alivePlayers[currPlayerTurnIndex] in gameState.handCuffedPlayers:
 		var handcuffed_player = gameState.alivePlayers[currPlayerTurnIndex]
 		gameState.handCuffedPlayers.erase(handcuffed_player) # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
-		var anim_player = handcuffed_player.get_node("blob/AnimationPlayer")
+		var anim_player = handcuffed_player.get_node("RotPivot/blob/AnimationPlayer")
 		anim_player.play("idle")
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
 	
@@ -386,7 +386,7 @@ func useMagGlass(callerPlayerRef: Player) -> void:
 	print(shotgunShells[0]) # replace with animation for callerPlayerRef
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	var anim_player = targetPlayerRef.get_node("blob/AnimationPlayer")
+	var anim_player = targetPlayerRef.get_node("RotPivot/blob/AnimationPlayer")
 	anim_player.play("handcuffed")
 	gameState.handCuffedPlayers.append(targetPlayerRef)
 
