@@ -186,6 +186,22 @@ func getInventoryIcon(upgrade: Upgrade) -> String:
 		return "🔗"
 	elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
 		return "🔍"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
+		return "🪚"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.expiredMed:
+		return "💊"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.inverter:
+		return "⚡"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.burnerPhone:
+		return "📱"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.adrenaline:
+		return "💪"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.unoRev:
+		return "🔀"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.disableUpgrade:
+		return "🚫"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.wildCard:
+		return "🃏"
 	else:
 		return "⚡"
 
