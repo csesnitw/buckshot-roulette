@@ -106,6 +106,20 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	
 	
 func update_target():
+	var inventory_icons: Array[String] = []
+	
+	for item in inventory:
+		if item.upgrade_type == Upgrade.UpgradeType.cigarette:
+			inventory_icons.append("🚬")
+		elif item.upgrade_type == Upgrade.UpgradeType.beer:
+			inventory_icons.append("🍺")
+		elif item.upgrade_type == Upgrade.UpgradeType.handcuff:
+			inventory_icons.append("🔗")
+		elif item.upgrade_type == Upgrade.UpgradeType.magGlass:
+			inventory_icons.append("🔍")
+		else:
+			inventory_icons.append("⚡")
+	
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		target_changed.emit(target)
@@ -117,10 +131,10 @@ func update_target():
 				animation_player.play("aim_self")
 			else:
 				animation_player.play("aim_forward")
-			target_label.set_text("Target: " + target.name)
+			target_label.set_text("Target: " + target.name + "\nInventory: " + "|".join(inventory_icons) if inventory_icons.size() > 0 else "Empty")
 		elif target is Upgrade:
 			animation_player.play("aim_forward")
-			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
+			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type] + "\nInventory: " + "|".join(inventory_icons) if inventory_icons.size() > 0 else "Empty")
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
 					if target_temp.is_selected:

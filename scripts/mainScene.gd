@@ -54,7 +54,7 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	label.anchor_top = 1
 	label.anchor_right = 0
 	label.anchor_bottom = 1
-	label.position = Vector2(10, -30)
+	label.position = Vector2(10, -60)
 	hud.add_child(label)
 
 	sv.add_child(hud)
