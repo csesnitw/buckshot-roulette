@@ -206,9 +206,6 @@ libraries = {
 transform = Transform3D(70, 0, 0, 0, 70.000015, 0, 0, 0, 70.000015, 1.0282726, 6.549341, -10.473848)
 visible = false
 
-[node name="target_for_self_pointing" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 8.865)
-
 [connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
 
 [editable path="RotPivot/blob"]

@@ -36,6 +36,8 @@ func _ready():
 	health_jug.create(game_manager.maxHP)
 	blob_animation_player.play("idle")
 	blob_animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
+	if self.name == "Player1":
+		game_manager.fuckedUpPlayerToViewportMap[self] = self.get_node("RotPivot/GunAndCameraPivot/Camera3D")
 	
 func _on_animation_finished(anim_name):
 	if anim_name == "getting_shot":
@@ -118,9 +120,9 @@ func update_target():
 		if target is Player:
 			target_label.set_text("|".join(inventory_icons))
 			if target == self:
-				game_manager.self_target_animation(get_node("target_for_self_pointing").global_transform.origin)
+				game_manager.self_target_animation(self)
 			else:
-				game_manager.update_target_animation(target.get_node("target_for_gun").global_transform.origin)
+				game_manager.update_target_animation(self, target.get_node("target_for_gun").global_transform.origin)
 		elif target is Upgrade:
 			target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
 			if game_state.isUpgradeRound:
@@ -155,6 +157,8 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 		else:
 			if !is_playing_animation:
 				blob_animation_player.play("idle")
+	#for player in game_state.alivePlayers:
+	
 
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
