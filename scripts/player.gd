@@ -21,9 +21,8 @@ var is_playing_animation: bool = true
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
 @onready var gun: Node3D = $RotPivot/GunAndCameraPivot/Gun
-@onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer2
 @onready var health_jug = $HealthJug
-@onready var blob_animation_player = $RotPivot/blob/AnimationPlayer
+@onready var blob_animation_player = $blob/AnimationPlayer
 @onready var juice_animation_player = $JuiceAnimationPlayer
 
 func _init(_name: String = "Player", _hp: int = 3):
@@ -43,7 +42,7 @@ func _on_animation_finished(anim_name):
 		blob_animation_player.play("idle")
 	
 func _process(delta):
-	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
+	$blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
 		return
 	
@@ -117,16 +116,12 @@ func update_target():
 		var target = targets[current_target_index]
 		target_changed.emit(target)
 		if target is Player:
-			game_manager.update_target_animation(target.get_node("target_for_gun").global_transform.origin)
-		if target is Player:
-
-			if target == self:
-				animation_player.play("aim_self")
-			else:
-				animation_player.play("aim_forward")
 			target_label.set_text("|".join(inventory_icons))
+			if target == self:
+				game_manager.self_target_animation(get_node("target_for_self_pointing").global_transform.origin)
+			else:
+				game_manager.update_target_animation(target.get_node("target_for_gun").global_transform.origin)
 		elif target is Upgrade:
-			animation_player.play("aim_forward")
 			target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
@@ -135,8 +130,6 @@ func update_target():
 					target_temp.is_selected = false
 				target.is_selected = true
 				game_manager.rendered_animation_object[target].get_node_or_null("AnimationPlayer").play("pop up")
-	else:
-		animation_player.play("aim_forward")
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state

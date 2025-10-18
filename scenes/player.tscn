@@ -176,26 +176,26 @@ theme_override_font_sizes/font_size = 22
 transform = Transform3D(-2.6226832e-07, 0, -6.000001, 0, 5.9999995, 0, 5.9999995, 0, -2.6226837e-07, 13.110107, 13.413, -8.896938)
 
 [node name="target_for_gun" type="Node3D" parent="."]
-transform = Transform3D(-1, 8.881784e-15, -8.7422784e-08, -5.5848723e-08, 0.7693439, 0.6388351, 6.725817e-08, 0.6388351, -0.7693439, 0, 20.87941, -19.681183)
+transform = Transform3D(-1, 8.881784e-15, -8.7422784e-08, -5.5848723e-08, 0.7693439, 0.6388351, 6.725817e-08, 0.6388351, -0.7693439, -0.95, 26.139, 21.355)
+
+[node name="blob" parent="." instance=ExtResource("4_dqkch")]
+transform = Transform3D(-19.385513, 7.6554903e-07, 0.043984674, 7.655472e-07, 19.38556, -1.7255387e-09, -0.04398468, 1.1446094e-11, -19.38551, -0.95022964, -0.39105988, 21.35493)
 
 [node name="RotPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.7693996, 0.63876784, 0, -0.63876784, 0.7693996, 0, 46.103, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 21.355)
 
 [node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
+[node name="Camera3D" type="Camera3D" parent="RotPivot/GunAndCameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.9392082, 0.34334826, 0, -0.34334826, 0.9392082, 0, 0, -12.494)
+
 [node name="Gun" parent="RotPivot/GunAndCameraPivot" instance=ExtResource("3_gun")]
-transform = Transform3D(14.664694, 0, 0, 0, 14.739356, -12.777355, 0, 12.921068, 14.575421, 6.266596, -7.4487724, -25.594395)
+transform = Transform3D(14.664694, 0, 0, 0, 19.601088, 0, 0, 0, 19.383078, 16.40519, -4.9893303, -26.065151)
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="RotPivot/GunAndCameraPivot/Gun"]
 libraries = {
 &"": SubResource("AnimationLibrary_o7vfb")
 }
-
-[node name="Camera3D" type="Camera3D" parent="RotPivot/GunAndCameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, -2.9802322e-08, 0, 2.9802322e-08, 0.99999994, 0, 0, 0)
-
-[node name="blob" parent="RotPivot" instance=ExtResource("4_dqkch")]
-transform = Transform3D(-19.385511, 0, 0.043984674, 0.028095992, 14.91524, 12.38284, -0.033841785, 12.382872, -14.915202, -0.95022964, -49.41335, -13.268433)
 
 [node name="JuiceAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -204,7 +204,11 @@ libraries = {
 
 [node name="cup_only_new" parent="." instance=ExtResource("5_qlg0r")]
 transform = Transform3D(70, 0, 0, 0, 70.000015, 0, 0, 0, 70.000015, 1.0282726, 6.549341, -10.473848)
+visible = false
+
+[node name="target_for_self_pointing" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 8.865)
 
 [connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
 
-[editable path="RotPivot/blob"]
+[editable path="blob"]

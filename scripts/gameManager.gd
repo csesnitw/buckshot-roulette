@@ -38,7 +38,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 2
+	roundIndex = 0
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -139,7 +139,7 @@ func endTurn() -> void:
 	while gameState.alivePlayers[currPlayerTurnIndex] in gameState.handCuffedPlayers:
 		var handcuffed_player = gameState.alivePlayers[currPlayerTurnIndex]
 		gameState.handCuffedPlayers.erase(handcuffed_player) # in the actual buckshot roulette handcuffs are broken after a full circle of the skipped turn so might have to change this
-		var anim_player = handcuffed_player.get_node("RotPivot/blob/AnimationPlayer")
+		var anim_player = handcuffed_player.get_node("blob/AnimationPlayer")
 		anim_player.play("idle")
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
 	
@@ -389,7 +389,7 @@ func useMagGlass(callerPlayerRef: Player) -> void:
 	print(shotgunShells[0]) # replace with animation for callerPlayerRef
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	var anim_player = targetPlayerRef.get_node("RotPivot/blob/AnimationPlayer")
+	var anim_player = targetPlayerRef.get_node("blob/AnimationPlayer")
 	anim_player.play("handcuffed")
 	gameState.handCuffedPlayers.append(targetPlayerRef)
 
@@ -435,24 +435,57 @@ func update_target_animation(target_pos):
 	var start_rot
 	var end_rot
 	var tween
+
+	# For other players (not Player1)
 	if player.name != "Player1":
 		var me = fuckedUpPlayerToViewportMap[player]
 		start_rot = me.rotation
 		me.look_at(target_pos, Vector3.UP)
 		end_rot = me.rotation
 		me.rotation = start_rot  # reset
-		
 		end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
 
 		tween = get_tree().create_tween()
 		tween.tween_property(me, "rotation", end_rot, GUN_ROTATION_DURATION)
+
+	# Gun pivot rotation
 	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
 	start_rot = pivot.rotation
 	pivot.look_at(target_pos, Vector3.UP)
 	end_rot = pivot.rotation
 	pivot.rotation = start_rot
-	
-	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
-
 	tween = get_tree().create_tween()
 	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
+	await get_tree().create_timer(GUN_ROTATION_DURATION).timeout
+	# Independent gun rotation logic (fixed)
+	_handle_gun_independent_rotation(player, target_pos)
+
+
+func self_target_animation(target_pos):
+	var pivot = gameState.alivePlayers[currPlayerTurnIndex].gun
+	var start_rot = pivot.rotation
+	pivot.look_at(target_pos, Vector3.UP)
+	var end_rot = pivot.rotation
+	pivot.rotation = start_rot
+	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+
+	var tween = get_tree().create_tween()
+	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
+
+
+func _handle_gun_independent_rotation(player, target_pos: Vector3) -> void:
+	if not player.gun:
+		return
+
+	var gun_forward = (-player.gun.global_transform.basis.z).normalized()
+	var self_point = player.get_node("target_for_self_pointing").global_transform.origin
+	var self_dir = (self_point - player.gun.global_transform.origin).normalized()
+
+	# if gun is already pointing at self, rotate toward target_pos instead
+	#if gun_forward.dot(self_dir) > 0.6:
+	var start_rot = player.gun.rotation
+	player.gun.look_at(target_pos, Vector3.UP)
+	var end_rot = player.gun.rotation
+	player.gun.rotation = start_rot
+	var tween = get_tree().create_tween()
+	tween.tween_property(player.gun, "rotation", end_rot, GUN_ROTATION_DURATION)
