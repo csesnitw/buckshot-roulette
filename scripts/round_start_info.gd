@@ -7,8 +7,10 @@ extends CanvasLayer
 
 func _ready():
 	box.visible = false
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_round_info(round_index: int, live_count: int, blank_count: int):
+	get_tree().paused = true
 	box.visible = true
 	round_label.text = "ROUND: " + str(round_index)
 	bullet_info_label.text = "LIVE: " + str(live_count) + " | BLANK: " + str(blank_count)
@@ -19,4 +21,5 @@ func show_round_info(round_index: int, live_count: int, blank_count: int):
 	await animation_player.animation_finished
 	animation_player.play("fade_out")
 	await animation_player.animation_finished
+	get_tree().paused = false
 	queue_free()
