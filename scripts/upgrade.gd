@@ -5,7 +5,7 @@ enum UpgradeType {cigarette, beer, magGlass, handcuff, expiredMed, inverter,
 
 const UPGRADEMESHMAP = {
  "cigarette": "juice_carton_pivot",
- "beer": "Cup Tea",
+ "beer": "tea_cup_pivot",
  "magGlass": "magnifying_glass_pivot",
  "handcuff": "pool_floatie_pivot",
 }
