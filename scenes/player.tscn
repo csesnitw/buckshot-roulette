@@ -178,11 +178,11 @@ transform = Transform3D(-2.6226832e-07, 0, -6.000001, 0, 5.9999995, 0, 5.9999995
 [node name="target_for_gun" type="Node3D" parent="."]
 transform = Transform3D(-1, 8.881784e-15, -8.7422784e-08, -5.5848723e-08, 0.7693439, 0.6388351, 6.725817e-08, 0.6388351, -0.7693439, -0.95, 26.139, 21.355)
 
-[node name="blob" parent="." instance=ExtResource("4_dqkch")]
-transform = Transform3D(-19.385513, 7.6554903e-07, 0.043984674, 7.655472e-07, 19.38556, -1.7255387e-09, -0.04398468, 1.1446094e-11, -19.38551, -0.95022964, -0.39105988, 21.35493)
-
 [node name="RotPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 21.355)
+
+[node name="blob" parent="RotPivot" instance=ExtResource("4_dqkch")]
+transform = Transform3D(-19.385513, 7.6554903e-07, 0.043984674, 7.655472e-07, 19.38556, -1.7255387e-09, -0.04398468, 1.1446094e-11, -19.38551, -0.0002296567, -26.53006, -6.866455e-05)
 
 [node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
@@ -211,4 +211,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 8.865)
 
 [connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
 
-[editable path="blob"]
+[editable path="RotPivot/blob"]
