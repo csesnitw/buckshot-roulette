@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=13 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
 [ext_resource type="PackedScene" uid="uid://dwtj8vgnbcjky" path="res://scenes/blob.tscn" id="4_dqkch"]
 [ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="4_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://b1y5lxhyh60nr" path="res://assets/coffee cup/cup_only_new.glb" id="5_qlg0r"]
 
 [sub_resource type="Animation" id="Animation_s2gip"]
 resource_name = "aim_forward"
@@ -69,6 +70,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector3(0, -1.5707964, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("cup_only_new:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.0282726, 6.549341, -10.473848)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("cup_only_new:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_dqkch"]
 resource_name = "drink"
@@ -97,10 +122,39 @@ tracks/1/keys = {
 "values": [Vector3(0, -1.5707964, 0), Vector3(-4.3659796e-08, -1.5707964, -1.5222063), Vector3(-6.170823e-08, -1.5707964, -2.25973), Vector3(-6.170823e-08, -1.5707964, -2.25973)]
 }
 
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "drink_coffee"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cup_only_new:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1.0282726, 6.549341, -10.473848), Vector3(1.0282726, 20.915022, 6.9390087), Vector3(1.0282726, 20.915022, 6.9390087), Vector3(1.0282726, 20.915022, 6.9390087), Vector3(1.0282726, 6.549341, -10.473848)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cup_only_new:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0.42645374, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tuyoq"]
 _data = {
 &"RESET": SubResource("Animation_qlg0r"),
-&"drink": SubResource("Animation_dqkch")
+&"drink": SubResource("Animation_dqkch"),
+&"drink_coffee": SubResource("Animation_tuyoq")
 }
 
 [node name="Player" type="Node3D"]
@@ -147,5 +201,10 @@ transform = Transform3D(-19.385511, 0, 0.043984674, 0.028095992, 14.91524, 12.38
 libraries = {
 &"": SubResource("AnimationLibrary_tuyoq")
 }
+
+[node name="cup_only_new" parent="." instance=ExtResource("5_qlg0r")]
+transform = Transform3D(70, 0, 0, 0, 70.000015, 0, 0, 0, 70.000015, 1.0282726, 6.549341, -10.473848)
+
+[connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
 
 [editable path="RotPivot/blob"]

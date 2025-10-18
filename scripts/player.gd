@@ -255,3 +255,9 @@ func relative_position(target):
 			return "self"
 		else:
 			return "front"
+
+
+func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "drink_coffee":
+		get_node("cup_only_new").visible = false
+		
