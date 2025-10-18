@@ -74,6 +74,11 @@ func initRound() -> void:
 	gameState.realCount = realShots
 	gameState.blanksCount = blanks
 	generateRandomBulletsOrder() # aka shuffle
+
+	for player in gameState.alivePlayers:
+		var player_gun = player.get_node_or_null("RotPivot/GunAndCameraPivot/Gun")
+		if player_gun:
+			player_gun.visible = false
 	
 	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
 	# MULTI-WINDOW ANIMATION NOT WORKING FOR NOW
@@ -423,6 +428,9 @@ func update_target_animation(target_pos):
 		me.look_at(target_pos, Vector3.UP)
 		end_rot = me.rotation
 		me.rotation = start_rot  # reset
+		
+		end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+
 		tween = get_tree().create_tween()
 		tween.tween_property(me, "rotation", end_rot, GUN_ROTATION_DURATION)
 	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
@@ -430,5 +438,8 @@ func update_target_animation(target_pos):
 	pivot.look_at(target_pos, Vector3.UP)
 	end_rot = pivot.rotation
 	pivot.rotation = start_rot
+	
+	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+
 	tween = get_tree().create_tween()
 	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
