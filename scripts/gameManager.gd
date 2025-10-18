@@ -10,7 +10,6 @@ var shotgunShells: Array[int] = [] # 0 for blank, 1 for live
 var roundIndex: int = 0
 var shotgunShellCount: int = 8 # some logic based on round index
 var initShotgunShellCount: int = 8
-var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 5 # temporary value
@@ -69,8 +68,9 @@ func initRound() -> void:
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
-	minRealShots = floor(shotgunShellCount * 1/4)
-	realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
+	var minRealShots = floor(shotgunShellCount * 1/4)
+	var maxRealShots = floor(shotgunShellCount * 4/5)
+	realShots = randi() % (shotgunShellCount - minRealShots + maxRealShots ) + minRealShots
 	blanks = shotgunShellCount - realShots
 	# disgusting, TODO: refactor later
 	gameState.realCount = realShots
