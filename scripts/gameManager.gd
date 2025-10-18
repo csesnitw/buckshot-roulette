@@ -19,6 +19,7 @@ var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
 var fuckedUpPlayerToViewportMap: Dictionary = {}
+var windowRefs = []
 var current_target_node: Node3D = null
 
 #for gun animation
@@ -75,30 +76,32 @@ func initRound() -> void:
 	gameState.blanksCount = blanks
 	generateRandomBulletsOrder() # aka shuffle
 	
+	print("Window REFS: ", windowRefs)
+	var exit_signals: Array[Signal] = []
 	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
-	# MULTI-WINDOW ANIMATION NOT WORKING FOR NOW
+	var overlayDup = info_overlay.duplicate()
+	get_tree().root.add_child(overlayDup)
+	overlayDup.show_round_info(roundIndex + 1, realShots, blanks)
+	exit_signals.append(overlayDup.tree_exiting)
+	for player_window in windowRefs:
+		var subviewport_container = player_window.get_child(0)
+		var subviewport = subviewport_container.get_child(0)
+		var overlayDupWin = info_overlay.duplicate() # reusing overlayDup 
+		subviewport.add_child(overlayDupWin)
+		await get_tree().process_frame # dumb caveat
+		overlayDupWin.show_round_info(roundIndex + 1, realShots, blanks)
+		exit_signals.append(overlayDup.tree_exiting)
 	
-	#var main_scene_root = get_tree().current_scene
-	#var player_windows = main_scene_root.get_player_windows()
-	#var exit_signals: Array[Signal] = []
-	
-	#for player_window in player_windows:
-		#player_window.add_child(info_overlay)
-		#info_overlay.show_round_info(roundIndex + 1, realShots, blanks)
-		#exit_signals.append(info_overlay.tree_exiting)
-	#
-	#for exit_signal in exit_signals:
-		#await exit_signal
-	
-	get_tree().root.add_child(info_overlay)
-	info_overlay.show_round_info(roundIndex + 1, realShots, blanks)
-	await info_overlay.tree_exiting
 	
 	#TODO: remove these when UI done but rn useful for debugging
 	print( "Current players turn: " + str(currPlayerTurnIndex))
 	print("Game State: ")
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
+	
+	
+	# show round specific UI to all players
+	
 	turn_ended.emit(gameState, currPlayerTurnIndex)
 
 func endTurn() -> void:
@@ -141,6 +144,8 @@ func endTurn() -> void:
 	print(gameState.upgradesOnTable)
 	gun.set_target_player(gameState.alivePlayers[currPlayerTurnIndex])
 	turn_ended.emit(gameState, currPlayerTurnIndex)
+	
+	
 	
 func checkWin() -> bool:
 	return gameState.alivePlayers.size() == 1
@@ -401,6 +406,7 @@ func useHandSaw(callerPlayerRef: Player) -> void:
 	# also need to show gun being sawed off
 
 func _ready():
+	await get_tree().process_frame # fixed ghost code (seriously should use a signal probably)
 	initMatch()  
 
 func on_player_target_changed(target_node):
