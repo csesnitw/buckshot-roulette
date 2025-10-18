@@ -24,6 +24,9 @@ var current_target_node: Node3D = null
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
 
+#for transition effect
+const ROUND_START_INFO_SCENE = preload("res://scenes//RoundStartInfo.tscn")
+
 func _process(delta): 
 	pass
 
@@ -71,6 +74,25 @@ func initRound() -> void:
 	gameState.realCount = realShots
 	gameState.blanksCount = blanks
 	generateRandomBulletsOrder() # aka shuffle
+	
+	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
+	# MULTI-WINDOW ANIMATION NOT WORKING FOR NOW
+	
+	#var main_scene_root = get_tree().current_scene
+	#var player_windows = main_scene_root.get_player_windows()
+	#var exit_signals: Array[Signal] = []
+	
+	#for player_window in player_windows:
+		#player_window.add_child(info_overlay)
+		#info_overlay.show_round_info(roundIndex + 1, realShots, blanks)
+		#exit_signals.append(info_overlay.tree_exiting)
+	#
+	#for exit_signal in exit_signals:
+		#await exit_signal
+	
+	get_tree().root.add_child(info_overlay)
+	info_overlay.show_round_info(roundIndex + 1, realShots, blanks)
+	await info_overlay.tree_exiting
 	
 	#TODO: remove these when UI done but rn useful for debugging
 	print( "Current players turn: " + str(currPlayerTurnIndex))
