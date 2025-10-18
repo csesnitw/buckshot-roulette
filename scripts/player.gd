@@ -8,6 +8,7 @@ signal target_changed(target_node)
 var hp: int
 var inventory: Array = []
 var power: int = 1
+var hasDoubleDamage: bool = false
 var current_target_index: int = 0
 var targets: Array = []
 var duplicateTargets: Array = []

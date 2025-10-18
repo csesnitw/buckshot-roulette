@@ -24,3 +24,21 @@ func _process(delta):
 
 func set_target_player(player):
 	target_player = player
+
+func saw_off_barrel():
+	var handsaw = get_node("GunPivot/handsaw")
+	var gun_mesh = get_node("GunPivot/GunMesh")
+	if handsaw and gun_mesh:
+		handsaw.visible = true
+		
+		var tween = create_tween()
+		tween.set_parallel(true)
+		
+		# Animate the handsaw moving
+		tween.tween_property(handsaw, "position", Vector3(0, 0, 0.5), 0.5).from(Vector3(0, 0, -0.5))
+		
+		# Animate the gun barrel shrinking
+		tween.tween_property(gun_mesh, "scale", Vector3(1, 1, 0.5), 0.5)
+		
+		await tween.finished
+		handsaw.visible = false
