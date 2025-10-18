@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6co18eik6u6j"]
+
+[ext_resource type="Texture2D" uid="uid://diadvreb6x1mh" path="res://assets/Blobs/expressions/Cute-Cartoon-Eyes-Graphics-37746328-2-580x387.png" id="1_mxl6a"]
+[ext_resource type="Texture2D" uid="uid://pfmxf1loesgp" path="res://assets/Blobs/expressions/image-removebg-preview (59).png" id="2_iu0lf"]
+[ext_resource type="Texture2D" uid="uid://cth34nxurjyyx" path="res://assets/Blobs/expressions/image-removebg-preview (60).png" id="3_iu0lf"]
+
+[node name="ExpressionSheet" type="Node2D"]
+
+[node name="CuteCartoonEyesGraphics377463282580x387" type="Sprite2D" parent="."]
+position = Vector2(274, 123.99999)
+scale = Vector2(0.67413795, 0.49741602)
+texture = ExtResource("1_mxl6a")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(206.5, 342.5)
+scale = Vector2(1.0338346, 1.1105263)
+texture = ExtResource("2_iu0lf")
+
+[node name="ImageRemovebgPreview(60)" type="Sprite2D" parent="."]
+position = Vector2(728, 417)
+texture = ExtResource("3_iu0lf")

@@ -1,6 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwtj8vgnbcjky"]
+[gd_scene load_steps=13 format=3 uid="uid://dwtj8vgnbcjky"]
 
 [ext_resource type="PackedScene" uid="uid://bl5pneo77egaa" path="res://assets/Blobs/blob.glb" id="1_eo8br"]
+[ext_resource type="Texture2D" uid="uid://diadvreb6x1mh" path="res://assets/Blobs/expressions/Cute-Cartoon-Eyes-Graphics-37746328-2-580x387.png" id="2_ngma2"]
+[ext_resource type="Texture2D" uid="uid://pfmxf1loesgp" path="res://assets/Blobs/expressions/image-removebg-preview (59).png" id="3_17po2"]
+[ext_resource type="Texture2D" uid="uid://cth34nxurjyyx" path="res://assets/Blobs/expressions/image-removebg-preview (60).png" id="4_7crg0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gt5w"]
+atlas = ExtResource("4_7crg0")
+region = Rect2(16, 16, 736, 296)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eo8br"]
 albedo_color = Color(0.21374282, 0.55293393, 0.62703633, 1)
@@ -59,6 +66,30 @@ tracks/6/path = NodePath("Armature/Skeleton3D:Bone.006")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263)
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/Sprite3D2:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/Sprite3D3:frame")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
 
 [sub_resource type="Animation" id="Animation_eo8br"]
 resource_name = "getting_shot"
@@ -112,6 +143,30 @@ tracks/6/path = NodePath("Armature/Skeleton3D:Bone.006")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 1, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 2, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263)
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/Sprite3D2:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1, 1.0333334, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 2, 0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/Sprite3D3:frame")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [16, 16, 24]
+}
 
 [sub_resource type="Animation" id="Animation_7crg0"]
 resource_name = "handcuffed"
@@ -165,6 +220,18 @@ tracks/6/path = NodePath("Armature/Skeleton3D:Bone.006")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 0.5, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 1, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 2, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 3, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 4, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263)
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/Sprite3D3:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.15, 3.98),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [4, 39, 16]
+}
 
 [sub_resource type="Animation" id="Animation_17po2"]
 resource_name = "idle"
@@ -238,7 +305,31 @@ bones/3/scale = Vector3(1.0000017, 1, 1)
 bones/5/position = Vector3(0.07434928, 0.5562889, -0.034147173)
 bones/5/scale = Vector3(1.0000005, 1.0000004, 1)
 
-[node name="model" parent="Armature/Skeleton3D" index="0"]
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.9987229, -0.032707874, -0.038468502, 0.018171437, 0.9436163, -0.33053806, 0.04711085, 0.3294181, 0.9430068, 0.020140396, 1.2864575, -0.24810693)
+bone_name = "Bone.006"
+bone_idx = 6
+
+[node name="Sprite3D" type="Sprite3D" parent="Armature/Skeleton3D/BoneAttachment3D" index="0"]
+transform = Transform3D(0.11485347, 0.0003199568, 0.005797989, -0.0037614035, 0.09157854, 0.06945683, -0.0044239047, -0.06955799, 0.09147217, 0.01059664, 0.46670914, 0.55026126)
+visible = false
+texture = ExtResource("2_ngma2")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Armature/Skeleton3D/BoneAttachment3D" index="1"]
+transform = Transform3D(0.6691464, 0.0018010102, 0.03378303, -0.02191431, 0.5327875, 0.40565747, -0.02577408, -0.40624523, 0.5321674, -0.0054812897, 0.27375126, 0.6281931)
+visible = false
+texture = ExtResource("3_17po2")
+hframes = 3
+vframes = 3
+
+[node name="Sprite3D3" type="Sprite3D" parent="Armature/Skeleton3D/BoneAttachment3D" index="2"]
+transform = Transform3D(1.0445734, -0.02729009, 0.012123946, 0.016354797, 0.87779963, 0.56676733, -0.024985172, -0.5663463, 0.8778684, 0.00462953, 0.35957992, 0.61753356)
+texture = SubResource("AtlasTexture_8gt5w")
+hframes = 10
+vframes = 4
+frame = 16
+
+[node name="model" parent="Armature/Skeleton3D" index="1"]
 material_override = SubResource("StandardMaterial3D_ngma2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1"]
