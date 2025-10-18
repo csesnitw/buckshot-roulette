@@ -10,7 +10,6 @@ var shotgunShells: Array[int] = [] # 0 for blank, 1 for live
 var roundIndex: int = 0
 var shotgunShellCount: int = 8 # some logic based on round index
 var initShotgunShellCount: int = 8
-var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 5 # temporary value
@@ -19,7 +18,9 @@ var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
 var fuckedUpPlayerToViewportMap: Dictionary = {}
+var windowRefs = []
 var current_target_node: Node3D = null
+var isFirstHandSawUsed: bool = false
 
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
@@ -67,8 +68,9 @@ func initRound() -> void:
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
-	minRealShots = floor(shotgunShellCount * 1/4)
-	realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
+	var minRealShots = floor(shotgunShellCount * 1/4)
+	var maxRealShots = floor(shotgunShellCount * 4/5)
+	realShots = randi() % (shotgunShellCount - minRealShots + maxRealShots ) + minRealShots
 	blanks = shotgunShellCount - realShots
 	# disgusting, TODO: refactor later
 	gameState.realCount = realShots
@@ -80,30 +82,32 @@ func initRound() -> void:
 		if player_gun:
 			player_gun.visible = false
 	
+	print("Window REFS: ", windowRefs)
+	var exit_signals: Array[Signal] = []
 	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
-	# MULTI-WINDOW ANIMATION NOT WORKING FOR NOW
+	var overlayDup = info_overlay.duplicate()
+	get_tree().root.add_child(overlayDup)
+	overlayDup.show_round_info(roundIndex + 1, realShots, blanks)
+	exit_signals.append(overlayDup.tree_exiting)
+	for player_window in windowRefs:
+		var subviewport_container = player_window.get_child(0)
+		var subviewport = subviewport_container.get_child(0)
+		var overlayDupWin = info_overlay.duplicate() # reusing overlayDup 
+		subviewport.add_child(overlayDupWin)
+		await get_tree().process_frame # dumb caveat
+		overlayDupWin.show_round_info(roundIndex + 1, realShots, blanks)
+		exit_signals.append(overlayDup.tree_exiting)
 	
-	#var main_scene_root = get_tree().current_scene
-	#var player_windows = main_scene_root.get_player_windows()
-	#var exit_signals: Array[Signal] = []
-	
-	#for player_window in player_windows:
-		#player_window.add_child(info_overlay)
-		#info_overlay.show_round_info(roundIndex + 1, realShots, blanks)
-		#exit_signals.append(info_overlay.tree_exiting)
-	#
-	#for exit_signal in exit_signals:
-		#await exit_signal
-	
-	get_tree().root.add_child(info_overlay)
-	info_overlay.show_round_info(roundIndex + 1, realShots, blanks)
-	await info_overlay.tree_exiting
 	
 	#TODO: remove these when UI done but rn useful for debugging
 	print( "Current players turn: " + str(currPlayerTurnIndex))
 	print("Game State: ")
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
+	
+	
+	# show round specific UI to all players
+	
 	turn_ended.emit(gameState, currPlayerTurnIndex)
 
 func endTurn() -> void:
@@ -146,6 +150,8 @@ func endTurn() -> void:
 	print(gameState.upgradesOnTable)
 	gun.set_target_player(gameState.alivePlayers[currPlayerTurnIndex])
 	turn_ended.emit(gameState, currPlayerTurnIndex)
+	
+	
 	
 func checkWin() -> bool:
 	return gameState.alivePlayers.size() == 1
@@ -304,6 +310,9 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 			blankShot = true
 			print("BLANK and shot urself")
 	var dmg = currBull * callerPlayerRef.power
+	if callerPlayerRef.hasDoubleDamage:
+		dmg *= 2
+		callerPlayerRef.hasDoubleDamage = false
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):
 		for i in range(gameState.alivePlayers.size()):
@@ -402,10 +411,14 @@ func useBurnerPhone(callerPlayerRef: Player) -> void:
 		print(0) # play animation showing empty shell 
 	
 func useHandSaw(callerPlayerRef: Player) -> void:
-	callerPlayerRef.power += 1
+	if !isFirstHandSawUsed:
+		isFirstHandSawUsed = true
+		callerPlayerRef.hasDoubleDamage = true
+		gun.saw_off_barrel()
 	# also need to show gun being sawed off
 
 func _ready():
+	await get_tree().process_frame # fixed ghost code (seriously should use a signal probably)
 	initMatch()  
 
 func on_player_target_changed(target_node):

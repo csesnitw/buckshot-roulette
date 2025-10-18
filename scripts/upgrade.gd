@@ -8,6 +8,7 @@ const UPGRADEMESHMAP = {
  "beer": "tea_cup_pivot",
  "magGlass": "magnifying_glass_pivot",
  "handcuff": "pool_floatie_pivot",
+ "handSaw": "handsaw_pivot"
 }
 var is_selected : bool = false
 var upgrade_type: UpgradeType

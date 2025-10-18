@@ -163,14 +163,14 @@ script = ExtResource("1_g2els")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TargetLabel" type="Label" parent="CanvasLayer"]
-visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 1.0
+offset_top = -50.0
+offset_right = 30.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
 
 [node name="HealthJug" parent="." instance=ExtResource("4_qhqgy")]
 transform = Transform3D(-2.6226832e-07, 0, -6.000001, 0, 5.9999995, 0, 5.9999995, 0, -2.6226837e-07, 13.110107, 13.413, -8.896938)
