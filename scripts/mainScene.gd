@@ -55,6 +55,7 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	label.anchor_right = 0
 	label.anchor_bottom = 1
 	label.position = Vector2(10, -60)
+	label.add_theme_font_size_override("font_size", 22)
 	hud.add_child(label)
 
 	sv.add_child(hud)
