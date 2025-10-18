@@ -186,7 +186,7 @@ transform = Transform3D(1, 0, 0, 0, 0.7693996, 0.63876784, 0, -0.63876784, 0.769
 [node name="Gun" parent="RotPivot/GunAndCameraPivot" instance=ExtResource("3_gun")]
 transform = Transform3D(14.664694, 0, 0, 0, 14.739356, -12.777355, 0, 12.921068, 14.575421, 6.266596, -7.4487724, -25.594395)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="RotPivot/GunAndCameraPivot/Gun"]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="RotPivot/GunAndCameraPivot/Gun"]
 libraries = {
 &"": SubResource("AnimationLibrary_o7vfb")
 }
