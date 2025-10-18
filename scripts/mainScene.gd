@@ -17,9 +17,6 @@ var player_windows: Array[Window] = []
 var num_players: int = 0
 var gameManRef
 
-func get_player_windows():
-	return [get_window()] + player_windows
-
 func _ready():
 	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
 	threePlayerButton.pressed.connect(func(): await setupPlayers(gameScene3, 3))
@@ -58,14 +55,10 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	hud.add_child(label)
 
 	sv.add_child(hud)
-	###
-
 	container.add_child(sv)
-
 	var player = game.get_node(playerName)
-	###
 	player.target_label = sv.get_node("HUD/TargetLabel")
-	###
+
 
 	var cam = game.get_node(playerName + "/RotPivot/GunAndCameraPivot/Camera3D")
 	var cam_global = cam.global_transform
@@ -108,6 +101,8 @@ func setupPlayers(scene: PackedScene, playerCount: int):
 		var playerName = "Player" + str(i)
 		var title = "Player " + str(i)
 		player_windows.append(createWindow(game, playerName, title))
+	
+	gameManRef.windowRefs = player_windows
 
 # Called by gameManager when game ends
 func handleEndGame(winner_name: String):
