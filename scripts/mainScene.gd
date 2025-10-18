@@ -123,22 +123,28 @@ func handleEndGame(winner_name: String):
  			#player2.target_label.visible = false
 			#player2.get_node("CanvasLayer").visible = false
 
-	# Close all the additional windows immediately
-	for player_window in player_windows:
-		if player_window:
-			player_window.queue_free()
-
-	player_windows.clear()
-
 	# Instantiate and display end scene
 	var end_scene_instance = endScene.instantiate()
 	add_child(end_scene_instance)
 
 	# Pass winner name to end scene
 	end_scene_instance.displayWinner(winner_name)
+	
+	# Try to display in player windows
+	for player_window in player_windows:
+		if player_window:
+			var new_end_scene_instance = endScene.instantiate()
+			player_window.add_child(new_end_scene_instance)
+			new_end_scene_instance.displayWinner(winner_name)
 
 # Called by endScene when restart button is pressed
 func handleRestart():
+	for player_window in player_windows:
+		if player_window:
+			player_window.queue_free()
+
+	player_windows.clear()
+	
 	# Remove the current game instance
 	if current_game_instance:
 		current_game_instance.queue_free()
