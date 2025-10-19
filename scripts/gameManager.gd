@@ -9,7 +9,7 @@ var currPlayerTurnIndex: int = 0
 var shotgunShells: Array[int] = [] # 0 for blank, 1 for live
 var roundIndex: int = 0
 var shotgunShellCount: int = 8 # some logic based on round index
-var initShotgunShellCount: int = 8
+var initShotgunShellCount: int = 2 # think of this as bullets per player at round index 1, (this gets multiplied by round index asw and curr alive players)
 var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 5 # temporary value
@@ -38,7 +38,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 2
+	roundIndex = 0
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -66,7 +66,7 @@ func initRound() -> void:
 		currPlayerTurnIndex = randi() % gameState.alivePlayers.size() # added this here due to a weird bug with UI if any other player other than the main viewport starts the game
 	gameState.currRoundIndex = roundIndex
 	gameState.currTurnIndex = 0
-	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
+	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) * gameState.alivePlayers.size()# maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
 	var minRealShots = floor(shotgunShellCount * 1/4)
 	var maxRealShots = floor(shotgunShellCount * 4/5)
