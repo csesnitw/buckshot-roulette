@@ -252,7 +252,7 @@ func spawnUpgradesOnTable():
 		
 
 		var upgradeInstance: Upgrade = upgradeScene.instantiate() as Upgrade #upgrades on table are different from upgradesOnTable array
-																			#use rendered_animation_object map to get actual upgrades on table
+		#use rendered_animation_object map to get actual upgrades on table
 		upgradeInstance.upgrade_type = gameState.upgradesOnTable[i].upgrade_type
 		upgradeInstance.get_node("Label3D").set_text(Upgrade.UpgradeType.keys()[upgradeInstance.upgrade_type])
 		upgradeInstance.is_selected = gameState.upgradesOnTable[i].is_selected

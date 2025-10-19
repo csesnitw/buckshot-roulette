@@ -47,6 +47,7 @@ func _on_animation_finished(anim_name):
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
+		$RotPivot/GunAndCameraPivot.rotation = Vector3.ZERO
 		return
 	
 	for player in game_state.alivePlayers:
