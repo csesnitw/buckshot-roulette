@@ -46,6 +46,7 @@ func _on_animation_finished(anim_name):
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
+		$RotPivot/GunAndCameraPivot.rotation = Vector3.ZERO
 		return
 	
 	for player in game_state.alivePlayers:
@@ -151,7 +152,6 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 			targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		update_target()
 	else:
-		$RotPivot/GunAndCameraPivot.rotation = Vector3.ZERO
 		if self in game_state.handCuffedPlayers:
 			blob_animation_player.play("handcuffed")
 		else:
