@@ -20,6 +20,7 @@ var is_playing_animation: bool = true
 var taking_damage_animation_playing: bool = false
 var controllerID: int = -1
 var stickReset: bool = true
+var inventoryOverlay: Node = null
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
@@ -134,6 +135,8 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	
 	
 func update_target():
+	print(inventoryOverlay)
+	
 	var inventory_icons: Array[String] = []
 	
 	for upgrade in inventory:
@@ -226,6 +229,9 @@ func getInventoryIcon(upgrade: Upgrade) -> String:
 		return "🃏"
 	else:
 		return "⚡"
+
+func setInventoryOverlay(inventory_overlay):
+	inventoryOverlay = inventory_overlay
 
 # Check if player has a specific upgrade
 func hasUpgrade(upgrade: Upgrade) -> bool:
