@@ -326,7 +326,6 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 		endGame()
 	else:
 		endTurn()
-
 # call this when you want to pick an upgrade off of the upgrade table
 func pickUpUpgrade(callerPlayerRef: Player, upgradeRef: Upgrade) -> void:
 	if !gameState.isUpgradeRound:
@@ -463,16 +462,36 @@ func update_target_animation(player: Player, target_pos):
 
 
 func self_target_animation(player : Player):
-	var pivot = gameState.alivePlayers[currPlayerTurnIndex].gun
-	var start_rot = pivot.rotation
-	var target_pos
-	target_pos = fuckedUpPlayerToViewportMap[player].global_transform.origin
-		
-	print(fuckedUpPlayerToViewportMap)
-	pivot.look_at(target_pos, Vector3.UP)
-	var end_rot = pivot.rotation
-	pivot.rotation = start_rot
-	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+	var table_center = Vector3(0, -0.5, 0)
 
-	var tween = get_tree().create_tween()
-	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
+	if player.name != "Player1":
+		var me = fuckedUpPlayerToViewportMap[player]
+		var me_start_rot = me.rotation
+		me.look_at(table_center, Vector3.UP)
+		var me_end_rot = me.rotation
+		me.rotation = me_start_rot
+		me_end_rot.y = wrapf(me_end_rot.y, me_start_rot.y - PI, me_start_rot.y + PI)
+
+		var me_tween = get_tree().create_tween()
+		me_tween.tween_property(me, "rotation", me_end_rot, GUN_ROTATION_DURATION)
+
+	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
+	var pivot_start_rot = pivot.rotation
+	pivot.look_at(table_center, Vector3.UP)
+	var pivot_end_rot = pivot.rotation
+	pivot.rotation = pivot_start_rot
+
+	var pivot_tween = get_tree().create_tween()
+	pivot_tween.tween_property(pivot, "rotation", pivot_end_rot, GUN_ROTATION_DURATION)
+
+	var gun_node = player.gun
+	var gun_start_rot = gun_node.rotation
+	var target_pos = fuckedUpPlayerToViewportMap[player].global_transform.origin
+
+	gun_node.look_at(target_pos, Vector3.UP)
+	var gun_end_rot = gun_node.rotation
+	gun_node.rotation = gun_start_rot
+	gun_end_rot.y = wrapf(gun_end_rot.y, gun_start_rot.y - PI, gun_start_rot.y + PI)
+
+	var gun_tween = get_tree().create_tween()
+	gun_tween.tween_property(gun_node, "rotation", gun_end_rot, GUN_ROTATION_DURATION)
