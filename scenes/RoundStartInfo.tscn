@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=3 uid="uid://cu5hx2htq7m2u"]
+
+[ext_resource type="Script" uid="uid://chlxghcfj38ot" path="res://scripts/round_start_info.gd" id="1_t1n2h"]
+[ext_resource type="FontFile" uid="uid://ckpu425q5edfu" path="res://assets/Roboto_Condensed-Regular.ttf" id="2_t1n2h"]
+
+[sub_resource type="Animation" id="Animation_t1n2h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p3mlx"]
+resource_name = "fade_in"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_t8o4a"]
+resource_name = "fade_out"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0ab68"]
+resource_name = "stay"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer:modulate")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t8o4a"]
+_data = {
+&"RESET": SubResource("Animation_t1n2h"),
+&"fade_in": SubResource("Animation_p3mlx"),
+&"fade_out": SubResource("Animation_t8o4a"),
+&"stay": SubResource("Animation_0ab68")
+}
+
+[node name="RoundStartInfo" type="CanvasLayer"]
+script = ExtResource("1_t1n2h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RoundLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.801988, 0.5990221, 0.3384807, 1)
+theme_override_fonts/font = ExtResource("2_t1n2h")
+theme_override_font_sizes/font_size = 64
+text = "Round 1"
+horizontal_alignment = 1
+
+[node name="BulletInfoLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9157758, 0.7424785, 0.5266535, 1)
+theme_override_fonts/font = ExtResource("2_t1n2h")
+theme_override_font_sizes/font_size = 36
+text = "Live: 0 | Blank: 0"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_t8o4a")
+}

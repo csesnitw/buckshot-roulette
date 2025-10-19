@@ -18,9 +18,9 @@ var num_players: int = 0
 var gameManRef
 
 func _ready():
-	two_player_button.pressed.connect(func(): setupPlayers(gameScene2, 2))
-	threePlayerButton.pressed.connect(func(): setupPlayers(gameScene3, 3))
-	fourPlayerButton.pressed.connect(func(): setupPlayers(gameScene4, 4))
+	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
+	threePlayerButton.pressed.connect(func(): await setupPlayers(gameScene3, 3))
+	fourPlayerButton.pressed.connect(func(): await setupPlayers(gameScene4, 4))
 
 
 func createWindow(game, playerName: String, title: String) -> Window:
@@ -51,18 +51,15 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	label.anchor_top = 1
 	label.anchor_right = 0
 	label.anchor_bottom = 1
-	label.position = Vector2(10, -30)
+	label.position = Vector2(10, -60)
+	label.add_theme_font_size_override("font_size", 22)
 	hud.add_child(label)
 
 	sv.add_child(hud)
-	###
-
 	container.add_child(sv)
-
 	var player = game.get_node(playerName)
-	###
 	player.target_label = sv.get_node("HUD/TargetLabel")
-	###
+
 
 	var cam = game.get_node(playerName + "/RotPivot/GunAndCameraPivot/Camera3D")
 	var cam_global = cam.global_transform
@@ -99,13 +96,14 @@ func setupPlayers(scene: PackedScene, playerCount: int):
 	game.get_node("Player1/RotPivot/GunAndCameraPivot/Camera3D").current = true
 	get_window().title = "Player 1"
 	print("hello")
-	
 
 	# Create windows for players 2, 3, 4
 	for i in range(2, playerCount + 1):
 		var playerName = "Player" + str(i)
 		var title = "Player " + str(i)
 		player_windows.append(createWindow(game, playerName, title))
+	
+	gameManRef.windowRefs = player_windows
 
 # Called by gameManager when game ends
 func handleEndGame(winner_name: String):
@@ -121,22 +119,28 @@ func handleEndGame(winner_name: String):
  			#player2.target_label.visible = false
 			#player2.get_node("CanvasLayer").visible = false
 
-	# Close all the additional windows immediately
-	for player_window in player_windows:
-		if player_window:
-			player_window.queue_free()
-
-	player_windows.clear()
-
 	# Instantiate and display end scene
 	var end_scene_instance = endScene.instantiate()
 	add_child(end_scene_instance)
 
 	# Pass winner name to end scene
 	end_scene_instance.displayWinner(winner_name)
+	
+	# Try to display in player windows
+	for player_window in player_windows:
+		if player_window:
+			var new_end_scene_instance = endScene.instantiate()
+			player_window.add_child(new_end_scene_instance)
+			new_end_scene_instance.displayWinner(winner_name)
 
 # Called by endScene when restart button is pressed
 func handleRestart():
+	for player_window in player_windows:
+		if player_window:
+			player_window.queue_free()
+
+	player_windows.clear()
+	
 	# Remove the current game instance
 	if current_game_instance:
 		current_game_instance.queue_free()

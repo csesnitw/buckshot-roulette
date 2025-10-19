@@ -1,29 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=13 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
 [ext_resource type="PackedScene" uid="uid://dwtj8vgnbcjky" path="res://scenes/blob.tscn" id="4_dqkch"]
 [ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="4_qhqgy"]
-
-[sub_resource type="Theme" id="Theme_g2els"]
-
-[sub_resource type="Theme" id="Theme_qhqgy"]
-
-[sub_resource type="FontFile" id="FontFile_dqkch"]
-resource_local_to_scene = true
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/64/0/ascent = 0.0
-cache/0/64/0/descent = 0.0
-cache/0/64/0/underline_position = 0.0
-cache/0/64/0/underline_thickness = 0.0
-cache/0/64/0/scale = 1.0
+[ext_resource type="PackedScene" uid="uid://b1y5lxhyh60nr" path="res://assets/coffee cup/cup_only_new.glb" id="5_qlg0r"]
 
 [sub_resource type="Animation" id="Animation_s2gip"]
 resource_name = "aim_forward"
@@ -63,85 +44,136 @@ _data = {
 &"aim_self": SubResource("Animation_cnq18")
 }
 
+[sub_resource type="Animation" id="Animation_qlg0r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealthJug:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(13.110107, 13.413, -8.896938)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HealthJug:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("cup_only_new:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.0282726, 6.549341, -10.473848)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("cup_only_new:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dqkch"]
+resource_name = "drink"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealthJug:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8666667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(13.110107, 13.413, -8.896938), Vector3(7.5, 40.251, 4.571), Vector3(0, 34.75, 13.397), Vector3(0, 37.191, 12.167)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HealthJug:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8666667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0), Vector3(-4.3659796e-08, -1.5707964, -1.5222063), Vector3(-6.170823e-08, -1.5707964, -2.25973), Vector3(-6.170823e-08, -1.5707964, -2.25973)]
+}
+
+[sub_resource type="Animation" id="Animation_tuyoq"]
+resource_name = "drink_coffee"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("cup_only_new:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1.0282726, 6.549341, -10.473848), Vector3(1.0282726, 20.915022, 6.9390087), Vector3(1.0282726, 20.915022, 6.9390087), Vector3(1.0282726, 20.915022, 6.9390087), Vector3(1.0282726, 6.549341, -10.473848)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cup_only_new:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0.42645374, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tuyoq"]
+_data = {
+&"RESET": SubResource("Animation_qlg0r"),
+&"drink": SubResource("Animation_dqkch"),
+&"drink_coffee": SubResource("Animation_tuyoq")
+}
+
 [node name="Player" type="Node3D"]
 script = ExtResource("1_g2els")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TargetLabel" type="Label" parent="CanvasLayer"]
-visible = false
-anchors_preset = -1
-anchor_top = 0.887
-anchor_right = 0.202
+anchors_preset = 2
+anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 0.22399902
-offset_right = 0.29599
+offset_top = -50.0
+offset_right = 30.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-
-[node name="TopHUD" type="HBoxContainer" parent="CanvasLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 40.0
-grow_horizontal = 2
-
-[node name="CurrRound" type="Label" parent="CanvasLayer/TopHUD"]
-layout_mode = 2
-theme = SubResource("Theme_g2els")
-theme_override_colors/font_color = Color(0.811487, 0.00041623475, 0.7890223, 1)
-text = "Round: 0 Turn: 0"
-
-[node name="BulletCounts" type="Label" parent="CanvasLayer/TopHUD"]
-layout_mode = 2
-text = "FUCK"
-
-[node name="LastShot" type="Label" parent="CanvasLayer/TopHUD"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.841111, 0, 0.21894732, 1)
-text = "Last Shot: N/A"
-
-[node name="Winner" type="Label" parent="CanvasLayer"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -43.5
-offset_right = 20.0
-offset_bottom = 43.5
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_qhqgy")
-theme_override_colors/font_color = Color(0.84263474, 3.5616756e-06, 4.813075e-07, 1)
-theme_override_fonts/font = SubResource("FontFile_dqkch")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BottomHUD" type="HBoxContainer" parent="CanvasLayer"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="HPList" type="Label" parent="CanvasLayer/BottomHUD"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.9019608, 0.21960784, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 
 [node name="HealthJug" parent="." instance=ExtResource("4_qhqgy")]
-transform = Transform3D(-2.6226832e-07, 0, -6, 0, 6, 0, 6, 0, -2.6226832e-07, 13.110107, 13.413, -8.896938)
+transform = Transform3D(-2.6226832e-07, 0, -6.000001, 0, 5.9999995, 0, 5.9999995, 0, -2.6226837e-07, 13.110107, 13.413, -8.896938)
 
 [node name="target_for_gun" type="Node3D" parent="."]
 transform = Transform3D(-1, 8.881784e-15, -8.7422784e-08, -5.5848723e-08, 0.7693439, 0.6388351, 6.725817e-08, 0.6388351, -0.7693439, 0, 20.87941, -19.681183)
@@ -152,9 +184,9 @@ transform = Transform3D(1, 0, 0, 0, 0.7693996, 0.63876784, 0, -0.63876784, 0.769
 [node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
 [node name="Gun" parent="RotPivot/GunAndCameraPivot" instance=ExtResource("3_gun")]
-transform = Transform3D(14.664694, 0, 0, 0, 15.255916, -12.170016, 0, 12.306899, 15.086235, 6.266596, -7.4487743, -25.594395)
+transform = Transform3D(14.664694, 0, 0, 0, 14.739356, -12.777355, 0, 12.921068, 14.575421, 6.266596, -7.4487724, -25.594395)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="RotPivot/GunAndCameraPivot/Gun"]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="RotPivot/GunAndCameraPivot/Gun"]
 libraries = {
 &"": SubResource("AnimationLibrary_o7vfb")
 }
@@ -164,5 +196,15 @@ transform = Transform3D(1, 0, 0, 0, 0.99999994, -2.9802322e-08, 0, 2.9802322e-08
 
 [node name="blob" parent="RotPivot" instance=ExtResource("4_dqkch")]
 transform = Transform3D(-19.385511, 0, 0.043984674, 0.028095992, 14.91524, 12.38284, -0.033841785, 12.382872, -14.915202, -0.95022964, -49.41335, -13.268433)
+
+[node name="JuiceAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_tuyoq")
+}
+
+[node name="cup_only_new" parent="." instance=ExtResource("5_qlg0r")]
+transform = Transform3D(70, 0, 0, 0, 70.000015, 0, 0, 0, 70.000015, 1.0282726, 6.549341, -10.473848)
+
+[connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
 
 [editable path="RotPivot/blob"]

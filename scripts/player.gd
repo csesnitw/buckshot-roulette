@@ -8,6 +8,7 @@ signal target_changed(target_node)
 var hp: int
 var inventory: Array = []
 var power: int = 1
+var hasDoubleDamage: bool = false
 var current_target_index: int = 0
 var targets: Array = []
 var duplicateTargets: Array = []
@@ -15,18 +16,15 @@ var is_my_turn: bool = false
 var game_state
 var selectingTarget: bool = false
 var pendingUpgrade: Upgrade = null
+var is_playing_animation: bool = true
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
-@onready var currRound: Label = $CanvasLayer/TopHUD/CurrRound
-@onready var bulletCounts: Label = $CanvasLayer/TopHUD/BulletCounts
-@onready var lastShotLabel: Label = $CanvasLayer/TopHUD/LastShot
-@onready var winnerLab: Label = $CanvasLayer/Winner
-@onready var HPList: Label = $CanvasLayer/BottomHUD/HPList
 @onready var game_manager: Node = get_node("../GameManager")
 @onready var gun: Node3D = $RotPivot/GunAndCameraPivot/Gun
-@onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer
+@onready var animation_player: AnimationPlayer = $RotPivot/GunAndCameraPivot/Gun/AnimationPlayer2
 @onready var health_jug = $HealthJug
 @onready var blob_animation_player = $RotPivot/blob/AnimationPlayer
+@onready var juice_animation_player = $JuiceAnimationPlayer
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -45,6 +43,7 @@ func _on_animation_finished(anim_name):
 		blob_animation_player.play("idle")
 	
 func _process(delta):
+	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
 		return
 	
@@ -109,6 +108,11 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	
 	
 func update_target():
+	var inventory_icons: Array[String] = []
+	
+	for upgrade in inventory:
+		inventory_icons.append(getInventoryIcon(upgrade))
+	
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		target_changed.emit(target)
@@ -120,10 +124,10 @@ func update_target():
 				animation_player.play("aim_self")
 			else:
 				animation_player.play("aim_forward")
-			target_label.set_text("Target: " + target.name)
+			target_label.set_text("|".join(inventory_icons))
 		elif target is Upgrade:
 			animation_player.play("aim_forward")
-			target_label.set_text(Upgrade.UpgradeType.keys()[target.upgrade_type])
+			target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
 					if target_temp.is_selected:
@@ -136,25 +140,13 @@ func update_target():
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
-	currRound.text = "Round: " + str(game_state.currRoundIndex + 1) + " Turn: " + str(game_state.currTurnIndex + 1)
-	bulletCounts.text = "Bullets: " + str(game_state.realCount) + " Blanks: " + str(game_state.blanksCount)
 	is_my_turn = (game_state.alivePlayers[current_player_index] == self)
 	target_label.visible = is_my_turn
 	if !targets.is_empty():
 		current_target_index = 0
 	else: 
 		print("Something gones wrong")
-	if(game_state.lastShot == 1):
-		lastShotLabel.text = "Last Shot: Live"
-	elif game_state.lastShot == 0:
-		lastShotLabel.text = "Last Shot: Blank"
-	else:
-		lastShotLabel.text = "Last Shot: N/A"
 	
-	var tempHPList : String = ""
-	for players in game_state.alivePlayers:
-		tempHPList = tempHPList + players.name + ": " + str(players.hp) + "HP/3HP      ";
-	HPList.text = tempHPList
 	if is_my_turn:
 		if game_state.isUpgradeRound:
 			targets = remove_nulls_from_array(game_state.upgradesOnTable)
@@ -164,10 +156,12 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 			targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		update_target()
 	else:
+		$RotPivot/GunAndCameraPivot.rotation = Vector3.ZERO
 		if self in game_state.handCuffedPlayers:
 			blob_animation_player.play("handcuffed")
 		else:
-			blob_animation_player.play("idle")
+			if !is_playing_animation:
+				blob_animation_player.play("idle")
 
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
@@ -185,27 +179,65 @@ func removeInventory(upgrade: Upgrade) -> bool:
 		return true
 	return false
 
+func getInventoryIcon(upgrade: Upgrade) -> String:
+	if upgrade.upgrade_type == Upgrade.UpgradeType.cigarette:
+		return "🧃"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.beer:
+		return "☕"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.handcuff:
+		return "🔗"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
+		return "🔍"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
+		return "🪚"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.expiredMed:
+		return "💊"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.inverter:
+		return "⚡"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.burnerPhone:
+		return "📱"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.adrenaline:
+		return "💪"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.unoRev:
+		return "🔀"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.disableUpgrade:
+		return "🚫"
+	elif upgrade.upgrade_type == Upgrade.UpgradeType.wildCard:
+		return "🃏"
+	else:
+		return "⚡"
+
 # Check if player has a specific upgrade
 func hasUpgrade(upgrade: Upgrade) -> bool:
 	return upgrade in inventory
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
-	if amount > 0:
-		blob_animation_player.play("getting_shot")
-	for i in amount:
-		health_jug.drink()
 	hp -= amount
 	if hp < 0:
 		hp = 0
+	for i in amount:
+		is_playing_animation = true
+		blob_animation_player.play("RESET")
+		blob_animation_player.play("getting_shot")
+		juice_animation_player.play("drink")
+		await get_tree().create_timer(1).timeout
+		juice_animation_player.play_backwards("drink")
+		await get_tree().create_timer(1).timeout
+		health_jug.drink()
+	
 
 # Heal the player
 func heal(amount: int, max_hp: int) -> void:
-	for i in amount:
-		health_jug.refill()
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
+	for i in amount:
+		health_jug.get_node("juice_carton").visible = true
+		health_jug.get_node("AnimationPlayer").play("pour_juice")
+		await get_tree().create_timer(health_jug.get_node("AnimationPlayer").get_animation("pour_juice").length).timeout
+		health_jug.get_node("juice_carton").visible = false
+		health_jug.refill()
 
 # Optional: check if player is alive
 func isAlive() -> bool:
@@ -245,3 +277,9 @@ func relative_position(target):
 			return "self"
 		else:
 			return "front"
+
+
+func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "drink_coffee":
+		get_node("cup_only_new").visible = false
+		

@@ -10,7 +10,6 @@ var shotgunShells: Array[int] = [] # 0 for blank, 1 for live
 var roundIndex: int = 0
 var shotgunShellCount: int = 8 # some logic based on round index
 var initShotgunShellCount: int = 8
-var minRealShots: int
 var realShots: int = 0;
 var blanks: int = 0;
 var maxHP: int = 5 # temporary value
@@ -19,10 +18,15 @@ var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
 var fuckedUpPlayerToViewportMap: Dictionary = {}
+var windowRefs = []
 var current_target_node: Node3D = null
+var isFirstHandSawUsed: bool = false
 
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
+
+#for transition effect
+const ROUND_START_INFO_SCENE = preload("res://scenes//RoundStartInfo.tscn")
 
 func _process(delta): 
 	pass
@@ -64,19 +68,46 @@ func initRound() -> void:
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) # maybe give this more thought
 	# use real and blanks to show at the start of a round for a bit
-	minRealShots = floor(shotgunShellCount * 1/4)
-	realShots = randi() % (shotgunShellCount - minRealShots) + minRealShots
+	var minRealShots = floor(shotgunShellCount * 1/4)
+	var maxRealShots = floor(shotgunShellCount * 4/5)
+	realShots = randi() % (shotgunShellCount - minRealShots + maxRealShots ) + minRealShots
 	blanks = shotgunShellCount - realShots
 	# disgusting, TODO: refactor later
 	gameState.realCount = realShots
 	gameState.blanksCount = blanks
 	generateRandomBulletsOrder() # aka shuffle
+
+	for player in gameState.alivePlayers:
+		var player_gun = player.get_node_or_null("RotPivot/GunAndCameraPivot/Gun")
+		if player_gun:
+			player_gun.visible = false
+	
+	print("Window REFS: ", windowRefs)
+	var exit_signals: Array[Signal] = []
+	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
+	var overlayDup = info_overlay.duplicate()
+	get_tree().root.add_child(overlayDup)
+	overlayDup.show_round_info(roundIndex + 1, realShots, blanks)
+	exit_signals.append(overlayDup.tree_exiting)
+	for player_window in windowRefs:
+		var subviewport_container = player_window.get_child(0)
+		var subviewport = subviewport_container.get_child(0)
+		var overlayDupWin = info_overlay.duplicate() # reusing overlayDup 
+		subviewport.add_child(overlayDupWin)
+		await get_tree().process_frame # dumb caveat
+		overlayDupWin.show_round_info(roundIndex + 1, realShots, blanks)
+		exit_signals.append(overlayDup.tree_exiting)
+	
 	
 	#TODO: remove these when UI done but rn useful for debugging
 	print( "Current players turn: " + str(currPlayerTurnIndex))
 	print("Game State: ")
 	print(gameState.alivePlayers)
 	print(gameState.upgradesOnTable)
+	
+	
+	# show round specific UI to all players
+	
 	turn_ended.emit(gameState, currPlayerTurnIndex)
 
 func endTurn() -> void:
@@ -119,6 +150,8 @@ func endTurn() -> void:
 	print(gameState.upgradesOnTable)
 	gun.set_target_player(gameState.alivePlayers[currPlayerTurnIndex])
 	turn_ended.emit(gameState, currPlayerTurnIndex)
+	
+	
 	
 func checkWin() -> bool:
 	return gameState.alivePlayers.size() == 1
@@ -173,21 +206,25 @@ func generateRandomUpgrades():
 		gameState.upgradesOnTable.append(newUpgrade)
 
 func animate_removal(child):
-	child.get_node("AnimationPlayer").play("disappear")
-	await get_tree().create_timer(0.5).timeout
-	child.queue_free()
+	if(is_instance_valid(child)):
+		child.disappear_animation_playing = true
+		child.get_node("AnimationPlayer").play("disappear")
+		await get_tree().create_timer(0.5).timeout
+		child.queue_free()
+	else:
+		print("deselect upgrade animation error")
 
 # curr plan is to recall this every upgrade turn
 func spawnUpgradesOnTable():
 	for child in table.get_children():
 		if child is Upgrade:
-			if child.was_picked == true:
+			if child.was_picked == true and not child.disappear_animation_playing:
 				animate_removal(child)
-			else:
+			elif not child.disappear_animation_playing:
 				child.queue_free()
 	
-	var tableX: float = 1.5
-	var tableZ: float = 1.5
+	var tableX: float = 2
+	var tableZ: float = 2
 	var total_upgrades = gameState.upgradesOnTable.size()
 	if total_upgrades == 0:
 		return
@@ -224,14 +261,11 @@ func spawnUpgradesOnTable():
 		rendered_animation_object[gameState.upgradesOnTable[i]] = upgradeInstance
 		var row: int = x / columns   
 		var col: int = x % columns
-		var y = 0.6
 		if upgradeInstance.is_selected:
 			upgradeInstance.get_node("AnimationPlayer").play("pop up")
-			#upgradeInstance.scale = upgradeInstance.scale*1.5
-			#y += 0.2
 		var pos = Vector3(
 			startX + col * spacingX,
-			y,
+			0.53,
 			startZ + row * spacingZ
 		)
 
@@ -276,6 +310,9 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 			blankShot = true
 			print("BLANK and shot urself")
 	var dmg = currBull * callerPlayerRef.power
+	if callerPlayerRef.hasDoubleDamage:
+		dmg *= 2
+		callerPlayerRef.hasDoubleDamage = false
 	targetPlayerRef.takeDamage(dmg)
 	if(targetPlayerRef.hp == 0):
 		for i in range(gameState.alivePlayers.size()):
@@ -342,6 +379,8 @@ func useCigarette(callerPlayerRef: Player) -> void:
 
 func useBeer(callerPlayerRef: Player) -> void:
 	var popped = shotgunShells.pop_front()
+	callerPlayerRef.get_node("cup_only_new").visible = true
+	callerPlayerRef.get_node("JuiceAnimationPlayer").play("drink_coffee")
 	# Play animation of popped bullet being ejected
 	if shotgunShells.size() == 0:
 		endTurn()
@@ -372,10 +411,14 @@ func useBurnerPhone(callerPlayerRef: Player) -> void:
 		print(0) # play animation showing empty shell 
 	
 func useHandSaw(callerPlayerRef: Player) -> void:
-	callerPlayerRef.power += 1
+	if !isFirstHandSawUsed:
+		isFirstHandSawUsed = true
+		callerPlayerRef.hasDoubleDamage = true
+		gun.saw_off_barrel()
 	# also need to show gun being sawed off
 
 func _ready():
+	await get_tree().process_frame # fixed ghost code (seriously should use a signal probably)
 	initMatch()  
 
 func on_player_target_changed(target_node):
@@ -398,6 +441,9 @@ func update_target_animation(target_pos):
 		me.look_at(target_pos, Vector3.UP)
 		end_rot = me.rotation
 		me.rotation = start_rot  # reset
+		
+		end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+
 		tween = get_tree().create_tween()
 		tween.tween_property(me, "rotation", end_rot, GUN_ROTATION_DURATION)
 	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
@@ -405,5 +451,8 @@ func update_target_animation(target_pos):
 	pivot.look_at(target_pos, Vector3.UP)
 	end_rot = pivot.rotation
 	pivot.rotation = start_rot
+	
+	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+
 	tween = get_tree().create_tween()
 	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
