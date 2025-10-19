@@ -46,9 +46,9 @@ func initMatch() -> void:
 			players.append(sibs)
 			var connectedControllers = Input.get_connected_joypads()
 			if players.size() <= connectedControllers.size():
-				players[-1].controller_id = connectedControllers[players.size() - 1]
+				players[-1].controllerID = connectedControllers[players.size() - 1]
 			else:
-				players[-1].controller_id = -1
+				players[-1].controllerID = -1
 			
 	sfxPlayer = get_node("../SFXPlayer")
 	gun = get_node("../Gun")

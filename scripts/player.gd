@@ -18,7 +18,8 @@ var selectingTarget: bool = false
 var pendingUpgrade: Upgrade = null
 var is_playing_animation: bool = true
 var taking_damage_animation_playing: bool = false
-@export var controllerID: int = -1
+var controllerID: int = -1
+var stickReset: bool = true
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
@@ -55,20 +56,25 @@ func _process(delta):
 		player.get_node("RotPivot/GunAndCameraPivot/Gun").visible = false
 	gun.visible = true
 
-	var left_pressed = Input.is_action_just_pressed("ui_left")
-	var right_pressed = Input.is_action_just_pressed("ui_right")
-	var select_pressed = Input.is_action_just_pressed("ui_select")
+	var left_pressed = Input.is_action_just_pressed("left_arrow")
+	var right_pressed = Input.is_action_just_pressed("right_arrow")
+	var select_pressed = Input.is_action_just_pressed("spacebar")
 
 	if controllerID >= 0:
-		var joy_left = Input.get_joy_axis(controllerID, JOY_AXIS_LEFT_X) < -0.5
-		var joy_right = Input.get_joy_axis(controllerID, JOY_AXIS_LEFT_X) > 0.5
-		var button_x = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_X)
+		var axis_x = Input.get_joy_axis(controllerID, JOY_AXIS_LEFT_X)
+		var button_x = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_A)
+		if abs(axis_x) < 0.3:
+			stickReset = true
+		else:
+			if stickReset:
+				if axis_x < -0.5:
+					left_pressed = true
+					stickReset = false
+				elif axis_x > 0.5:
+					right_pressed = true
+					stickReset = false
 
-		if joy_left:
-			left_pressed = true
-		elif joy_right:
-			right_pressed = true
-		elif button_x:
+		if button_x:
 			select_pressed = true
 
 	if left_pressed:
