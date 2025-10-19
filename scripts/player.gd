@@ -151,7 +151,7 @@ func update_target():
 				game_manager.update_target_animation(self, target.get_node("target_for_gun").global_transform.origin)
 		elif target is Upgrade:
 			#target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
-			inventoryOverlay.updateInventory(inventory, max(current_target_index - 2, 0))
+			inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 			
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
@@ -189,6 +189,7 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
 	inventory.append(upgrade)
+	inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 	upgrade.reparent(self)
 	upgrade.position = health_jug.position
 	upgrade.position.z += 3
@@ -199,6 +200,7 @@ func addInventory(upgrade: Upgrade) -> void:
 func removeInventory(upgrade: Upgrade) -> bool:
 	if upgrade in inventory:
 		inventory.erase(upgrade)
+		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 		return true
 	return false
 
