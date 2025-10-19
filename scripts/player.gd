@@ -18,6 +18,8 @@ var selectingTarget: bool = false
 var pendingUpgrade: Upgrade = null
 var is_playing_animation: bool = true
 var taking_damage_animation_playing: bool = false
+var controllerID: int = -1
+var stickReset: bool = true
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
@@ -53,28 +55,48 @@ func _process(delta):
 	for player in game_state.alivePlayers:
 		player.get_node("RotPivot/GunAndCameraPivot/Gun").visible = false
 	gun.visible = true
-	if Input.is_action_just_pressed("ui_left"):
+
+	var left_pressed = Input.is_action_just_pressed("left_arrow")
+	var right_pressed = Input.is_action_just_pressed("right_arrow")
+	var select_pressed = Input.is_action_just_pressed("spacebar")
+
+	if controllerID >= 0:
+		var axis_x = Input.get_joy_axis(controllerID, JOY_AXIS_LEFT_X)
+		var button_x = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_A)
+		if abs(axis_x) < 0.3:
+			stickReset = true
+		else:
+			if stickReset:
+				if axis_x < -0.5:
+					left_pressed = true
+					stickReset = false
+				elif axis_x > 0.5:
+					right_pressed = true
+					stickReset = false
+
+		if button_x:
+			select_pressed = true
+
+	if left_pressed:
 		var init_target_index = current_target_index
 		current_target_index = (current_target_index - 1 + targets.size()) % targets.size()
 		update_target()
-		#rotate_gun(init_target_index)
-	elif Input.is_action_just_pressed("ui_right"):
+
+	elif right_pressed:
 		var init_target_index = current_target_index
 		current_target_index = (current_target_index + 1) % targets.size()
 		update_target()
-		#rotate_gun(init_target_index)
-	elif Input.is_action_just_pressed("ui_select"):
+
+	elif select_pressed:
 		if targets.size() == 0:
 			return
 		var target = targets[current_target_index]
-		
 		if selectingTarget:
 			selectingTarget = false
 			game_manager.useUpgrade(pendingUpgrade, self, target)
 			pendingUpgrade = null
 			targets = duplicateTargets.duplicate()
 			return
-			
 		if game_state.isUpgradeRound:
 			if target is Upgrade:
 				is_my_turn = false
@@ -85,7 +107,7 @@ func _process(delta):
 				call_deferred("shootDeferred", target)
 			elif target is Upgrade:
 				call_deferred("useUpgradeDeferred", target)
-				
+
 func pickUpgradeDeferred(target: Upgrade):
 	game_manager.pickUpUpgrade(self, target)
 
