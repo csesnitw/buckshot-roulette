@@ -64,7 +64,7 @@ func initRound() -> void:
 		generateRandomUpgrades() # doesnt work yet
 		spawnUpgradesOnTable()
 		currPlayerTurnIndex = randi() % gameState.alivePlayers.size() # added this here due to a weird bug with UI if any other player other than the main viewport starts the game
-		for playerRef in gameState.alivePlayers:
+		for playerRef in gameState.alivePlayers: #all players look at centre
 			update_target_animation(playerRef, Vector3(0,-0.5,0))
 	gameState.currRoundIndex = roundIndex
 	gameState.currTurnIndex = 0

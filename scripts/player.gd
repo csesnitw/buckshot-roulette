@@ -17,6 +17,7 @@ var game_state
 var selectingTarget: bool = false
 var pendingUpgrade: Upgrade = null
 var is_playing_animation: bool = true
+var taking_damage_animation_playing: bool = false
 
 @onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
@@ -33,14 +34,14 @@ func _init(_name: String = "Player", _hp: int = 3):
 func _ready():
 	hp = game_manager.maxHP
 	target_label.visible = false
-	health_jug.create(game_manager.maxHP)
+	health_jug.create(game_manager.maxHP-1)
 	blob_animation_player.play("idle")
 	blob_animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
-	if self.name == "Player1":
+	if self.name == "Player1": #player1's camera is not mapped in viewport logic
 		game_manager.fuckedUpPlayerToViewportMap[self] = self.get_node("RotPivot/GunAndCameraPivot/Camera3D")
 	
 func _on_animation_finished(anim_name):
-	if anim_name == "getting_shot":
+	if anim_name == "getting_shot" && hp!=0:
 		blob_animation_player.play("idle")
 	
 func _process(delta):
@@ -90,6 +91,7 @@ func pickUpgradeDeferred(target: Upgrade):
 
 func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
+	game_manager.update_target_animation(self, Vector3(0,-0.5,0)) #look to centre
 
 func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	if target.upgrade_type == Upgrade.UpgradeType.handcuff:
@@ -157,7 +159,6 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 		else:
 			if !is_playing_animation:
 				blob_animation_player.play("idle")
-	#for player in game_state.alivePlayers:
 	
 
 # Inventory management
@@ -210,18 +211,25 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
-	hp -= amount
-	if hp < 0:
-		hp = 0
+	while taking_damage_animation_playing: #if function is called again before previous animation stops
+		await get_tree().process_frame
+	taking_damage_animation_playing = true
 	for i in amount:
+		hp -= 1
+		if hp < 0:
+			hp = 0
+			break
+		taking_damage_animation_playing = true
 		is_playing_animation = true
 		blob_animation_player.play("RESET")
 		blob_animation_player.play("getting_shot")
-		juice_animation_player.play("drink")
-		await get_tree().create_timer(1).timeout
-		juice_animation_player.play_backwards("drink")
-		await get_tree().create_timer(1).timeout
-		health_jug.drink()
+		if hp >0:
+			juice_animation_player.play("drink")
+			await get_tree().create_timer(1).timeout
+			health_jug.drink()
+			juice_animation_player.play_backwards("drink")
+			await get_tree().create_timer(1).timeout
+	taking_damage_animation_playing = false
 	
 
 # Heal the player
