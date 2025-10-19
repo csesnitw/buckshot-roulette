@@ -90,6 +90,7 @@ func pickUpgradeDeferred(target: Upgrade):
 
 func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
+	game_manager.update_target_animation(self, Vector3(0,-0.5,0)) #look to centre
 
 func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	if target.upgrade_type == Upgrade.UpgradeType.handcuff:
@@ -152,13 +153,11 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 			targets = remove_nulls_from_array(game_state.alivePlayers + inventory)
 		update_target()
 	else:
-		$RotPivot/GunAndCameraPivot.rotation = Vector3.ZERO
 		if self in game_state.handCuffedPlayers:
 			blob_animation_player.play("handcuffed")
 		else:
 			if !is_playing_animation:
 				blob_animation_player.play("idle")
-	#for player in game_state.alivePlayers:
 	
 
 # Inventory management
