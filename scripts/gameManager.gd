@@ -433,70 +433,62 @@ func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 func update_target_animation(player: Player, target_pos):
 	var start_rot
 	var end_rot
-	var tween
-
+	var to_tween = []
 	# For other players (not Player1)
 	if player.name != "Player1":
 		var me = fuckedUpPlayerToViewportMap[player]
 		start_rot = me.rotation
 		me.look_at(target_pos, Vector3.UP)
 		end_rot = me.rotation
-		me.rotation = start_rot  # reset
 		end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
 
-		tween = get_tree().create_tween()
-		tween.tween_property(me, "rotation", end_rot, GUN_ROTATION_DURATION)
+		to_tween.append([me, start_rot, end_rot])
 
 	# Gun pivot rotation
 	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
 	start_rot = pivot.rotation
 	pivot.look_at(target_pos, Vector3.UP)
 	end_rot = pivot.rotation
-	pivot.rotation = start_rot
-	tween = get_tree().create_tween()
-	tween.tween_property(pivot, "rotation", end_rot, GUN_ROTATION_DURATION)
-	await get_tree().create_timer(GUN_ROTATION_DURATION).timeout
-	# Independent gun rotation
-	# was needed in previous version, not needed anymore but lowkey looks cool, so I'll leave it here
+	to_tween.append([pivot, start_rot, end_rot])
+	
 	start_rot = player.gun.rotation
 	player.gun.look_at(target_pos, Vector3.UP)
 	end_rot = player.gun.rotation
-	player.gun.rotation = start_rot
-	tween = get_tree().create_tween()
-	tween.tween_property(player.gun, "rotation", end_rot, GUN_ROTATION_DURATION)
+	to_tween.append([player.gun, start_rot, end_rot])
+	
+	for tween_info in to_tween:
+		tween_info[0].rotation = tween_info[1]
+		var tween = get_tree().create_tween()
+		tween.tween_property(tween_info[0], "rotation", tween_info[2], GUN_ROTATION_DURATION)
 
 
 func self_target_animation(player : Player):
 	var table_center = Vector3(0, -0.5, 0)
-
+	var to_tween = []
 	if player.name != "Player1":
 		var me = fuckedUpPlayerToViewportMap[player]
 		var me_start_rot = me.rotation
 		me.look_at(table_center, Vector3.UP)
 		var me_end_rot = me.rotation
-		me.rotation = me_start_rot
 		me_end_rot.y = wrapf(me_end_rot.y, me_start_rot.y - PI, me_start_rot.y + PI)
-
-		var me_tween = get_tree().create_tween()
-		me_tween.tween_property(me, "rotation", me_end_rot, GUN_ROTATION_DURATION)
+		to_tween.append([me, me_start_rot, me_end_rot])
 
 	var pivot = player.get_node("RotPivot/GunAndCameraPivot")
 	var pivot_start_rot = pivot.rotation
 	pivot.look_at(table_center, Vector3.UP)
 	var pivot_end_rot = pivot.rotation
-	pivot.rotation = pivot_start_rot
-
-	var pivot_tween = get_tree().create_tween()
-	pivot_tween.tween_property(pivot, "rotation", pivot_end_rot, GUN_ROTATION_DURATION)
+	to_tween.append([pivot, pivot_start_rot, pivot_end_rot])
 
 	var gun_node = player.gun
 	var gun_start_rot = gun_node.rotation
 	var target_pos = fuckedUpPlayerToViewportMap[player].global_transform.origin
-
 	gun_node.look_at(target_pos, Vector3.UP)
 	var gun_end_rot = gun_node.rotation
-	gun_node.rotation = gun_start_rot
 	gun_end_rot.y = wrapf(gun_end_rot.y, gun_start_rot.y - PI, gun_start_rot.y + PI)
+	to_tween.append([gun_node, gun_start_rot, gun_end_rot])
 
-	var gun_tween = get_tree().create_tween()
-	gun_tween.tween_property(gun_node, "rotation", gun_end_rot, GUN_ROTATION_DURATION)
+	for tween_info in to_tween:
+		tween_info[0].rotation = tween_info[1]
+		var tween = get_tree().create_tween()
+		tween.tween_property(tween_info[0], "rotation", tween_info[2], GUN_ROTATION_DURATION)
+	
