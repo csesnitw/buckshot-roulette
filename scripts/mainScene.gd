@@ -38,29 +38,9 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	sv.size = Vector2(960, 480) # probably should make this a var
 	sv.world_3d = get_viewport().world_3d
 	sv.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-
-	# TODO: revamp this
-	###
-	var hud = CanvasLayer.new()
-	hud.name = "HUD"
-
-	var label = Label.new()
-	label.add_theme_color_override("font_color", Color(255, 255, 255))
-	label.name = "TargetLabel"
-	label.anchor_left = 0
-	label.anchor_top = 1
-	label.anchor_right = 0
-	label.anchor_bottom = 1
-	label.position = Vector2(10, -60)
-	label.add_theme_font_size_override("font_size", 22)
-	hud.add_child(label)
-
-	sv.add_child(hud)
 	container.add_child(sv)
+
 	var player = game.get_node(playerName)
-	player.target_label = sv.get_node("HUD/TargetLabel")
-
-
 	var cam = game.get_node(playerName + "/RotPivot/GunAndCameraPivot/Camera3D")
 	var cam_global = cam.global_transform
 	cam.get_parent().remove_child(cam)
