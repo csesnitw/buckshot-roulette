@@ -22,7 +22,7 @@ var controllerID: int = -1
 var stickReset: bool = true
 var inventoryOverlay: Node = null
 
-@onready var target_label: Label = $CanvasLayer/TargetLabel
+#@onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
 @onready var gun: Node3D = $RotPivot/GunAndCameraPivot/Gun
 @onready var health_jug = $HealthJug
@@ -36,7 +36,7 @@ func _init(_name: String = "Player", _hp: int = 3):
 
 func _ready():
 	hp = game_manager.maxHP
-	target_label.visible = false
+	#target_label.visible = false
 	health_jug.create(game_manager.maxHP-1)
 	blob_animation_player.play("idle")
 	blob_animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
@@ -126,7 +126,7 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 		targets.erase(self)
 		current_target_index = 0
 		update_target()
-		target_label.visible = true
+		#target_label.visible = true
 		return
 	game_manager.useUpgrade(target, self, targetPlayerRef)
 	targets.erase(target)
@@ -134,25 +134,25 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	update_target()
 	
 	
-func update_target():
-	print(inventoryOverlay)
-	
-	var inventory_icons: Array[String] = []
-	
-	for upgrade in inventory:
-		inventory_icons.append(getInventoryIcon(upgrade))
+func update_target():	
+	#var inventory_icons: Array[String] = []
+	#
+	#for upgrade in inventory:
+		#inventory_icons.append(getInventoryIcon(upgrade))
 	
 	if targets.size() > 0:
 		var target = targets[current_target_index]
 		target_changed.emit(target)
 		if target is Player:
-			target_label.set_text("|".join(inventory_icons))
+			#target_label.set_text("|".join(inventory_icons))
 			if target == self:
 				game_manager.self_target_animation(self)
 			else:
 				game_manager.update_target_animation(self, target.get_node("target_for_gun").global_transform.origin)
 		elif target is Upgrade:
-			target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
+			#target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
+			inventoryOverlay.updateInventory(inventory, max(current_target_index - 2, 0))
+			
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
 					if target_temp.is_selected:
@@ -164,7 +164,7 @@ func update_target():
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
 	is_my_turn = (game_state.alivePlayers[current_player_index] == self)
-	target_label.visible = is_my_turn
+	#target_label.visible = is_my_turn
 	if !targets.is_empty():
 		current_target_index = 0
 	else: 
