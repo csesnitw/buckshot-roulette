@@ -18,7 +18,7 @@ var gun: Node3D = null
 var blankShot: bool = false # im kinda stupid this needs refactoring this is only used to check if u shot urself!! 
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
 var fuckedUpPlayerToViewportMap: Dictionary = {}
-var windowRefs = []
+var windowRefs: Array = []
 var current_target_node: Node3D = null
 var isFirstHandSawUsed: bool = false
 
@@ -60,6 +60,23 @@ func initMatch() -> void:
 		self.turn_ended.connect(player.onTurnEnd)
 		player.target_changed.connect(on_player_target_changed)
 	table = get_node("../Table")
+	
+	var inventoryScene = preload("res://scenes/InventoryScene.tscn").instantiate()
+	var inventorySceneMainDuplicate = inventoryScene.duplicate()
+	get_tree().root.add_child(inventorySceneMainDuplicate)
+	
+	players[0].setInventoryOverlay(inventorySceneMainDuplicate)
+	
+	for i in range(len(windowRefs)):
+		var window = windowRefs[i]
+		var subviewport_container = window.get_child(0)
+		var subviewport = subviewport_container.get_child(0)
+		var inventorySceneSubDuplicate = inventoryScene.duplicate()
+		subviewport.add_child(inventorySceneSubDuplicate)
+		
+		var player = players[i + 1]
+		player.setInventoryOverlay(inventorySceneSubDuplicate)
+	
 	initRound()
 
 func initRound() -> void:
