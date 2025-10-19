@@ -10,7 +10,7 @@ atlas = ExtResource("4_7crg0")
 region = Rect2(16, 16, 736, 296)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eo8br"]
-albedo_color = Color(0.24640569, 0.53098416, 0.7203527, 1)
+albedo_color = Color(1, 1, 0, 1)
 albedo_texture_force_srgb = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ngma2"]
