@@ -21,6 +21,7 @@ var taking_damage_animation_playing: bool = false
 var controllerID: int = -1
 var stickReset: bool = true
 var inventoryOverlay: Node = null
+var button_x = false
 
 #@onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
@@ -62,7 +63,8 @@ func _process(delta):
 
 	if controllerID >= 0:
 		var axis_x = Input.get_joy_axis(controllerID, JOY_AXIS_LEFT_X)
-		var button_x = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_A)
+		var aPressed = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_A)
+
 		if abs(axis_x) < 0.3:
 			stickReset = true
 		else:
@@ -74,8 +76,11 @@ func _process(delta):
 					right_pressed = true
 					stickReset = false
 
-		if button_x:
+		if aPressed and not button_x:
 			select_pressed = true
+			button_x = true
+		elif not aPressed:
+			button_x = false
 
 	if left_pressed:
 		var init_target_index = current_target_index
