@@ -21,7 +21,6 @@ var fuckedUpPlayerToViewportMap: Dictionary = {}
 var windowRefs: Array = []
 var current_target_node: Node3D = null
 var isFirstHandSawUsed: bool = false
-var gun_transfer_animation_playing: bool = false
 
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
@@ -104,9 +103,8 @@ func initRound() -> void:
 
 	for player in gameState.alivePlayers:
 		var player_gun = player.get_node_or_null("RotPivot/GunAndCameraPivot/Gun")
-		if player_gun && player!=gameState.alivePlayers[currPlayerTurnIndex]:
+		if player_gun:
 			player_gun.visible = false
-	
 	
 	print("Window REFS: ", windowRefs)
 	var exit_signals: Array[Signal] = []
@@ -145,9 +143,7 @@ func endTurn() -> void:
 	if blankShot:
 		blankShot = false
 	else:
-		var orig = currPlayerTurnIndex
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
-		transfer_gun_animation(gameState.alivePlayers[orig])
 	
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
@@ -452,8 +448,6 @@ func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 	return true
 
 func update_target_animation(player: Player, target_pos):
-	while gun_transfer_animation_playing:
-		await  get_tree().process_frame
 	var start_rot
 	var end_rot
 	var to_tween = []
@@ -477,7 +471,6 @@ func update_target_animation(player: Player, target_pos):
 	start_rot = player.gun.rotation
 	player.gun.look_at(target_pos, Vector3.UP)
 	end_rot = player.gun.rotation
-	player.gun.visible = true
 	to_tween.append([player.gun, start_rot, end_rot])
 	
 	for tween_info in to_tween:
@@ -487,8 +480,6 @@ func update_target_animation(player: Player, target_pos):
 
 
 func self_target_animation(player : Player):
-	while gun_transfer_animation_playing:
-		await  get_tree().process_frame
 	var table_center = Vector3(0, -0.5, 0)
 	var to_tween = []
 	if player.name != "Player1":
@@ -506,7 +497,6 @@ func self_target_animation(player : Player):
 	to_tween.append([pivot, pivot_start_rot, pivot_end_rot])
 
 	var gun_node = player.gun
-	gun_node.visible = true
 	var gun_start_rot = gun_node.rotation
 	var target_pos = fuckedUpPlayerToViewportMap[player].global_transform.origin
 	gun_node.look_at(target_pos, Vector3.UP)
@@ -519,21 +509,3 @@ func self_target_animation(player : Player):
 		var tween = get_tree().create_tween()
 		tween.tween_property(tween_info[0], "rotation", tween_info[2], GUN_ROTATION_DURATION)
 	
-func transfer_gun_animation(from_player: Player):
-	if gameState.alivePlayers.size()<=1:
-		return
-	gun_transfer_animation_playing = true
-	var destination_gun = gameState.alivePlayers[currPlayerTurnIndex].get_node("RotPivot/GunAndCameraPivot/Gun")
-	var start_gun = from_player.get_node("RotPivot/GunAndCameraPivot/Gun")
-	var copy_to_animate = start_gun.duplicate()
-	copy_to_animate.global_transform = start_gun.global_transform
-	start_gun.visible = false
-	copy_to_animate.visible = true
-	add_child(copy_to_animate)
-	var tween = get_tree().create_tween()
-	tween.tween_property(copy_to_animate, "global_position", destination_gun.global_position, 1)
-	tween.tween_property(copy_to_animate, "global_rotation", destination_gun.global_rotation, 1)
-	await tween.finished
-	destination_gun.visible = true
-	copy_to_animate.queue_free()
-	gun_transfer_animation_playing = false
