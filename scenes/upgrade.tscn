@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dke20x474nus7" path="res://assets/coffee cup/coffee_cup_with_plate.glb" id="6_b42rm"]
 [ext_resource type="PackedScene" uid="uid://ba2qnbhesl661" path="res://assets/magnifying_glass/scene.gltf" id="6_i5kin"]
 [ext_resource type="PackedScene" uid="uid://ctrvcynf2qca5" path="res://assets/pool_floatie.glb" id="6_jnjjj"]
-[ext_resource type="PackedScene" uid="uid://cve2jkbk8gh6f" path="res://assets/first_aid_box.glb" id="7_abcde"]
+[ext_resource type="PackedScene" uid="uid://cve2jkbk8gh6f" path="res://assets/pills.glb" id="7_abcde"]
 
 [sub_resource type="Animation" id="Animation_jnjjj"]
 length = 0.001
@@ -510,4 +510,4 @@ transform = Transform3D(30, 0, 0, 0, 60, 0, 0, 0, 30, 0, -0.31065464, 0)
 visible = false
 
 [node name="handsaw" parent="handsaw_pivot" instance=ExtResource("7_abcde")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(15, 0, 0, 0, 30, 0, 0, 0, 15, 0, 0, 0)
