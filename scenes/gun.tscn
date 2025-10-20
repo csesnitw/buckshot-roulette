@@ -82,9 +82,10 @@ transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 script = ExtResource("1_gun_script")
 
 [node name="GunPivot" type="Node3D" parent="."]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9981761, 0.06036912, 0, -0.06036911, 0.998176, 0, -0.1487853, 0)
 
 [node name="GunMesh" parent="GunPivot" instance=ExtResource("2_gun_mesh")]
-transform = Transform3D(-0.81719524, 0.5509762, 0.16149542, 0.552006, 0.83225065, -0.0366437, -0.1543317, 0.05930219, -0.9861929, -0.0004916101, -0.0002811719, -0.010660398)
+transform = Transform3D(-0.8171952, 0.55097616, 0.16149542, 0.55200595, 0.8322506, -0.036643684, -0.15433168, 0.0593022, -0.9861929, 0, -0.0002811719, -0.010660398)
 
 [node name="handsaw" parent="GunPivot" instance=ExtResource("3_handsaw_mesh")]
 visible = false
