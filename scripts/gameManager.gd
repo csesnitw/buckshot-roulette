@@ -392,7 +392,7 @@ func useUpgrade(upgradeRef: Upgrade, callerPlayerRef: Player, targetPlayerRef: P
 			newUpgrade.upgrade_type = Upgrade.UpgradeType.values()[randi() % 8]
 			useUpgrade(newUpgrade, callerPlayerRef, targetPlayerRef)
 		
-	callerPlayerRef.inventory.erase(upgradeRef)
+	callerPlayerRef.removeInventory(upgradeRef)
 
 func useCigarette(callerPlayerRef: Player) -> void:
 	callerPlayerRef.heal(1, maxHP)

@@ -171,6 +171,7 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	#target_label.visible = is_my_turn
 	if !targets.is_empty():
 		current_target_index = 0
+		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 	else: 
 		print("Something gones wrong")
 	
@@ -201,12 +202,10 @@ func addInventory(upgrade: Upgrade) -> void:
 	upgrade.add_child(cam)
 	cam.make_current()	
 
-func removeInventory(upgrade: Upgrade) -> bool:
+func removeInventory(upgrade: Upgrade) -> void:
 	if upgrade in inventory:
 		inventory.erase(upgrade)
 		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
-		return true
-	return false
 
 func getInventoryIcon(upgrade: Upgrade) -> String:
 	if upgrade.upgrade_type == Upgrade.UpgradeType.cigarette:

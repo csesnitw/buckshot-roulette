@@ -31,6 +31,8 @@ func updateInventory(upgrade_array: Array, current_index: int) -> void:
 	# Highlight the current slot
 	if current_index >= 0 and current_index < upgrade_array.size():
 		increaseLabelTextSize(inventory_slots[current_index])
+	else:
+		resetHighlights()
 
 # Fill inventory slots with corresponding icons
 func fillInventorySlots(upgrade_array: Array) -> void:
