@@ -109,7 +109,6 @@ func pickUpgradeDeferred(target: Upgrade):
 
 func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
-	game_manager.update_target_animation(self, Vector3(0,-0.5,0)) #look to centre
 
 func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	if target.upgrade_type == Upgrade.UpgradeType.handcuff:

@@ -22,7 +22,7 @@ var windowRefs = []
 var current_target_node: Node3D = null
 var isFirstHandSawUsed: bool = false
 var gun_transfer_animation_playing: bool = false
-
+var last_turn_player_ref: Player = null
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
 
@@ -128,9 +128,9 @@ func endTurn() -> void:
 	if blankShot:
 		blankShot = false
 	else:
-		var orig = currPlayerTurnIndex
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
-		transfer_gun_animation(gameState.alivePlayers[orig])
+		transfer_gun_animation(last_turn_player_ref)
+		update_target_animation(last_turn_player_ref, Vector3(0,-0.5,0)) #look to centre
 	
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
@@ -313,6 +313,7 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	var currBull : int = shotgunShells.pop_front()
 	
 	gameState.lastShot = currBull
+	last_turn_player_ref = callerPlayerRef
 	if currBull == 1:
 		sfxPlayer.playShoot()
 	else:
@@ -513,9 +514,13 @@ func transfer_gun_animation(from_player: Player):
 	start_gun.visible = false
 	copy_to_animate.visible = true
 	add_child(copy_to_animate)
+	var start_rot = copy_to_animate.global_rotation
+	var end_rot = destination_gun.global_rotation
+	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
 	var tween = get_tree().create_tween()
 	tween.tween_property(copy_to_animate, "global_position", destination_gun.global_position, 1)
-	tween.tween_property(copy_to_animate, "global_rotation", destination_gun.global_rotation, 1)
+	tween = get_tree().create_tween()
+	tween.tween_property(copy_to_animate, "global_rotation", end_rot, 1)
 	await tween.finished
 	destination_gun.visible = true
 	copy_to_animate.queue_free()
