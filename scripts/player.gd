@@ -51,11 +51,9 @@ func _on_animation_finished(anim_name):
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
+		gun.visible = false
 		return
 	
-	for player in game_state.alivePlayers:
-		player.get_node("RotPivot/GunAndCameraPivot/Gun").visible = false
-	gun.visible = true
 
 	var left_pressed = Input.is_action_just_pressed("left_arrow")
 	var right_pressed = Input.is_action_just_pressed("right_arrow")
@@ -118,7 +116,6 @@ func pickUpgradeDeferred(target: Upgrade):
 
 func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
-	game_manager.update_target_animation(self, Vector3(0,-0.5,0)) #look to centre
 
 func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	if target.upgrade_type == Upgrade.UpgradeType.handcuff:
@@ -288,34 +285,6 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 			filtered_array.append(item)
 	return filtered_array
 @onready var animationPlayer = $AnimationPlayer
-
-#func rotate_gun(init_target_index):
-	#var target = targets[current_target_index]
-	#if target is Player:
-		#animationPlayer.play(relative_position(targets[init_target_index]) + " to " + relative_position(target))
-		
-		
-const LOCATIONS_4_PLAYERS = ["self","right","front","left"]
-
-func relative_position(target):
-	if game_state.alivePlayers.size()==4:
-		var target_index = 0
-		for player in game_state.alivePlayers:
-			if player == target:
-				break
-			target_index+=1
-		var self_index = 0
-		for player in game_state.alivePlayers:
-			if player == self:
-				break
-			self_index+=1
-		return LOCATIONS_4_PLAYERS[(target_index - self_index + game_state.alivePlayers.size())%game_state.alivePlayers.size()]
-	elif game_state.alivePlayers.size()==2:
-		if target == self:
-			return "self"
-		else:
-			return "front"
-
 
 func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "drink_coffee":
