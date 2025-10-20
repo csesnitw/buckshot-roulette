@@ -17,10 +17,65 @@ var player_windows: Array[Window] = []
 var num_players: int = 0
 var gameManRef
 
+var menu_buttons: Array[Button] = []
+var selected_index := 0
+var controller_id := -1
+var stick_reset := true
+var buttonaPressed := false
+
 func _ready():
 	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
 	threePlayerButton.pressed.connect(func(): await setupPlayers(gameScene3, 3))
 	fourPlayerButton.pressed.connect(func(): await setupPlayers(gameScene4, 4))
+	menu_buttons = [two_player_button, threePlayerButton, fourPlayerButton]
+	highlight_button(selected_index)
+
+func _process(delta):
+	if not home_screen.visible:
+		return
+
+	var connected = Input.get_connected_joypads()
+	if connected.size() > 0:
+		controller_id = connected[0]
+
+	var move_left =  Input.is_action_just_pressed("left_arrow")
+	var move_right = Input.is_action_just_pressed("right_arrow")
+	var select = Input.is_action_just_pressed("spacebar")
+
+	if controller_id >= 0:
+		var axis_x = Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X)
+		if axis_x < -0.5 and stick_reset:
+			move_left = true
+			stick_reset = false
+		elif axis_x > 0.5 and stick_reset:
+			move_right = true
+			stick_reset = false
+		elif abs(axis_x) < 0.3:
+			stick_reset = true
+
+		var aPressed = Input.is_joy_button_pressed(controller_id, JOY_BUTTON_A)
+		if aPressed and not buttonaPressed:
+			select = true
+			buttonaPressed = true
+		elif not aPressed:
+			buttonaPressed = false
+
+	if move_left:
+		selected_index = (selected_index - 1 + menu_buttons.size()) % menu_buttons.size()
+		highlight_button(selected_index)
+	elif move_right:
+		selected_index = (selected_index + 1) % menu_buttons.size()
+		highlight_button(selected_index)
+	elif select:
+		menu_buttons[selected_index].emit_signal("pressed")
+
+func highlight_button(index: int):
+	for i in range(menu_buttons.size()):
+		if i == index:
+			menu_buttons[i].grab_focus()
+		else:
+			menu_buttons[i].modulate = Color(1, 1, 1)
+
 
 
 func createWindow(game, playerName: String, title: String) -> Window:
