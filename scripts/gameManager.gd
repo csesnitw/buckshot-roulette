@@ -40,7 +40,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 0
+	roundIndex = 1
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -174,6 +174,9 @@ func endTurn() -> void:
 			currPlayerTurnIndex = gameState.alivePlayers.size() - 1
 		# to ensure the player who picked the last upgrade gets the first shot
 		# if we are adding UI based on this change the above
+		for player in gameState.alivePlayers:
+			var anim_player = player.get_node("RotPivot/blob/AnimationPlayer")
+			anim_player.play("idle")
 		
 		# now here would probably be a good time to flash the number of reals and blanks
 		
@@ -425,7 +428,29 @@ func useBeer(callerPlayerRef: Player) -> void:
 		endTurn()
 
 func useMagGlass(callerPlayerRef: Player) -> void:
-	print(shotgunShells[0]) # replace with animation for callerPlayerRef
+	var bullet_type = shotgunShells[0]
+	var bullet_type_text = "BLANK" if bullet_type == 0 else "LIVE"
+
+	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
+
+	if callerPlayerRef.name == "Player1":
+		get_tree().root.add_child(info_overlay)
+		info_overlay.show_bullet_type(bullet_type_text)
+	else:
+		var player_window = null
+		for i in range(players.size()):
+			if players[i] == callerPlayerRef:
+				if i - 1 < windowRefs.size():
+					player_window = windowRefs[i - 1]
+				break
+		
+		if player_window:
+			var subviewport_container = player_window.get_child(0)
+			var subviewport = subviewport_container.get_child(0)
+			subviewport.add_child(info_overlay)
+			await get_tree().process_frame
+			info_overlay.show_bullet_type(bullet_type_text)
+
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	var anim_player = targetPlayerRef.get_node("RotPivot/blob/AnimationPlayer")
