@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://blh6m1l23f88c"]
+[gd_scene load_steps=5 format=3 uid="uid://blh6m1l23f88c"]
 
 [ext_resource type="Script" uid="uid://b4pryetri8lfl" path="res://scripts/InventoryScene.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://dnicu56x5ur50" path="res://assets/Roboto_Condensed-Regular.ttf" id="2_pqd41"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ew0w2"]
 bg_color = Color(1, 1, 1, 0.10980392)
@@ -318,3 +319,18 @@ theme_override_font_sizes/font_size = 32
 text = " "
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -123.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.91764706, 0.7411765, 0.5254902, 1)
+theme_override_fonts/font = ExtResource("2_pqd41")
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
