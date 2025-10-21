@@ -40,7 +40,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 2
+	roundIndex = 0
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -554,4 +554,4 @@ func gun_rotate_animation(player: Player, target_pos: Vector3):
 	gun_node.rotation = gun_start_rot
 	gun_end_rot.y = wrapf(gun_end_rot.y, gun_start_rot.y - PI, gun_start_rot.y + PI)
 	var tween = get_tree().create_tween()
-	tween.tween_property(gun_node, "rotation", gun_end_rot, 1)
+	tween.tween_property(gun_node, "rotation", gun_end_rot, GUN_ROTATION_DURATION)
