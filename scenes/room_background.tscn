@@ -34,7 +34,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.9521086, 10)
 mesh = SubResource("BoxMesh_fmyl8")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10, -1.9521086, 0)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 10, -1.952, 0)
+extra_cull_margin = 642.51
 mesh = SubResource("BoxMesh_fmyl8")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
