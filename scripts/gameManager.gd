@@ -25,7 +25,7 @@ var gun_transfer_animation_playing: bool = false
 var last_turn_player_ref: Player = null
 var inventoryScene: Node = null
 var inventorySceneMainDuplicate: Node = null
-
+var animations_to_play_before_next_round_queue: int = 0
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
 
@@ -110,7 +110,11 @@ func initRound() -> void:
 		var player_gun = player.get_node_or_null("RotPivot/GunAndCameraPivot/Gun")
 		if player_gun:
 			player_gun.visible = false
-	
+	if animations_to_play_before_next_round_queue:
+		while animations_to_play_before_next_round_queue>0: #wait until animations are done
+			await get_tree().process_frame
+	else:
+		await get_tree().create_timer(0.5).timeout
 	print("Window REFS: ", windowRefs)
 	var exit_signals: Array[Signal] = []
 	var info_overlay = ROUND_START_INFO_SCENE.instantiate()

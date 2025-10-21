@@ -53,6 +53,8 @@ func _on_animation_finished(anim_name):
 	
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
+	if game_state.isUpgradeRound:
+		gun.visible = false
 	if not is_my_turn:
 		gun.visible = false
 		return
@@ -233,6 +235,7 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
+	game_manager.animations_to_play_before_next_round_queue += amount
 	while taking_damage_animation_playing: #if function is called again before previous animation stops
 		await get_tree().process_frame
 	taking_damage_animation_playing = true
@@ -252,6 +255,7 @@ func takeDamage(amount: int) -> void:
 			juice_animation_player.play_backwards("drink")
 			await get_tree().create_timer(1).timeout
 	taking_damage_animation_playing = false
+	game_manager.animations_to_play_before_next_round_queue -= amount
 	
 
 # Heal the player
