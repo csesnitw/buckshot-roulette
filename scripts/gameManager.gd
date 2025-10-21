@@ -400,19 +400,8 @@ func useUpgrade(upgradeRef: Upgrade, callerPlayerRef: Player, targetPlayerRef: P
 			useMagGlass(callerPlayerRef)
 		Upgrade.UpgradeType.handcuff:
 			useHandcuff(callerPlayerRef, targetPlayerRef)
-		Upgrade.UpgradeType.expiredMed:
-			useExpiredMed(callerPlayerRef)
-		Upgrade.UpgradeType.inverter:
-			useInverter(callerPlayerRef)
-		Upgrade.UpgradeType.burnerPhone:
-			useBurnerPhone(callerPlayerRef)
 		Upgrade.UpgradeType.handSaw:
 			useHandSaw(callerPlayerRef)
-		Upgrade.UpgradeType.wildCard:
-			# Generating random upgrade from 0-7
-			var newUpgrade = Upgrade.new()
-			newUpgrade.upgrade_type = Upgrade.UpgradeType.values()[randi() % 8]
-			useUpgrade(newUpgrade, callerPlayerRef, targetPlayerRef)
 		
 	callerPlayerRef.removeInventory(upgradeRef)
 
