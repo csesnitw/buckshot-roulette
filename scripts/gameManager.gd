@@ -40,7 +40,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 0
+	roundIndex = 2
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -146,8 +146,9 @@ func endTurn() -> void:
 		blankShot = false
 	else:
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
-		transfer_gun_animation(last_turn_player_ref)
-		update_target_animation(last_turn_player_ref, Vector3(0,-0.5,0)) 
+		if !gameState.isUpgradeRound:
+			transfer_gun_animation(last_turn_player_ref)
+			update_target_animation(last_turn_player_ref, Vector3(0,-0.5,0)) 
 	
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
@@ -543,3 +544,14 @@ func transfer_gun_animation(from_player: Player):
 	destination_gun.visible = true
 	copy_to_animate.queue_free()
 	gun_transfer_animation_playing = false
+
+func gun_rotate_animation(player: Player, target_pos: Vector3):
+	var gun_node = player.gun
+	gun_node.visible = true
+	var gun_start_rot = gun_node.rotation
+	gun_node.look_at(target_pos, Vector3.UP)
+	var gun_end_rot = gun_node.rotation
+	gun_node.rotation = gun_start_rot
+	gun_end_rot.y = wrapf(gun_end_rot.y, gun_start_rot.y - PI, gun_start_rot.y + PI)
+	var tween = get_tree().create_tween()
+	tween.tween_property(gun_node, "rotation", gun_end_rot, 1)
