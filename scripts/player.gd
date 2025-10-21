@@ -48,8 +48,11 @@ func _ready():
 
 	
 func _on_animation_finished(anim_name):
-	if anim_name == "getting_shot" && hp!=0:
-		blob_animation_player.play("idle")
+	if anim_name == "getting_shot":
+		if hp != 0:
+			blob_animation_player.play("idle")
+		else:
+			get_node("RotPivot/blob").hide()
 	
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
