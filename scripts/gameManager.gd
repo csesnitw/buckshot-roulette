@@ -97,7 +97,7 @@ func initRound() -> void:
 	# use real and blanks to show at the start of a round for a bit
 	var minRealShots = floor(shotgunShellCount * 1/4)
 	var maxRealShots = floor(shotgunShellCount * 4/5)
-	realShots = randi() % (shotgunShellCount - minRealShots + maxRealShots ) + minRealShots
+	realShots = randi() % (maxRealShots - minRealShots + 1) + minRealShots
 	blanks = shotgunShellCount - realShots
 	# disgusting, TODO: refactor later
 	gameState.realCount = realShots
