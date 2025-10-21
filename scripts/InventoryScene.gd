@@ -60,7 +60,7 @@ func getInventoryIcon(upgrade: Upgrade) -> String:
 	elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
 		return "🔍"
 	elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
-		return "🪚"
+		return "💊"
 	else:
 		return "⚡"
 
