@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://dwtj8vgnbcjky"]
 
 [ext_resource type="PackedScene" uid="uid://bl5pneo77egaa" path="res://assets/Blobs/blob.glb" id="1_eo8br"]
-[ext_resource type="Texture2D" uid="uid://diadvreb6x1mh" path="res://assets/Blobs/expressions/Cute-Cartoon-Eyes-Graphics-37746328-2-580x387.png" id="2_ngma2"]
+[ext_resource type="Texture2D" uid="uid://ch64f755ghf1t" path="res://assets/Blobs/expressions/Cute-Cartoon-Eyes-Graphics-37746328-2-580x387.png" id="2_ngma2"]
 [ext_resource type="Texture2D" uid="uid://pfmxf1loesgp" path="res://assets/Blobs/expressions/image-removebg-preview (59).png" id="3_17po2"]
 [ext_resource type="Texture2D" uid="uid://cth34nxurjyyx" path="res://assets/Blobs/expressions/image-removebg-preview (60).png" id="4_7crg0"]
 

@@ -42,6 +42,7 @@ func _ready():
 	blob_animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
 	if self.name == "Player1": #player1's camera is not mapped in viewport logic
 		game_manager.fuckedUpPlayerToViewportMap[self] = self.get_node("RotPivot/GunAndCameraPivot/Camera3D")
+
 	
 func _on_animation_finished(anim_name):
 	if anim_name == "getting_shot" && hp!=0:
@@ -316,4 +317,3 @@ func relative_position(target):
 func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "drink_coffee":
 		get_node("cup_only_new").visible = false
-		
