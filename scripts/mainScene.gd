@@ -80,8 +80,10 @@ func highlight_button(index: int):
 
 func createWindow(game, playerName: String, title: String) -> Window:
 	var window = Window.new()
+	window.borderless = true
+	window.unresizable = true
 	window.size = Vector2(960, 480) #1/4th of 1080p (minus taskbar ish) dw ts is temp and assign this and sv size for arcade machine
-	window.position = Vector2(860, 340) #arbitrary window pos from prev commit (modify for arcade machine)
+	#window.position = Vector2(860, 340) #arbitrary window pos from prev commit (modify for arcade machine)
 	window.visible = true
 	window.title = title
 	add_child(window)
@@ -105,6 +107,45 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	cam.current = true
 
 	return window
+
+func align_windows(playerCount: int):
+	var screen_size = DisplayServer.screen_get_size()
+	var half_size = Vector2(screen_size.x / 2, screen_size.y / 2)
+	var main_window = get_window()
+
+	if playerCount == 2:
+		main_window.position = Vector2(0, 0)
+		main_window.size = half_size
+
+		if player_windows.size() >= 1:
+			player_windows[0].position = Vector2(half_size.x, 0)
+			player_windows[0].size = half_size
+
+	elif playerCount == 3:
+		main_window.position = Vector2(0, 0)
+		main_window.size = half_size
+
+		if player_windows.size() >= 1:
+			player_windows[0].position = Vector2(half_size.x, 0)
+			player_windows[0].size = half_size
+		if player_windows.size() >= 2:
+			player_windows[1].position = Vector2(0, half_size.y)
+			player_windows[1].size = half_size
+
+	elif playerCount == 4:
+		main_window.position = Vector2(0, 0)
+		main_window.size = half_size
+
+		if player_windows.size() >= 1:
+			player_windows[0].position = Vector2(half_size.x, 0)
+			player_windows[0].size = half_size
+		if player_windows.size() >= 2:
+			player_windows[1].position = Vector2(0, half_size.y)
+			player_windows[1].size = half_size
+		if player_windows.size() >= 3:
+			player_windows[2].position = Vector2(half_size.x, half_size.y)
+			player_windows[2].size = half_size
+
 
 func setupPlayers(scene: PackedScene, playerCount: int):
 	# Hide home screen
@@ -139,6 +180,7 @@ func setupPlayers(scene: PackedScene, playerCount: int):
 		player_windows.append(createWindow(game, playerName, title))
 	
 	gameManRef.windowRefs = player_windows
+	align_windows(playerCount)
 
 # Called by gameManager when game ends
 func handleEndGame(winner_name: String):
