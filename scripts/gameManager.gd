@@ -40,7 +40,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 1
+	roundIndex = 2
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -90,6 +90,7 @@ func initRound() -> void:
 		currPlayerTurnIndex = randi() % gameState.alivePlayers.size() # added this here due to a weird bug with UI if any other player other than the main viewport starts the game
 		for playerRef in gameState.alivePlayers: #all players look at centre
 			update_target_animation(playerRef, Vector3(0,-0.5,0))
+		update_player_animations()
 	gameState.currRoundIndex = roundIndex
 	gameState.currTurnIndex = 0
 	shotgunShellCount = initShotgunShellCount * (roundIndex + 1) * gameState.alivePlayers.size()# maybe give this more thought
@@ -105,7 +106,7 @@ func initRound() -> void:
 
 	for player in gameState.alivePlayers:
 		var player_gun = player.get_node_or_null("RotPivot/GunAndCameraPivot/Gun")
-		if player_gun && player!=gameState.alivePlayers[currPlayerTurnIndex]:
+		if player_gun:
 			player_gun.visible = false
 	
 	print("Window REFS: ", windowRefs)
@@ -136,6 +137,17 @@ func initRound() -> void:
 	
 	turn_ended.emit(gameState, currPlayerTurnIndex)
 
+func update_player_animations():
+	if !gameState.isUpgradeRound:
+		return
+	for i in range(gameState.alivePlayers.size()):
+		var player = gameState.alivePlayers[i]
+		var anim_player = player.get_node("RotPivot/blob/AnimationPlayer")
+		if i == currPlayerTurnIndex:
+			anim_player.play("active_head_down")
+		else:
+			anim_player.play("idle")
+
 func endTurn() -> void:
 	if(shotgunShells.size() == 0):
 		roundIndex += 1
@@ -153,6 +165,7 @@ func endTurn() -> void:
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
 		spawnUpgradesOnTable()
+		update_player_animations()
 		
 	if gameState.isUpgradeRound && is_all_nulls(gameState.upgradesOnTable):
 		gameState.isUpgradeRound = false
