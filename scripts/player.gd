@@ -29,6 +29,8 @@ var button_x = false
 @onready var health_jug = $HealthJug
 @onready var blob_animation_player = $RotPivot/blob/AnimationPlayer
 @onready var juice_animation_player = $JuiceAnimationPlayer
+@onready var mag_glass_model = $Sketchfab_Scene
+@onready var small_gun_model = $Gun
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -130,6 +132,8 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 		update_target()
 		#target_label.visible = true
 		return
+	elif target.upgrade_type == Upgrade.UpgradeType.magGlass:
+		play_mag_glass_animation()
 	game_manager.useUpgrade(target, self, targetPlayerRef)
 	targets.erase(target)
 	current_target_index = (current_target_index + 1) % targets.size()
@@ -291,3 +295,43 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "drink_coffee":
 		get_node("cup_only_new").visible = false
+
+func play_mag_glass_animation():
+	mag_glass_model.visible = true
+	small_gun_model.visible = true
+	gun.visible = false
+
+	var tween = create_tween()
+	
+	# Fade in
+	_set_models_alpha(mag_glass_model, 0.0)
+	_set_models_alpha(small_gun_model, 0.0)
+	tween.tween_method(Callable(self, "_set_models_alpha").bind(mag_glass_model), 0.0, 1.0, 0.5)
+	tween.tween_method(Callable(self, "_set_models_alpha").bind(small_gun_model), 0.0, 1.0, 0.5)
+	await tween.finished
+
+	await get_tree().create_timer(3.0).timeout
+	
+	var fade_out_tween = create_tween()
+	# Fade out
+	fade_out_tween.tween_method(Callable(self, "_set_models_alpha").bind(mag_glass_model), 1.0, 0.0, 0.5)
+	fade_out_tween.tween_method(Callable(self, "_set_models_alpha").bind(small_gun_model), 1.0, 0.0, 0.5)
+	await fade_out_tween.finished
+
+	mag_glass_model.visible = false
+	small_gun_model.visible = false
+	gun.visible = true # Make main gun visible again
+
+func _set_models_alpha(node: Node3D, alpha: float):
+	for child in node.get_children():
+		if child is MeshInstance3D:
+			var material = child.get_active_material(0)
+			if material:
+				var new_material = material.duplicate()
+				var albedo = new_material.albedo_color
+				albedo.a = alpha
+				new_material.albedo_color = albedo
+				
+				new_material.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
+				child.set_surface_override_material(0, new_material)
+				child.set_surface_override_material(0, new_material)
