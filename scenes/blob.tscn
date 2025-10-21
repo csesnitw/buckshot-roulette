@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwtj8vgnbcjky"]
+[gd_scene load_steps=14 format=3 uid="uid://dwtj8vgnbcjky"]
 
 [ext_resource type="PackedScene" uid="uid://bl5pneo77egaa" path="res://assets/Blobs/blob.glb" id="1_eo8br"]
 [ext_resource type="Texture2D" uid="uid://ch64f755ghf1t" path="res://assets/Blobs/expressions/Cute-Cartoon-Eyes-Graphics-37746328-2-580x387.png" id="2_ngma2"]
@@ -287,9 +287,75 @@ tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 1, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 2, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 3, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 4, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263)
 
+[sub_resource type="Animation" id="Animation_8gt5w"]
+resource_name = "active_head_down"
+loop_mode = 2
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Armature/Skeleton3D:Bone")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.015222491, 1.03536795e-05, 0.012261952, 0.99980897, 1, 1, -0.015222491, 1.03536795e-05, 0.012261952, 0.99980897)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Armature/Skeleton3D:Bone.001")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, -0.28924537, -0.031429645, -0.061683204, 0.9547484, 1, 1, -0.11706698, -0.024213836, -0.067541555, 0.99052876)
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Armature/Skeleton3D:Bone.002")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array(0, 1, 0.14744659, 0.022961013, 0.9242102, 0.35152215, 1, 1, 0.14744659, 0.022961013, 0.9242102, 0.35152215)
+tracks/3/type = "rotation_3d"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Armature/Skeleton3D:Bone.003")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = PackedFloat32Array(0, 1, 0.33198193, -0.20072827, -0.36198974, 0.84761995, 1, 1, 0.27387413, -0.36509156, -0.22634368, 0.86050546)
+tracks/4/type = "rotation_3d"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Armature/Skeleton3D:Bone.004")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = PackedFloat32Array(0, 1, -0.23011157, -0.033876803, 0.89046323, -0.3911218, 1, 1, -0.23011157, -0.033876803, 0.89046323, -0.3911218)
+tracks/5/type = "rotation_3d"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Armature/Skeleton3D:Bone.005")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = PackedFloat32Array(0, 1, 0.06377047, 0.13662413, 0.5077842, 0.84818774, 1, 1, 0.14980839, 0.2445331, 0.4402875, 0.8508278)
+tracks/6/type = "rotation_3d"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Armature/Skeleton3D:Bone.006")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = PackedFloat32Array(0, 1, 0.45968714, 0.019107213, 0.04844659, 0.88655263, 1, 1, 0.45245597, 0.018804736, 0.049000476, 0.89024097)
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Armature/Skeleton3D/BoneAttachment3D/Sprite3D3:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_17po2"]
 _data = {
 &"RESET": SubResource("Animation_ngma2"),
+&"active_head_down": SubResource("Animation_8gt5w"),
 &"getting_shot": SubResource("Animation_eo8br"),
 &"handcuffed": SubResource("Animation_7crg0"),
 &"idle": SubResource("Animation_17po2")
@@ -299,15 +365,17 @@ _data = {
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/0/scale = Vector3(0.9999994, 0.9999998, 0.9999996)
-bones/1/scale = Vector3(0.9999992, 0.9999985, 0.9999993)
-bones/2/scale = Vector3(0.99999964, 1.0000001, 1.0000001)
-bones/3/position = Vector3(-0.06354552, 0.6209381, -0.04198622)
-bones/3/scale = Vector3(1.0000017, 1, 1)
+bones/1/scale = Vector3(0.99999917, 0.99999845, 0.9999994)
+bones/2/scale = Vector3(0.99999976, 1.0000001, 1.0000004)
+bones/3/position = Vector3(-0.06643424, 0.592942, -0.13381983)
+bones/3/scale = Vector3(1.0000013, 1, 1)
 bones/5/position = Vector3(0.07434928, 0.5562889, -0.034147173)
-bones/5/scale = Vector3(1.0000005, 1.0000004, 1)
+bones/5/scale = Vector3(1.0000007, 1.0000002, 1.0000002)
+bones/6/position = Vector3(-4.7642326e-09, 0.38079268, -1.6228353e-07)
+bones/6/scale = Vector3(0.99999964, 1.0000006, 1.0000014)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.9987229, -0.032707874, -0.038468502, 0.018171437, 0.9436163, -0.33053806, 0.04711085, 0.3294181, 0.9430068, 0.020140396, 1.2864575, -0.24810693)
+transform = Transform3D(0.99872255, -0.03270795, -0.038468547, 0.018698227, 0.9472488, -0.31995118, 0.04690427, 0.31882432, 0.94665265, 0.020140396, 1.2864575, -0.24810694)
 bone_name = "Bone.006"
 bone_idx = 6
 

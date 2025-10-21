@@ -21,6 +21,8 @@ var fuckedUpPlayerToViewportMap: Dictionary = {}
 var windowRefs: Array = []
 var current_target_node: Node3D = null
 var isFirstHandSawUsed: bool = false
+var gun_transfer_animation_playing: bool = false
+var last_turn_player_ref: Player = null
 
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
@@ -103,7 +105,7 @@ func initRound() -> void:
 
 	for player in gameState.alivePlayers:
 		var player_gun = player.get_node_or_null("RotPivot/GunAndCameraPivot/Gun")
-		if player_gun:
+		if player_gun && player!=gameState.alivePlayers[currPlayerTurnIndex]:
 			player_gun.visible = false
 	
 	print("Window REFS: ", windowRefs)
@@ -144,6 +146,9 @@ func endTurn() -> void:
 		blankShot = false
 	else:
 		currPlayerTurnIndex = (currPlayerTurnIndex + 1) % gameState.alivePlayers.size()
+		if !gameState.isUpgradeRound:
+			transfer_gun_animation(last_turn_player_ref)
+			update_target_animation(last_turn_player_ref, Vector3(0,-0.5,0)) 
 	
 	gameState.currTurnIndex += 1
 	if(gameState.isUpgradeRound):
@@ -326,6 +331,7 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	var currBull : int = shotgunShells.pop_front()
 	
 	gameState.lastShot = currBull
+	last_turn_player_ref = callerPlayerRef
 	if currBull == 1:
 		sfxPlayer.playShoot()
 	else:
@@ -392,7 +398,7 @@ func useUpgrade(upgradeRef: Upgrade, callerPlayerRef: Player, targetPlayerRef: P
 			newUpgrade.upgrade_type = Upgrade.UpgradeType.values()[randi() % 8]
 			useUpgrade(newUpgrade, callerPlayerRef, targetPlayerRef)
 		
-	callerPlayerRef.inventory.erase(upgradeRef)
+	callerPlayerRef.removeInventory(upgradeRef)
 
 func useCigarette(callerPlayerRef: Player) -> void:
 	callerPlayerRef.heal(1, maxHP)
@@ -448,6 +454,8 @@ func is_all_nulls(upgradesOnTable : Array[Upgrade]):
 	return true
 
 func update_target_animation(player: Player, target_pos):
+	while gun_transfer_animation_playing:
+		await  get_tree().process_frame
 	var start_rot
 	var end_rot
 	var to_tween = []
@@ -471,6 +479,7 @@ func update_target_animation(player: Player, target_pos):
 	start_rot = player.gun.rotation
 	player.gun.look_at(target_pos, Vector3.UP)
 	end_rot = player.gun.rotation
+	player.gun.visible = true
 	to_tween.append([player.gun, start_rot, end_rot])
 	
 	for tween_info in to_tween:
@@ -480,6 +489,8 @@ func update_target_animation(player: Player, target_pos):
 
 
 func self_target_animation(player : Player):
+	while gun_transfer_animation_playing:
+		await  get_tree().process_frame
 	var table_center = Vector3(0, -0.5, 0)
 	var to_tween = []
 	if player.name != "Player1":
@@ -497,6 +508,7 @@ func self_target_animation(player : Player):
 	to_tween.append([pivot, pivot_start_rot, pivot_end_rot])
 
 	var gun_node = player.gun
+	gun_node.visible = true
 	var gun_start_rot = gun_node.rotation
 	var target_pos = fuckedUpPlayerToViewportMap[player].global_transform.origin
 	gun_node.look_at(target_pos, Vector3.UP)
@@ -509,3 +521,37 @@ func self_target_animation(player : Player):
 		var tween = get_tree().create_tween()
 		tween.tween_property(tween_info[0], "rotation", tween_info[2], GUN_ROTATION_DURATION)
 	
+
+func transfer_gun_animation(from_player: Player):
+	if gameState.alivePlayers.size()<=1:
+		return
+	gun_transfer_animation_playing = true
+	var destination_gun = gameState.alivePlayers[currPlayerTurnIndex].get_node("RotPivot/GunAndCameraPivot/Gun")
+	var start_gun = from_player.get_node("RotPivot/GunAndCameraPivot/Gun")
+	var copy_to_animate = start_gun.duplicate()
+	copy_to_animate.global_transform = start_gun.global_transform
+	start_gun.visible = false
+	copy_to_animate.visible = true
+	add_child(copy_to_animate)
+	var start_rot = copy_to_animate.global_rotation
+	var end_rot = destination_gun.global_rotation
+	end_rot.y = wrapf(end_rot.y, start_rot.y - PI, start_rot.y + PI)
+	var tween = get_tree().create_tween()
+	tween.tween_property(copy_to_animate, "global_position", destination_gun.global_position, 1)
+	tween = get_tree().create_tween()
+	tween.tween_property(copy_to_animate, "global_rotation", end_rot, 1)
+	await tween.finished
+	destination_gun.visible = true
+	copy_to_animate.queue_free()
+	gun_transfer_animation_playing = false
+
+func gun_rotate_animation(player: Player, target_pos: Vector3):
+	var gun_node = player.gun
+	gun_node.visible = true
+	var gun_start_rot = gun_node.rotation
+	gun_node.look_at(target_pos, Vector3.UP)
+	var gun_end_rot = gun_node.rotation
+	gun_node.rotation = gun_start_rot
+	gun_end_rot.y = wrapf(gun_end_rot.y, gun_start_rot.y - PI, gun_start_rot.y + PI)
+	var tween = get_tree().create_tween()
+	tween.tween_property(gun_node, "rotation", gun_end_rot, GUN_ROTATION_DURATION)

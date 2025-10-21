@@ -52,4 +52,4 @@ theme_override_colors/font_color = Color(1, 0.78431374, 0.78431374, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
 theme_override_fonts/font = ExtResource("2_gbawj")
 theme_override_font_sizes/font_size = 40
-text = "Restart"
+text = "Press a to Restart"

@@ -21,6 +21,7 @@ var taking_damage_animation_playing: bool = false
 var controllerID: int = -1
 var stickReset: bool = true
 var inventoryOverlay: Node = null
+var button_x = false
 
 #@onready var target_label: Label = $CanvasLayer/TargetLabel
 @onready var game_manager: Node = get_node("../GameManager")
@@ -51,11 +52,9 @@ func _on_animation_finished(anim_name):
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
 	if not is_my_turn:
+		gun.visible = false
 		return
 	
-	for player in game_state.alivePlayers:
-		player.get_node("RotPivot/GunAndCameraPivot/Gun").visible = false
-	gun.visible = true
 
 	var left_pressed = Input.is_action_just_pressed("left_arrow")
 	var right_pressed = Input.is_action_just_pressed("right_arrow")
@@ -63,7 +62,8 @@ func _process(delta):
 
 	if controllerID >= 0:
 		var axis_x = Input.get_joy_axis(controllerID, JOY_AXIS_LEFT_X)
-		var button_x = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_A)
+		var aPressed = Input.is_joy_button_pressed(controllerID, JOY_BUTTON_A)
+
 		if abs(axis_x) < 0.3:
 			stickReset = true
 		else:
@@ -75,8 +75,11 @@ func _process(delta):
 					right_pressed = true
 					stickReset = false
 
-		if button_x:
+		if aPressed and not button_x:
 			select_pressed = true
+			button_x = true
+		elif not aPressed:
+			button_x = false
 
 	if left_pressed:
 		var init_target_index = current_target_index
@@ -114,7 +117,6 @@ func pickUpgradeDeferred(target: Upgrade):
 
 func shootDeferred(target: Player):
 	game_manager.shootPlayer(self, target)
-	game_manager.update_target_animation(self, Vector3(0,-0.5,0)) #look to centre
 
 func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	if target.upgrade_type == Upgrade.UpgradeType.handcuff:
@@ -152,6 +154,7 @@ func update_target():
 		elif target is Upgrade:
 			#target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
 			inventoryOverlay.updateInventory(inventory, current_target_index - 2)
+			game_manager.gun_rotate_animation(self, Vector3(0,10,0))
 			
 			if game_state.isUpgradeRound:
 				for target_temp in targets:
@@ -167,6 +170,7 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	#target_label.visible = is_my_turn
 	if !targets.is_empty():
 		current_target_index = 0
+		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 	else: 
 		print("Something gones wrong")
 	
@@ -197,12 +201,10 @@ func addInventory(upgrade: Upgrade) -> void:
 	upgrade.add_child(cam)
 	cam.make_current()	
 
-func removeInventory(upgrade: Upgrade) -> bool:
+func removeInventory(upgrade: Upgrade) -> void:
 	if upgrade in inventory:
 		inventory.erase(upgrade)
 		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
-		return true
-	return false
 
 func getInventoryIcon(upgrade: Upgrade) -> String:
 	if upgrade.upgrade_type == Upgrade.UpgradeType.cigarette:
@@ -285,34 +287,6 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 			filtered_array.append(item)
 	return filtered_array
 @onready var animationPlayer = $AnimationPlayer
-
-#func rotate_gun(init_target_index):
-	#var target = targets[current_target_index]
-	#if target is Player:
-		#animationPlayer.play(relative_position(targets[init_target_index]) + " to " + relative_position(target))
-		
-		
-const LOCATIONS_4_PLAYERS = ["self","right","front","left"]
-
-func relative_position(target):
-	if game_state.alivePlayers.size()==4:
-		var target_index = 0
-		for player in game_state.alivePlayers:
-			if player == target:
-				break
-			target_index+=1
-		var self_index = 0
-		for player in game_state.alivePlayers:
-			if player == self:
-				break
-			self_index+=1
-		return LOCATIONS_4_PLAYERS[(target_index - self_index + game_state.alivePlayers.size())%game_state.alivePlayers.size()]
-	elif game_state.alivePlayers.size()==2:
-		if target == self:
-			return "self"
-		else:
-			return "front"
-
 
 func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "drink_coffee":
