@@ -79,10 +79,11 @@ func highlight_button(index: int):
 
 
 func createWindow(game, playerName: String, title: String) -> Window:
+	var screen_size = DisplayServer.screen_get_size()
 	var window = Window.new()
 	window.borderless = true
 	window.unresizable = true
-	window.size = Vector2(960, 480) #1/4th of 1080p (minus taskbar ish) dw ts is temp and assign this and sv size for arcade machine
+	window.size = Vector2(960, screen_size.y/2)
 	#window.position = Vector2(860, 340) #arbitrary window pos from prev commit (modify for arcade machine)
 	window.visible = true
 	window.title = title
@@ -92,7 +93,7 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	window.add_child(container)
 
 	var sv = SubViewport.new()
-	sv.size = Vector2(960, 480) # probably should make this a var
+	sv.size = Vector2(960, screen_size.y/2)
 	sv.world_3d = get_viewport().world_3d
 	sv.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	container.add_child(sv)

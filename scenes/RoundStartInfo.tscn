@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cu5hx2htq7m2u"]
 
 [ext_resource type="Script" uid="uid://chlxghcfj38ot" path="res://scripts/round_start_info.gd" id="1_t1n2h"]
-[ext_resource type="FontFile" uid="uid://ckpu425q5edfu" path="res://assets/Roboto_Condensed-Regular.ttf" id="2_t1n2h"]
+[ext_resource type="FontFile" uid="uid://dnicu56x5ur50" path="res://assets/Roboto_Condensed-Regular.ttf" id="2_t1n2h"]
 
 [sub_resource type="Animation" id="Animation_t1n2h"]
 length = 0.001
