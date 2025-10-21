@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=13 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
 [ext_resource type="PackedScene" uid="uid://dwtj8vgnbcjky" path="res://scenes/blob.tscn" id="4_dqkch"]
 [ext_resource type="PackedScene" uid="uid://by5ihoam0sbtf" path="res://scenes/health_jug.tscn" id="4_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://b1y5lxhyh60nr" path="res://assets/coffee cup/cup_only_new.glb" id="5_qlg0r"]
-[ext_resource type="PackedScene" uid="uid://ba2qnbhesl661" path="res://assets/magnifying_glass/scene.gltf" id="6_tuyoq"]
 
 [sub_resource type="Animation" id="Animation_s2gip"]
 resource_name = "aim_forward"
@@ -173,17 +172,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 21.355)
 [node name="blob" parent="RotPivot" instance=ExtResource("4_dqkch")]
 transform = Transform3D(-19.385513, 7.6554903e-07, 0.043984674, 7.655472e-07, 19.38556, -1.7255387e-09, -0.04398468, 1.1446094e-11, -19.38551, -0.0002296567, -26.53006, -6.866455e-05)
 
-[node name="Skeleton3D" parent="RotPivot/blob/Armature" index="0"]
-bones/1/scale = Vector3(0.9999992, 0.9999985, 0.9999993)
-bones/2/scale = Vector3(0.99999964, 1.0000001, 1.0000001)
-bones/3/position = Vector3(-0.06354552, 0.6209381, -0.04198622)
-bones/3/scale = Vector3(1.0000017, 1, 1)
-bones/5/scale = Vector3(1.0000005, 1.0000004, 1)
-bones/6/position = Vector3(1.8626451e-09, 0.38079268, -1.3818499e-07)
-bones/6/scale = Vector3(1, 1, 1.0000001)
-
 [node name="BoneAttachment3D" parent="RotPivot/blob/Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.9987229, -0.032707874, -0.038468502, 0.018171437, 0.9436163, -0.33053806, 0.04711085, 0.3294181, 0.9430068, 0.020140396, 1.2864575, -0.24810693)
+transform = Transform3D(0.9987225, -0.03270789, -0.038468555, 0.018171443, 0.94361687, -0.33053842, 0.047110833, 0.32941836, 0.9430082, 0.020140396, 1.2864575, -0.24810694)
 
 [node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
@@ -208,14 +198,6 @@ libraries = {
 
 [node name="cup_only_new" parent="." instance=ExtResource("5_qlg0r")]
 transform = Transform3D(70, 0, 0, 0, 70.000015, 0, 0, 0, 70.000015, 1.0282726, 6.549341, -10.473848)
-visible = false
-
-[node name="Sketchfab_Scene" parent="." instance=ExtResource("6_tuyoq")]
-transform = Transform3D(3.3476822, 0.4848837, 0.2863543, -0.55321217, 3.1689632, 0.3825212, -0.2679703, -0.4846536, 2.787651, 2.4067001, 21.852222, -6.766908)
-visible = false
-
-[node name="Gun" parent="." instance=ExtResource("3_gun")]
-transform = Transform3D(-1.4631045, 0.56827205, 9.131081, -4.633956, 7.9271283, -1.2358587, -7.8883467, -4.762137, -0.9676055, 3.307498, 19.46011, -7.8701777)
 visible = false
 
 [connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
