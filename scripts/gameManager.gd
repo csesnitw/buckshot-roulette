@@ -23,6 +23,8 @@ var current_target_node: Node3D = null
 var isFirstHandSawUsed: bool = false
 var gun_transfer_animation_playing: bool = false
 var last_turn_player_ref: Player = null
+var inventoryScene: Node = null
+var inventorySceneMainDuplicate: Node = null
 
 #for gun animation
 const GUN_ROTATION_DURATION : float = 0.5
@@ -63,8 +65,8 @@ func initMatch() -> void:
 		player.target_changed.connect(on_player_target_changed)
 	table = get_node("../Table")
 	
-	var inventoryScene = preload("res://scenes/InventoryScene.tscn").instantiate()
-	var inventorySceneMainDuplicate = inventoryScene.duplicate()
+	inventoryScene = preload("res://scenes/InventoryScene.tscn").instantiate()
+	inventorySceneMainDuplicate = inventoryScene.duplicate()
 	get_tree().root.add_child(inventorySceneMainDuplicate)
 	
 	players[0].setInventoryOverlay(inventorySceneMainDuplicate)
@@ -325,7 +327,9 @@ func spawnUpgradesOnTable():
 func endGame() -> void:
 	var winner: Player = gameState.alivePlayers[0]
 
-	# TODO: Should revamp/remove player label
+	# Remove player inventory
+	inventoryScene.queue_free()
+	inventorySceneMainDuplicate.queue_free()
 
 	# Handle the game end screen in the main scene
 	var main_scene = get_tree().root.get_child(0)
