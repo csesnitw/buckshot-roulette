@@ -156,6 +156,8 @@ func update_target():
 		target_changed.emit(target)
 		if target is Player:
 			#target_label.set_text("|".join(inventory_icons))
+			inventoryOverlay.updateInventory(inventory, current_target_index - 2)
+			
 			if target == self:
 				game_manager.self_target_animation(self)
 			else:
@@ -215,19 +217,20 @@ func removeInventory(upgrade: Upgrade) -> void:
 		inventory.erase(upgrade)
 		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 
-func getInventoryIcon(upgrade: Upgrade) -> String:
-	if upgrade.upgrade_type == Upgrade.UpgradeType.cigarette:
-		return "🧃"
-	elif upgrade.upgrade_type == Upgrade.UpgradeType.beer:
-		return "☕"
-	elif upgrade.upgrade_type == Upgrade.UpgradeType.handcuff:
-		return "🔗"
-	elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
-		return "🔍"
-	elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
-		return "💊"
-	else:
-		return "⚡"
+# Replaced in InventoryScene.gd with a better version
+#func getInventoryIcon(upgrade: Upgrade) -> String:
+	#if upgrade.upgrade_type == Upgrade.UpgradeType.cigarette:
+		#return "🧃"
+	#elif upgrade.upgrade_type == Upgrade.UpgradeType.beer:
+		#return "☕"
+	#elif upgrade.upgrade_type == Upgrade.UpgradeType.handcuff:
+		#return "🔗"
+	#elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
+		#return "🔍"
+	#elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
+		#return "🪚"
+	#else:
+		#return "⚡"
 
 func setInventoryOverlay(inventory_overlay):
 	inventoryOverlay = inventory_overlay
