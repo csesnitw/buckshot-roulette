@@ -23,7 +23,7 @@ var controller_id := -1
 var stick_reset := true
 var buttonaPressed := false
 
-func _ready():
+func _ready():	
 	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
 	threePlayerButton.pressed.connect(func(): await setupPlayers(gameScene3, 3))
 	fourPlayerButton.pressed.connect(func(): await setupPlayers(gameScene4, 4))
