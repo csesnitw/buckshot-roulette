@@ -23,3 +23,16 @@ func show_round_info(round_index: int, live_count: int, blank_count: int):
 	await animation_player.animation_finished
 	get_tree().paused = false
 	queue_free()
+
+func show_bullet_type(bullet_type_text: String):
+	box.visible = true
+	round_label.text = ""
+	bullet_info_label.text = bullet_type_text
+	
+	animation_player.play("fade_in")
+	await animation_player.animation_finished
+	animation_player.play("stay")
+	await animation_player.animation_finished
+	animation_player.play("fade_out")
+	await animation_player.animation_finished
+	queue_free()
