@@ -1,7 +1,6 @@
 class_name Upgrade extends Node3D
 
-enum UpgradeType {cigarette, beer, magGlass, handcuff, expiredMed, inverter, 
-				  burnerPhone, handSaw, adrenaline, disableUpgrade, unoRev, wildCard}
+enum UpgradeType {cigarette, beer, magGlass, handcuff, handSaw}
 
 const UPGRADEMESHMAP = {
  "cigarette": "juice_carton_pivot",
