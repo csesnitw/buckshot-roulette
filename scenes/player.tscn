@@ -172,6 +172,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 26.139, 21.355)
 [node name="blob" parent="RotPivot" instance=ExtResource("4_dqkch")]
 transform = Transform3D(-19.385513, 7.6554903e-07, 0.043984674, 7.655472e-07, 19.38556, -1.7255387e-09, -0.04398468, 1.1446094e-11, -19.38551, -0.0002296567, -26.53006, -6.866455e-05)
 
+[node name="BoneAttachment3D" parent="RotPivot/blob/Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.9987225, -0.03270789, -0.038468555, 0.018171443, 0.94361687, -0.33053842, 0.047110833, 0.32941836, 0.9430082, 0.020140396, 1.2864575, -0.24810694)
+
 [node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
 [node name="Camera3D" type="Camera3D" parent="RotPivot/GunAndCameraPivot"]

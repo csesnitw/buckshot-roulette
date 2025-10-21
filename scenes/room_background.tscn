@@ -48,7 +48,7 @@ mesh = SubResource("PlaneMesh_ffxv4")
 skeleton = NodePath("")
 
 [node name="ceiling" type="MeshInstance3D" parent="."]
-transform = Transform3D(9.65, 0, 0, 0, 9.65, 0, 0, 0, 9.65, 0, 5.5428066, 0.5534117)
+transform = Transform3D(9.65, 0, 0, 0, -9.65, 8.436298e-07, 0, -8.436298e-07, -9.65, 0, 5.5428066, 0.5534117)
 mesh = SubResource("PlaneMesh_ffxv4")
 skeleton = NodePath("")
 
