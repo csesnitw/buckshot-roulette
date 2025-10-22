@@ -31,6 +31,7 @@ var button_x = false
 @onready var juice_animation_player = $JuiceAnimationPlayer
 @onready var mag_glass_model = $Sketchfab_Scene
 @onready var small_gun_model = $Gun
+@onready var pill = $Pill
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -317,6 +318,36 @@ func play_mag_glass_animation():
 	mag_glass_model.visible = false
 	small_gun_model.visible = false
 	gun.visible = true # Make main gun visible again
+func play_handsaw_animation():
+	pill.visible = true
+	gun.visible = false
+
+	var tween = create_tween()
+	var original_pos = pill.position
+	var original_rot = pill.rotation_degrees
+
+	var blob_node = $RotPivot/blob  # assuming this is the blob node
+	var original_scale = blob_node.scale
+
+	# Lift pill up
+	tween.tween_property(pill, "position:y", original_pos.y + 0.4, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+	# Tilt like sipping + scale blob up
+	tween.tween_property(pill, "rotation_degrees:z", original_rot.z + 25, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(blob_node, "scale", original_scale * 1.3, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	# Pause
+	tween.tween_interval(0.5)
+
+	# Return to normal rotation/position + scale blob back
+	tween.tween_property(pill, "rotation_degrees:z", original_rot.z, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(pill, "position:y", original_pos.y, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_property(blob_node, "scale", original_scale, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+	await tween.finished
+	await get_tree().create_timer(0.3).timeout
+	pill.visible = false
+	gun.visible = true
 
 func _set_models_alpha(node: Node3D, alpha: float):
 	for child in node.get_children():
