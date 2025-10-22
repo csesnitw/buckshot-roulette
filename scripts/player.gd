@@ -32,6 +32,7 @@ var button_x = false
 @onready var mag_glass_model = $Sketchfab_Scene
 @onready var small_gun_model = $Gun
 @onready var pill = $Pill
+@onready var pooly = $pool_floatie
 
 func _init(_name: String = "Player", _hp: int = 3):
 	name = _name
@@ -348,6 +349,30 @@ func play_handsaw_animation():
 	await get_tree().create_timer(0.3).timeout
 	pill.visible = false
 	gun.visible = true
+func play_handcuff_animation():
+	blob_animation_player.play("handcuffed")
+
+	pooly.visible = true
+	pooly.position.y = 15  
+
+	var tween = create_tween()
+	tween.tween_property(pooly, "position:y", 16, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(pooly, "position:y", 15, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	await tween.finished
+
+	# Wait until the player's turn is over (handcuffed duration)
+	while is_my_turn:
+		await get_tree().process_frame
+
+	# Revert the floatie after the turn ends
+	var revert_tween = create_tween()
+	revert_tween.tween_property(pooly, "position:y", 40, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	await revert_tween.finished
+	pooly.visible = false
+
+	# Return player animation to idle after turn ends
+	if hp > 0:
+		blob_animation_player.play("idle")
 
 func _set_models_alpha(node: Node3D, alpha: float):
 	for child in node.get_children():

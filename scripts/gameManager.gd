@@ -450,9 +450,8 @@ func useMagGlass(callerPlayerRef: Player) -> void:
 
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	var anim_player = targetPlayerRef.get_node("RotPivot/blob/AnimationPlayer")
-	anim_player.play("handcuffed")
 	gameState.handCuffedPlayers.append(targetPlayerRef)
+	targetPlayerRef.play_handcuff_animation()
 
 func useExpiredMed(callerPlayerRef: Player) -> void:
 	if randi()%2:
