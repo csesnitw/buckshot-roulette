@@ -176,7 +176,7 @@ transform = Transform3D(-19.385513, 7.6554903e-07, 0.043984674, 7.655472e-07, 19
 [node name="GunAndCameraPivot" type="Node3D" parent="RotPivot"]
 
 [node name="Camera3D" type="Camera3D" parent="RotPivot/GunAndCameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.9392082, 0.34334826, 0, -0.34334826, 0.9392082, 0, 0, -12.494)
+transform = Transform3D(1, 0, 0, 0, 0.9392082, 0.34334826, 0, -0.34334826, 0.9392082, 0, 8.61253, -12.359723)
 fov = 97.0
 near = 0.01
 far = 10000.0

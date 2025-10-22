@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c238es3lsaoxr"]
 
-[ext_resource type="PackedScene" uid="uid://bnaexcfec4ct3" path="res://assets/wallChandelier.glb" id="1_6iikm"]
+[ext_resource type="PackedScene" uid="uid://c10o7cpebkou0" path="res://assets/wallChandelier.glb" id="1_6iikm"]
 
 [node name="Chandelier" type="Node3D"]
 
