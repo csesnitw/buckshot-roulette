@@ -165,9 +165,9 @@ func update_target():
 		elif target is Upgrade:
 			#target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
 			inventoryOverlay.updateInventory(inventory, current_target_index - 2)
-			game_manager.gun_rotate_animation(self, Vector3(0,10,0))
 			
 			if game_state.isUpgradeRound:
+				game_manager.gun_rotate_animation(self, Vector3(0,10,0))
 				for target_temp in targets:
 					if target_temp.is_selected:
 						game_manager.rendered_animation_object[target_temp].get_node_or_null("AnimationPlayer").play_backwards("pop up")
