@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bj53s6w12n7ya"]
+[gd_scene load_steps=16 format=3 uid="uid://bj53s6w12n7ya"]
 
 [ext_resource type="Script" uid="uid://bv6skexvrv481" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="PackedScene" uid="uid://lky204uemp8" path="res://scenes/gun.tscn" id="3_gun"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b1y5lxhyh60nr" path="res://assets/coffee cup/cup_only_new.glb" id="5_qlg0r"]
 [ext_resource type="PackedScene" uid="uid://ba2qnbhesl661" path="res://assets/magnifying_glass/scene.gltf" id="6_tuyoq"]
 [ext_resource type="PackedScene" uid="uid://dppqp3ncdcjmj" path="res://assets/pills.glb" id="7_fjrip"]
+[ext_resource type="PackedScene" uid="uid://ctrvcynf2qca5" path="res://assets/pool_floatie.glb" id="8_smehm"]
 
 [sub_resource type="Animation" id="Animation_s2gip"]
 resource_name = "aim_forward"
@@ -209,6 +210,10 @@ visible = false
 
 [node name="Pill" parent="." instance=ExtResource("7_fjrip")]
 transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, -5.414882, 8.117847, -9.919399)
+visible = false
+
+[node name="pool_floatie" parent="." instance=ExtResource("8_smehm")]
+transform = Transform3D(40, 0, 0, 0, 40, 0, 0, 0, 40, -6.858, 40, -16.222)
 visible = false
 
 [connection signal="animation_finished" from="JuiceAnimationPlayer" to="." method="_on_juice_animation_player_animation_finished"]
