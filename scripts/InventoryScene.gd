@@ -70,7 +70,7 @@ func getInventoryIconAndName(upgrade: Upgrade) -> Dictionary[String, String]:
 	elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
 		return {"icon": "🔍", "name": "MAG GLASS: Reveals the type of the current shell in the chamber."}
 	elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
-		return {"icon": "🪚", "name": "HANDSAW: Next shot deals double damage if a live shot."}
+		return {"icon": "💊", "name": "PILL: Damage gets incremented if its a live shot with stacked pills."}
 	else:
 		return {"icon": "⚡", "name": "POWER UP: Boosts your character with an unknown effect."}
 
