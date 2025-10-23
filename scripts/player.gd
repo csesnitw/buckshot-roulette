@@ -295,7 +295,7 @@ func _on_juice_animation_player_animation_finished(anim_name: StringName) -> voi
 		# Once the coffee animation finishes, show the bullet type
 		if game_manager and game_manager.shotgunShells.size() > 0:
 			var bullet_type = game_manager.shotgunShells[0]
-			var bullet_type_text = "BLANK" if bullet_type == 0 else "LIVE"
+			var bullet_type_text = "BLANK EJECTED" if bullet_type == 0 else "LIVE EJECTED"
 
 			var info_overlay = game_manager.ROUND_START_INFO_SCENE.instantiate()
 
