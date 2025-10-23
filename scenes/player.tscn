@@ -209,7 +209,7 @@ transform = Transform3D(1.3718524, 0, 9.905455, -7.0605845, 7.0136976, 0.9778532
 visible = false
 
 [node name="Pill" parent="." instance=ExtResource("7_fjrip")]
-transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, -5.414882, 8.117847, -9.919399)
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -5.414882, 14.291534, -9.919399)
 visible = false
 
 [node name="pool_floatie" parent="." instance=ExtResource("8_smehm")]
