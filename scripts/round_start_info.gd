@@ -36,3 +36,16 @@ func show_bullet_type(bullet_type_text: String):
 	animation_player.play("fade_out")
 	await animation_player.animation_finished
 	queue_free()
+
+func show_death_message():
+	box.visible = true
+	round_label.text = "YOU ARE DEAD"
+	bullet_info_label.text = ""
+	
+	animation_player.play("fade_in")
+	await animation_player.animation_finished
+	animation_player.play("stay")
+	await animation_player.animation_finished
+	animation_player.play("fade_out")
+	await animation_player.animation_finished
+	queue_free()

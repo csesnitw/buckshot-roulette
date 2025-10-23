@@ -19,6 +19,7 @@ var blankShot: bool = false # im kinda stupid this needs refactoring this is onl
 var sfxPlayer: AudioStreamPlayer; # call this guys funcs to play any sfx  
 var fuckedUpPlayerToViewportMap: Dictionary = {}
 var windowRefs: Array = []
+var player_to_window_map = {}
 var current_target_node: Node3D = null
 var isFirstHandSawUsed: bool = false
 var gun_transfer_animation_playing: bool = false
@@ -84,6 +85,10 @@ func initMatch() -> void:
 	initRound()
 
 func initRound() -> void:
+	if player_to_window_map.is_empty() and players.size() > 1:
+		for i in range(1, players.size()):
+			player_to_window_map[players[i]] = windowRefs[i-1]
+			
 	# figure out a way to randomly generate upgrade scenes and spawn them into the world
 	if roundIndex != 0:
 		gameState.isUpgradeRound = true
@@ -348,6 +353,20 @@ func endGame(no_winner: bool = false) -> void:
 func getGameState() -> GameState:
 	return gameState
 
+func show_death_message_on_player_screen(player: Player):
+	var info_overlay = ROUND_START_INFO_SCENE.instantiate()
+	
+	if player.name == "Player1":
+		get_tree().root.add_child(info_overlay)
+		info_overlay.show_death_message()
+	else:
+		if player in player_to_window_map:
+			var player_window = player_to_window_map[player]
+			var subviewport_container = player_window.get_child(0)
+			var subviewport = subviewport_container.get_child(0)
+			subviewport.add_child(info_overlay)
+			info_overlay.show_death_message()
+
 func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	# logic for shooting                       
 	if(gameState.isUpgradeRound):
@@ -369,8 +388,9 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	var dmg = currBull * callerPlayerRef.power
 	
 	targetPlayerRef.takeDamage(dmg)
-	
+
 	if(targetPlayerRef.hp == 0):
+		show_death_message_on_player_screen(targetPlayerRef)
 		for i in range(gameState.alivePlayers.size()):
 			if(gameState.alivePlayers[i] == targetPlayerRef):
 				gameState.alivePlayers.pop_at(i)
