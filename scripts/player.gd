@@ -361,6 +361,7 @@ func play_mag_glass_animation():
 	mag_glass_model.visible = false
 	small_gun_model.visible = false
 	gun.visible = true # Make main gun visible again
+
 func play_handsaw_animation():
 	pill.visible = true
 	gun.visible = false
@@ -370,27 +371,32 @@ func play_handsaw_animation():
 	var original_rot = pill.rotation_degrees
 
 	var blob_node = $RotPivot/blob  # assuming this is the blob node
-	var original_scale = blob_node.scale
+	var base_scale = blob_node.scale
+	var pill_stack_count = inventory.filter(func(u): return u.upgrade_type == Upgrade.UpgradeType.handcuff).size()  # adjust if pills are tracked differently
+	var target_scale_factor = 1.0 + 0.1 * pill_stack_count  # each pill increases scale by 0.1, base is 1.0
+	target_scale_factor = min(target_scale_factor, 2.0)  # optional cap
+	blob_node.scale = base_scale  # keep original before tween
 
 	# Lift pill up
 	tween.tween_property(pill, "position:y", original_pos.y + 0.4, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 	# Tilt like sipping + scale blob up
 	tween.tween_property(pill, "rotation_degrees:z", original_rot.z + 25, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(blob_node, "scale", original_scale * 1.3, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(blob_node, "scale", base_scale * target_scale_factor, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 	# Pause
 	tween.tween_interval(0.5)
 
-	# Return to normal rotation/position + scale blob back
+	# Return pill to normal position/rotation but **keep blob scaled**
 	tween.tween_property(pill, "rotation_degrees:z", original_rot.z, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(pill, "position:y", original_pos.y, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	tween.tween_property(blob_node, "scale", original_scale, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 	await tween.finished
 	await get_tree().create_timer(0.3).timeout
 	pill.visible = false
 	gun.visible = true
+
+	# Blob scale persists until turn ends, optionally revert in onTurnEnd if needed	
 func play_handcuff_animation():
 	blob_animation_player.play("handcuffed")
 
