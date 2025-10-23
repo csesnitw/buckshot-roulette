@@ -3,6 +3,7 @@ extends Node3D
 class_name Player
 
 signal target_changed(target_node)
+signal damage_animation_finished
 
 # Player properties
 var hp: int
@@ -54,7 +55,9 @@ func _on_animation_finished(anim_name):
 		if hp != 0:
 			blob_animation_player.play("idle")
 		else:
-			get_node("RotPivot/blob").hide()
+			var blob_node = get_node_or_null("RotPivot/blob")
+			if blob_node:
+				blob_node.hide()
 	
 func _process(delta):
 	$RotPivot/blob.rotation.y = $RotPivot/GunAndCameraPivot.rotation.y + PI
@@ -243,27 +246,34 @@ func hasUpgrade(upgrade: Upgrade) -> bool:
 
 # Apply damage to the player
 func takeDamage(amount: int) -> void:
-	game_manager.animations_to_play_before_next_round_queue += amount
-	while taking_damage_animation_playing: #if function is called again before previous animation stops
+	var damage_to_take = min(hp, amount)
+	if damage_to_take <= 0:
+		return
+	hp -= damage_to_take
+	
+	play_damage_animation(damage_to_take)
+
+func play_damage_animation(damage_taken: int) -> void:
+	game_manager.animations_to_play_before_next_round_queue += damage_taken
+	while taking_damage_animation_playing:
 		await get_tree().process_frame
 	taking_damage_animation_playing = true
-	for i in amount:
-		hp -= 1
-		if hp < 0:
-			hp = 0
-			break
+	for i in range(damage_taken):
 		taking_damage_animation_playing = true
 		is_playing_animation = true
 		blob_animation_player.play("RESET")
 		blob_animation_player.play("getting_shot")
-		if hp >0:
+
+		if not health_jug.is_empty():
 			juice_animation_player.play("drink")
 			await get_tree().create_timer(1).timeout
 			health_jug.drink()
 			juice_animation_player.play_backwards("drink")
 			await get_tree().create_timer(1).timeout
+
 	taking_damage_animation_playing = false
-	game_manager.animations_to_play_before_next_round_queue -= amount
+	game_manager.animations_to_play_before_next_round_queue -= damage_taken
+	emit_signal("damage_animation_finished")
 	
 
 # Heal the player
