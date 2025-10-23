@@ -328,8 +328,11 @@ func spawnUpgradesOnTable():
 
 		
 # Below are all functions that are player facing, call these when designing players for player devs
-func endGame() -> void:
-	var winner: Player = gameState.alivePlayers[0]
+func endGame(no_winner: bool = false) -> void:
+	var winner_name = "No Winner"
+	if !no_winner and gameState.alivePlayers.size() > 0:
+		var winner: Player = gameState.alivePlayers[0]
+		winner_name = winner.name
 
 	# Remove player inventory
 	inventoryScene.queue_free()
@@ -337,7 +340,7 @@ func endGame() -> void:
 
 	# Handle the game end screen in the main scene
 	var main_scene = get_tree().root.get_child(0)
-	main_scene.handleEndGame(winner.name)
+	main_scene.handleEndGame(winner_name)
 
 	sfxPlayer.stream_paused = false
 	return
@@ -346,7 +349,7 @@ func getGameState() -> GameState:
 	return gameState
 
 func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	# logic for shooting
+	# logic for shooting                       
 	if(gameState.isUpgradeRound):
 		return
 	
@@ -364,7 +367,9 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 			blankShot = true
 			print("BLANK and shot urself")
 	var dmg = currBull * callerPlayerRef.power
+	
 	targetPlayerRef.takeDamage(dmg)
+	
 	if(targetPlayerRef.hp == 0):
 		for i in range(gameState.alivePlayers.size()):
 			if(gameState.alivePlayers[i] == targetPlayerRef):
@@ -374,8 +379,10 @@ func shootPlayer(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
 	print("Shoot called by: ", callerPlayerRef.name)
 	print("Damage: ", dmg)
 	print(targetPlayerRef.name, " hp now: ", targetPlayerRef.hp)
-	if checkWin():
+	if gameState.alivePlayers.size() == 1:
 		endGame()
+	elif gameState.alivePlayers.size() == 0:
+		endGame(true)
 	else:
 		endTurn()
 # call this when you want to pick an upgrade off of the upgrade table

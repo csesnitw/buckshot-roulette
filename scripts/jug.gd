@@ -28,10 +28,12 @@ func create(n):
 		juice_layers.append(juice_layer)
 
 func drink():
-	juice_layers[top_layer].visible = false
-	top_layer-=1
-	if top_layer < 0:
-		top_layer = 0
+	if top_layer >= 0:
+		juice_layers[top_layer].visible = false
+		top_layer -= 1
+
+func is_empty() -> bool:
+	return top_layer < 0
 
 func refill():
 	top_layer += 1
