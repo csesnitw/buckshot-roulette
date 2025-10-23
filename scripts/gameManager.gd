@@ -445,6 +445,7 @@ func useCigarette(callerPlayerRef: Player) -> void:
 
 func useBeer(callerPlayerRef: Player) -> void:
 	var popped = shotgunShells.pop_front()
+	self_target_animation(callerPlayerRef)
 	callerPlayerRef.get_node("cup_only_new").visible = true
 	callerPlayerRef.get_node("JuiceAnimationPlayer").play("drink_coffee")
 	# Play animation of popped bullet being ejected
