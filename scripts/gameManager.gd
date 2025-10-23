@@ -42,7 +42,7 @@ func initMatch() -> void:
 	# one this fumc is called though a continuous match SHOULD work.
 	# as for UI changes and stuff best to have them as side effects of functions here i think.
 	upgradeScene = preload("res://scenes/upgrade.tscn")
-	roundIndex = 0
+	roundIndex = 2
 	shotgunShellCount = 8
 	for sibs in get_parent().get_children():
 		#print(get_parent().get_children())
@@ -450,9 +450,8 @@ func useMagGlass(callerPlayerRef: Player) -> void:
 
 
 func useHandcuff(callerPlayerRef: Player, targetPlayerRef: Player) -> void:
-	var anim_player = targetPlayerRef.get_node("RotPivot/blob/AnimationPlayer")
-	anim_player.play("handcuffed")
 	gameState.handCuffedPlayers.append(targetPlayerRef)
+	targetPlayerRef.play_handcuff_animation()
 
 func useExpiredMed(callerPlayerRef: Player) -> void:
 	if randi()%2:
@@ -472,6 +471,9 @@ func useBurnerPhone(callerPlayerRef: Player) -> void:
 		print(0) # play animation showing empty shell 
 	
 func useHandSaw(callerPlayerRef: Player) -> void:
+	if isFirstHandSawUsed == false:
+		isFirstHandSawUsed = true
+		callerPlayerRef.play_handsaw_animation()  # Trigger the handsaw animation
 	callerPlayerRef.power += 1
 	gun.saw_off_barrel()
 
