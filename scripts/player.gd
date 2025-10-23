@@ -304,6 +304,31 @@ func _on_juice_animation_player_animation_finished(anim_name: StringName) -> voi
 	if anim_name == "drink_coffee":
 		get_node("cup_only_new").visible = false
 
+		# Once the coffee animation finishes, show the bullet type
+		if game_manager and game_manager.shotgunShells.size() > 0:
+			var bullet_type = game_manager.shotgunShells[0]
+			var bullet_type_text = "BLANK" if bullet_type == 0 else "LIVE"
+
+			var info_overlay = game_manager.ROUND_START_INFO_SCENE.instantiate()
+
+			if name == "Player1":
+				get_tree().root.add_child(info_overlay)
+				info_overlay.show_bullet_type(bullet_type_text)
+			else:
+				var player_window = null
+				for i in range(game_manager.players.size()):
+					if game_manager.players[i] == self:
+						if i - 1 < game_manager.windowRefs.size():
+							player_window = game_manager.windowRefs[i - 1]
+						break
+				
+				if player_window:
+					var subviewport_container = player_window.get_child(0)
+					var subviewport = subviewport_container.get_child(0)
+					subviewport.add_child(info_overlay)
+					await get_tree().process_frame
+					info_overlay.show_bullet_type(bullet_type_text)
+
 func play_mag_glass_animation():
 	mag_glass_model.visible = true
 	small_gun_model.visible = true
