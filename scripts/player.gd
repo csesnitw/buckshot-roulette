@@ -398,8 +398,8 @@ func play_handcuff_animation():
 	pooly.position.y = 15  
 
 	var tween = create_tween()
-	tween.tween_property(pooly, "position:y", 16, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(pooly, "position:y", 15, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_property(pooly, "position:y", 16, 5.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(pooly, "position:y", 15, 5.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	await tween.finished
 
 	# Wait until the player's turn is over (handcuffed duration)
@@ -411,7 +411,6 @@ func play_handcuff_animation():
 	revert_tween.tween_property(pooly, "position:y", 40, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	await revert_tween.finished
 	pooly.visible = false
-
 	# Return player animation to idle after turn ends
 	if hp > 0:
 		blob_animation_player.play("idle")
