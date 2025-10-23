@@ -161,7 +161,7 @@ func update_target():
 		target_changed.emit(target)
 		if target is Player:
 			#target_label.set_text("|".join(inventory_icons))
-			inventoryOverlay.updateInventory(inventory, current_target_index - 2)
+			inventoryOverlay.updateInventory(inventory, current_target_index - len(game_state.alivePlayers))
 			
 			if target == self:
 				game_manager.self_target_animation(self)
@@ -170,7 +170,6 @@ func update_target():
 		elif target is Upgrade:
 			#target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
 			game_manager.gun_rotate_animation(self, Vector3(0,10,0))
-			inventoryOverlay.updateInventory(inventory, current_target_index - 2)
 			
 			if game_state.isUpgradeRound:
 				game_manager.gun_rotate_animation(self, Vector3(0,10,0))
@@ -179,8 +178,11 @@ func update_target():
 						game_manager.rendered_animation_object[target_temp].get_node_or_null("AnimationPlayer").play_backwards("pop up")
 					target_temp.is_selected = false
 				target.is_selected = true
-				inventoryOverlay.setLabelText(inventoryOverlay.getInventoryIconAndName(target)["name"])
 				game_manager.rendered_animation_object[target].get_node_or_null("AnimationPlayer").play("pop up")
+				inventoryOverlay.updateInventory(inventory, -1)
+				inventoryOverlay.setLabelText(inventoryOverlay.getInventoryIconAndName(target)["name"])
+			else:
+				inventoryOverlay.updateInventory(inventory, current_target_index - len(game_state.alivePlayers))
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
@@ -188,7 +190,7 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	#target_label.visible = is_my_turn
 	if !targets.is_empty():
 		current_target_index = 0
-		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
+		inventoryOverlay.updateInventory(inventory, current_target_index - len(game_state.alivePlayers))
 	else: 
 		print("Something gones wrong")
 	
@@ -211,7 +213,7 @@ func onTurnEnd(new_game_state: GameState, current_player_index: int):
 # Inventory management
 func addInventory(upgrade: Upgrade) -> void:
 	inventory.append(upgrade)
-	inventoryOverlay.updateInventory(inventory, current_target_index - 2)
+	inventoryOverlay.updateInventory(inventory, current_target_index - len(game_state.alivePlayers))
 	upgrade.reparent(self)
 	upgrade.position = health_jug.position
 	upgrade.position.z += 3
@@ -222,22 +224,7 @@ func addInventory(upgrade: Upgrade) -> void:
 func removeInventory(upgrade: Upgrade) -> void:
 	if upgrade in inventory:
 		inventory.erase(upgrade)
-		inventoryOverlay.updateInventory(inventory, current_target_index - 2)
-
-# Replaced in InventoryScene.gd with a better version
-#func getInventoryIcon(upgrade: Upgrade) -> String:
-	#if upgrade.upgrade_type == Upgrade.UpgradeType.cigarette:
-		#return "🧃"
-	#elif upgrade.upgrade_type == Upgrade.UpgradeType.beer:
-		#return "☕"
-	#elif upgrade.upgrade_type == Upgrade.UpgradeType.handcuff:
-		#return "🔗"
-	#elif upgrade.upgrade_type == Upgrade.UpgradeType.magGlass:
-		#return "🔍"
-	#elif upgrade.upgrade_type == Upgrade.UpgradeType.handSaw:
-		#return "🪚"
-	#else:
-		#return "⚡"
+		inventoryOverlay.updateInventory(inventory, current_target_index - len(game_state.alivePlayers))
 
 func setInventoryOverlay(inventory_overlay):
 	inventoryOverlay = inventory_overlay
