@@ -37,12 +37,10 @@ func updateInventory(upgrade_array: Array, current_index: int) -> void:
 	if current_index >= 0 and current_index < upgrade_array.size():
 		increaseLabelTextSize(inventory_slots[current_index])
 		var details = getInventoryIconAndName(upgrade_array[current_index])
-		if SLOT_VERBOSE_MODE:
-			slot_details.set_text(details["name"])
+		setLabelText(details["name"])
 	else:
 		resetHighlights()
-		if SLOT_VERBOSE_MODE:
-			slot_details.set_text("")
+		setLabelText("")
 
 # Fill inventory slots with corresponding icons
 func fillInventorySlots(upgrade_array: Array) -> void:
@@ -89,3 +87,8 @@ func resetHighlights() -> void:
 	for label in inventory_slots:
 		label.add_theme_font_size_override("font_size", NORMAL_TEXT_SIZE)
 	current_highlighted_label = null
+
+# Set upgrade label text
+func setLabelText(text: String) -> void:
+	if SLOT_VERBOSE_MODE:
+		slot_details.set_text(text)
