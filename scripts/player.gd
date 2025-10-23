@@ -17,6 +17,7 @@ var is_my_turn: bool = false
 var game_state
 var selectingTarget: bool = false
 var pendingUpgrade: Upgrade = null
+var upgrade_in_use: Upgrade = null
 var is_playing_animation: bool = true
 var taking_damage_animation_playing: bool = false
 var controllerID: int = -1
@@ -145,12 +146,21 @@ func useUpgradeDeferred(target: Upgrade, targetPlayerRef: Player = self):
 	elif target.upgrade_type == Upgrade.UpgradeType.magGlass:
 		play_mag_glass_animation()
 	game_manager.useUpgrade(target, self, targetPlayerRef)
-	targets.erase(target)
-	current_target_index = (current_target_index + 1) % targets.size()
-	update_target()
+
+	if target.upgrade_type == Upgrade.UpgradeType.beer:
+		upgrade_in_use = target
+	else:
+		targets.erase(target)
+		if targets.size() > 0:
+			current_target_index = (current_target_index + 1) % targets.size()
+		else:
+			current_target_index = 0
+		update_target()
 	
 	
-func update_target():	
+func update_target():
+	if upgrade_in_use != null and upgrade_in_use.upgrade_type == Upgrade.UpgradeType.beer:
+		return	
 	#var inventory_icons: Array[String] = []
 	#
 	#for upgrade in inventory:
@@ -291,11 +301,20 @@ func remove_nulls_from_array(original_array: Array) -> Array:
 func _on_juice_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "drink_coffee":
 		get_node("cup_only_new").visible = false
+		
+		if upgrade_in_use:
+			targets.erase(upgrade_in_use)
+			upgrade_in_use = null
+			if targets.size() > 0:
+				current_target_index = (current_target_index + 1) % targets.size()
+			else:
+				current_target_index = 0
+			update_target()
 
 		# Once the coffee animation finishes, show the bullet type
 		if game_manager and game_manager.shotgunShells.size() > 0:
 			var bullet_type = game_manager.shotgunShells[0]
-			var bullet_type_text = "BLANK" if bullet_type == 0 else "LIVE"
+			var bullet_type_text = "BLANK EJECTED" if bullet_type == 0 else "LIVE EJECTED"
 
 			var info_overlay = game_manager.ROUND_START_INFO_SCENE.instantiate()
 
