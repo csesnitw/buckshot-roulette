@@ -169,10 +169,8 @@ func update_target():
 				game_manager.update_target_animation(self, target.get_node("target_for_gun").global_transform.origin)
 		elif target is Upgrade:
 			#target_label.set_text("|".join(inventory_icons) + "\nChosen: " + getInventoryIcon(target))
-			game_manager.gun_rotate_animation(self, Vector3(0,10,0))
 			
 			if game_state.isUpgradeRound:
-				game_manager.gun_rotate_animation(self, Vector3(0,10,0))
 				for target_temp in targets:
 					if target_temp.is_selected:
 						game_manager.rendered_animation_object[target_temp].get_node_or_null("AnimationPlayer").play_backwards("pop up")
@@ -183,6 +181,7 @@ func update_target():
 				inventoryOverlay.setLabelText(inventoryOverlay.getInventoryIconAndName(target)["name"])
 			else:
 				inventoryOverlay.updateInventory(inventory, current_target_index - len(game_state.alivePlayers))
+				game_manager.gun_rotate_animation(self, Vector3(0,10,0))
 
 func onTurnEnd(new_game_state: GameState, current_player_index: int):
 	game_state = new_game_state
