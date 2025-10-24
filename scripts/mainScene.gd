@@ -22,7 +22,6 @@ var selected_index := 0
 var controller_id := -1
 var stick_reset := true
 var buttonaPressed := false
-var initWidth = 1920
 
 func _ready():	
 	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
@@ -82,9 +81,8 @@ func highlight_button(index: int):
 func createWindow(game, playerName: String, title: String) -> Window:
 	var screen_size = DisplayServer.screen_get_size()
 	var window = Window.new()
-	window.size = Vector2(1920, 1080) #1/4th of 1080p (minus taskbar ish) dw ts is temp and assign this and sv size for arcade machine
-	window.position = Vector2(initWidth, 0) #arbitrary window pos from prev commit (modify for arcade machine)
-	initWidth += 1920
+	window.size = Vector2(960, 480) #1/4th of 1080p (minus taskbar ish) dw ts is temp and assign this and sv size for arcade machine
+	window.position = Vector2(860, 340) #arbitrary window pos from prev commit (modify for arcade machine)
 	window.visible = true
 	window.title = title
 	add_child(window)
