@@ -1,17 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://c238es3lsaoxr"]
+[gd_scene load_steps=2 format=3 uid="uid://det5b1h1dbx43"]
 
-[ext_resource type="PackedScene" uid="uid://bnaexcfec4ct3" path="res://assets/wallChandelier.glb" id="1_6iikm"]
+[ext_resource type="PackedScene" uid="uid://bnaexcfec4ct3" path="res://assets/wallChandelier.glb" id="1_0u1hh"]
 
 [node name="Chandelier" type="Node3D"]
 
-[node name="chandelier" parent="." instance=ExtResource("1_6iikm")]
+[node name="chandelier" parent="." instance=ExtResource("1_0u1hh")]
 
 [node name="OmniLight3D3" type="OmniLight3D" parent="chandelier"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.006853506, 0.36504883, 0.3101373)
 layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 light_cull_mask = 4294966273
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
@@ -40,7 +39,6 @@ layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.1
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
 shadow_transmittance_bias = 0.1
@@ -54,7 +52,6 @@ layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.1
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
 shadow_transmittance_bias = 0.1
@@ -68,7 +65,6 @@ layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.1
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
 shadow_transmittance_bias = 0.1
@@ -82,7 +78,6 @@ layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.1
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
 shadow_transmittance_bias = 0.1
@@ -96,7 +91,6 @@ layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.1
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
 shadow_transmittance_bias = 0.1
@@ -110,7 +104,6 @@ layers = 1047553
 light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.1
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 shadow_bias = 0.05
 shadow_normal_bias = 0.05
 shadow_transmittance_bias = 0.1

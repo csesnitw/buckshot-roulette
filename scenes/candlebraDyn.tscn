@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c44u3o7a8agm4"]
+[gd_scene load_steps=2 format=3 uid="uid://ktm1udfvy2mg"]
 
-[ext_resource type="PackedScene" uid="uid://dsvj26uk6akmk" path="res://assets/candelabra.glb" id="1_f765l"]
+[ext_resource type="PackedScene" uid="uid://dsvj26uk6akmk" path="res://assets/candelabra.glb" id="1_imt8m"]
 
 [node name="Candlebra" type="Node3D"]
 
-[node name="candelabra" parent="." instance=ExtResource("1_f765l")]
+[node name="candelabra" parent="." instance=ExtResource("1_imt8m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32195672, 0)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="candelabra"]
@@ -14,7 +14,6 @@ light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.01
 light_indirect_energy = 0.01
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 light_cull_mask = 4293918721
 shadow_enabled = true
 shadow_bias = 0.05
@@ -33,7 +32,6 @@ light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.01
 light_indirect_energy = 0.01
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 light_cull_mask = 4293918721
 shadow_enabled = true
 shadow_bias = 0.05
@@ -52,7 +50,6 @@ light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.01
 light_indirect_energy = 0.01
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 light_cull_mask = 4293918721
 shadow_enabled = true
 shadow_bias = 0.05

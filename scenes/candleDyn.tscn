@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bq8ppj374ja3o"]
+[gd_scene load_steps=2 format=3 uid="uid://dwvklacxm01rl"]
 
-[ext_resource type="PackedScene" uid="uid://buolufu3hoh0t" path="res://assets/candle.glb" id="1_ctofe"]
+[ext_resource type="PackedScene" uid="uid://buolufu3hoh0t" path="res://assets/candle.glb" id="1_5jp2n"]
 
 [node name="Node3D" type="Node3D"]
 
-[node name="candle" parent="." instance=ExtResource("1_ctofe")]
+[node name="candle" parent="." instance=ExtResource("1_5jp2n")]
 
 [node name="OmniLight3D3" type="OmniLight3D" parent="candle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04318954, 0.3259439, 0)
@@ -13,7 +13,6 @@ light_color = Color(1, 0.54901963, 0.08627451, 1)
 light_energy = 0.02
 light_indirect_energy = 0.02
 light_volumetric_fog_energy = 0.0
-light_bake_mode = 1
 light_cull_mask = 4293918721
 shadow_enabled = true
 shadow_bias = 0.05
