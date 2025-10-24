@@ -23,6 +23,7 @@ var controller_id := -1
 var stick_reset := true
 var buttonaPressed := false
 
+var initWidth  = 1920;
 func _ready():	
 	two_player_button.pressed.connect(func(): await setupPlayers(gameScene2, 2))
 	threePlayerButton.pressed.connect(func(): await setupPlayers(gameScene3, 3))
@@ -81,8 +82,9 @@ func highlight_button(index: int):
 func createWindow(game, playerName: String, title: String) -> Window:
 	var screen_size = DisplayServer.screen_get_size()
 	var window = Window.new()
-	window.size = Vector2(960, 480) #1/4th of 1080p (minus taskbar ish) dw ts is temp and assign this and sv size for arcade machine
-	window.position = Vector2(860, 340) #arbitrary window pos from prev commit (modify for arcade machine)
+	window.size = Vector2(1920, 1080) #1/4th of 1080p (minus taskbar ish) dw ts is temp and assign this and sv size for arcade machine
+	window.position = Vector2(initWidth, 0) #arbitrary window pos from prev commit (modify for arcade machine)
+	initWidth += 1920
 	window.visible = true
 	window.title = title
 	add_child(window)
@@ -91,7 +93,7 @@ func createWindow(game, playerName: String, title: String) -> Window:
 	window.add_child(container)
 
 	var sv = SubViewport.new()
-	sv.size = Vector2(960, screen_size.y/2)
+	sv.size = Vector2(1920, 1080)
 	sv.world_3d = get_viewport().world_3d
 	sv.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	container.add_child(sv)
