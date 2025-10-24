@@ -92,7 +92,7 @@ func initRound() -> void:
 	# figure out a way to randomly generate upgrade scenes and spawn them into the world
 	if roundIndex != 0:
 		gameState.isUpgradeRound = true
-		generateRandomUpgrades() # doesnt work yet
+		generateRandomUpgrades()
 		spawnUpgradesOnTable()
 		currPlayerTurnIndex = randi() % gameState.alivePlayers.size() # added this here due to a weird bug with UI if any other player other than the main viewport starts the game
 		for playerRef in gameState.alivePlayers: #all players look at centre
@@ -234,9 +234,8 @@ func generateRandomBulletsOrder():
 			remainingBlank -= 1
 
 func generateRandomUpgrades():
-	# cleaned up jeff code 
 	gameState.upgradesOnTable.clear()
-	var numUpgrades = 8 * roundIndex
+	var numUpgrades = min(3 * (roundIndex) * gameState.alivePlayers.size(), 16 * gameState.alivePlayers.size())
 	var availableTypes = []
 	if roundIndex == 1:
 		availableTypes = [
