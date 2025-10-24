@@ -207,8 +207,6 @@ func endTurn() -> void:
 	gun.set_target_player(gameState.alivePlayers[currPlayerTurnIndex])
 	turn_ended.emit(gameState, currPlayerTurnIndex)
 	
-	
-	
 func checkWin() -> bool:
 	return gameState.alivePlayers.size() == 1
 

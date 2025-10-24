@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgwx6aa0wm8sw"]
+[gd_scene load_steps=10 format=3 uid="uid://bgwx6aa0wm8sw"]
 
 [ext_resource type="Texture2D" uid="uid://dc5m5368oj2op" path="res://assets/floor.jpg" id="1_tw6mc"]
 [ext_resource type="Texture2D" uid="uid://cjl1xbifg6a85" path="res://assets/wall2.png" id="2_tw6mc"]
 [ext_resource type="PackedScene" uid="uid://b461jclehbokv" path="res://scenes/table.tscn" id="3_ml6nr"]
 [ext_resource type="PackedScene" uid="uid://c238es3lsaoxr" path="res://scenes/chandelier.tscn" id="4_y6807"]
+[ext_resource type="PackedScene" uid="uid://det5b1h1dbx43" path="res://scenes/chandelierDyn.tscn" id="5_n37m6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_udtd3"]
 albedo_texture = ExtResource("2_tw6mc")
@@ -63,7 +64,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.276849, -1.1, 6.017895)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22902203, -1.1, 5.9957423)
 
 [node name="table8" parent="." instance=ExtResource("3_ml6nr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6225805, -1.1, 0.48730516)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6225805, -1.1, 0.48581982)
 
 [node name="table4" parent="." instance=ExtResource("3_ml6nr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0846443, -1.1, 0.546051)
@@ -107,11 +108,11 @@ transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, 
 [node name="Chandelier8" parent="." instance=ExtResource("4_y6807")]
 transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 2.6040154, 2.3025808, 5.2723227)
 
-[node name="Chandelier11" parent="." instance=ExtResource("4_y6807")]
-transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 0, 2.176432, 0)
-
 [node name="Chandelier9" parent="." instance=ExtResource("4_y6807")]
 transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, -2.858007, 2.3025808, -6.250654)
 
 [node name="Chandelier10" parent="." instance=ExtResource("4_y6807")]
 transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 2.6040154, 2.3025808, -6.7204514)
+
+[node name="Chandelier12" parent="." instance=ExtResource("5_n37m6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.176432, 0)
