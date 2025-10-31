@@ -1,7 +1,6 @@
 # CSES Roulette Official Rules
 
 A remake of the popular game Buckshot Roulette for Technozion 2025.
-
 Players take turns testing their luck and tactics in a deadly game of chance.<br><br>
 
 Built with Godot using GDScript
